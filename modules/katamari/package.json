@@ -1,15 +1,16 @@
 {
   "name": "@ssephox/katamari",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Basic data type library",
   "author": "SSE World",
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "",
+    "url": "https://github.com/sseworld/sseeditor.git",
     "directory": "modules/katamari"
   },
   "scripts": {
+    "prepublishOnly": "tsc -b",
     "build": "tsc",
     "test": "bedrock-auto -b chrome-headless -d src/test/ts",
     "test-manual": "bedrock -d src/test/ts",
@@ -30,10 +31,7 @@
     "CHANGELOG.md",
     "LICENSE.txt"
   ],
-  "main": "./lib/main/ts/ephox/katamari/api/Main.js",
-  "module": "./lib/main/ts/ephox/katamari/api/Main.js",
-  "types": "./lib/main/ts/ephox/katamari/api/Main.d.ts",
-  "devDependencies": {
-    "@types/node": "^20.12.7"
-  }
+  "main": "./lib/main/ts/ssephox/katamari/api/Main.js",
+  "module": "./lib/main/ts/ssephox/katamari/api/Main.js",
+  "types": "./lib/main/ts/ssephox/katamari/api/Main.d.ts"
 }

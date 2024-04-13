@@ -1,0 +1,54 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+var bedrock_client_1 = require("@ephox/bedrock-client");
+var katamari_1 = require("@ssephox/katamari");
+var Remove = require("ssephox/sugar/api/dom/Remove");
+var SugarNode = require("ssephox/sugar/api/node/SugarNode");
+var PredicateExists = require("ssephox/sugar/api/search/PredicateExists");
+var PredicateFilter = require("ssephox/sugar/api/search/PredicateFilter");
+var PredicateFind = require("ssephox/sugar/api/search/PredicateFind");
+var Checkers = require("ssephox/sugar/test/Checkers");
+var TestPage = require("ssephox/sugar/test/TestPage");
+(0, bedrock_client_1.describe)('PredicateTest', function () {
+    (0, bedrock_client_1.it)('TBA: Structure check', function () {
+        TestPage.connect(); // description of structure is in TestPage
+        Checkers.checkOpt(katamari_1.Optional.some(TestPage.p1), PredicateFind.first(Checkers.isName('p')));
+        Checkers.checkOpt(katamari_1.Optional.none(), PredicateFind.sibling(TestPage.t5, SugarNode.isText));
+        Checkers.checkOpt(katamari_1.Optional.some(TestPage.s3), PredicateFind.sibling(TestPage.s4, Checkers.isName('span')));
+        Checkers.checkOpt(katamari_1.Optional.none(), PredicateFind.ancestor(TestPage.t4, Checkers.isName('li')));
+        Checkers.checkOpt(katamari_1.Optional.some(TestPage.container), PredicateFind.ancestor(TestPage.s4, Checkers.isName('div')));
+        Checkers.checkOpt(katamari_1.Optional.none(), PredicateFind.ancestor(TestPage.s2, Checkers.isName('span')));
+        Checkers.checkOpt(katamari_1.Optional.some(TestPage.s2), PredicateFind.closest(TestPage.s2, Checkers.isName('span')));
+        Checkers.checkOpt(katamari_1.Optional.some(TestPage.s2), PredicateFind.descendant(TestPage.p2, Checkers.isName('span')));
+        Checkers.checkOpt(katamari_1.Optional.some(TestPage.t4), PredicateFind.descendant(TestPage.p2, SugarNode.isText));
+        Checkers.checkOpt(katamari_1.Optional.none(), PredicateFind.child(TestPage.p2, SugarNode.isText));
+        Checkers.checkOpt(katamari_1.Optional.some(TestPage.t4), PredicateFind.child(TestPage.s3, SugarNode.isText));
+        Checkers.checkList([TestPage.p1, TestPage.p3, TestPage.p2], PredicateFilter.all(Checkers.isName('p')));
+        Checkers.checkList([TestPage.s3, TestPage.s2], PredicateFilter.ancestors(TestPage.t4, Checkers.isName('span')));
+        Checkers.checkList([TestPage.d1, TestPage.container], PredicateFilter.ancestors(TestPage.p3, Checkers.isName('div')));
+        Checkers.checkList([], PredicateFilter.ancestors(TestPage.t4, SugarNode.isText));
+        Checkers.checkList([TestPage.s1, TestPage.t3], PredicateFilter.siblings(TestPage.t1, katamari_1.Fun.always));
+        Checkers.checkList([], PredicateFilter.siblings(TestPage.t5, katamari_1.Fun.always));
+        Checkers.checkList([TestPage.t1, TestPage.t3], PredicateFilter.children(TestPage.p1, SugarNode.isText));
+        Checkers.checkList([TestPage.s1], PredicateFilter.children(TestPage.p1, Checkers.isName('span')));
+        Checkers.checkList([], PredicateFilter.children(TestPage.t2, katamari_1.Fun.always));
+        Checkers.checkList([TestPage.s1, TestPage.s2, TestPage.s3, TestPage.s4], PredicateFilter.descendants(TestPage.container, Checkers.isName('span')));
+        Checkers.checkList([], PredicateFilter.descendants(TestPage.container, Checkers.isName('blockquote')));
+        bedrock_client_1.Assert.eq('', true, PredicateExists.any(Checkers.isName('p')));
+        bedrock_client_1.Assert.eq('', false, PredicateExists.any(Checkers.isName('table')));
+        bedrock_client_1.Assert.eq('', true, PredicateExists.ancestor(TestPage.t1, Checkers.isName('p')));
+        bedrock_client_1.Assert.eq('', false, PredicateExists.ancestor(TestPage.p1, Checkers.isName('p')));
+        bedrock_client_1.Assert.eq('', false, PredicateExists.ancestor(TestPage.t1, Checkers.isName('span')));
+        bedrock_client_1.Assert.eq('', true, PredicateExists.closest(TestPage.t1, Checkers.isName('p')));
+        bedrock_client_1.Assert.eq('', true, PredicateExists.closest(TestPage.p1, Checkers.isName('p')));
+        bedrock_client_1.Assert.eq('', false, PredicateExists.closest(TestPage.t1, Checkers.isName('span')));
+        bedrock_client_1.Assert.eq('', true, PredicateExists.sibling(TestPage.p2, Checkers.isName('p')));
+        bedrock_client_1.Assert.eq('', false, PredicateExists.sibling(TestPage.t1, Checkers.isName('p')));
+        bedrock_client_1.Assert.eq('', true, PredicateExists.child(TestPage.p1, SugarNode.isText));
+        bedrock_client_1.Assert.eq('', false, PredicateExists.child(TestPage.p2, SugarNode.isText));
+        bedrock_client_1.Assert.eq('', true, PredicateExists.descendant(TestPage.p2, SugarNode.isText));
+        bedrock_client_1.Assert.eq('', false, PredicateExists.descendant(TestPage.s1, Checkers.isName('p')));
+        Remove.remove(TestPage.container);
+    });
+});
+//# sourceMappingURL=PredicateTest.js.map

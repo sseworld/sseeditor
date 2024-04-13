@@ -1,0 +1,23 @@
+{
+  "compilerOptions": {
+    "allowJs": true,
+    "sourceMap": true,
+    "declaration": true,  // Keep for type definitions
+    "declarationMap": true,
+    "outDir": "lib",
+    "rootDir": "src",
+    "baseUrl": ".",
+    "paths": {
+      "ssephox/katamari-assertions/test/*": [
+        "src/test/ts/module/ssephox/katamari-assertions/test/*"
+      ],
+      "ssephox/katamari-assertions/demo/*": [
+        "src/demo/ts/ssephox/katamari-assertions/demo/*"
+      ],
+      "ssephox/katamari-assertions/*": [
+        "src/main/ts/ssephox/katamari-assertions/*"
+      ]
+    }
+  },
+  "include": ["src/demo/ts", "src/main/ts", "src/test/ts"]
+}

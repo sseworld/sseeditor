@@ -1,0 +1,17 @@
+{
+  "compilerOptions": {
+    "allowJs": true,
+    "sourceMap": true,
+    "declaration": true, // Keep for type definitions
+    "declarationMap": true,
+    "outDir": "lib",
+    "rootDir": "src",
+    "baseUrl": ".",
+    "paths": {
+      "ssephox/sugar/test/*": ["src/test/ts/module/ssephox/sugar/test/*"],
+      "ssephox/sugar/demo/*": ["src/demo/ts/ssephox/sugar/demo/*"],
+      "ssephox/sugar/*": ["src/main/ts/ssephox/sugar/*"]
+    }
+  },
+  "include": ["src/demo/ts", "src/main/ts", "src/test/ts"]
+}

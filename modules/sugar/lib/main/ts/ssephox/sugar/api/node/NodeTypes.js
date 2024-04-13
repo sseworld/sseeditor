@@ -1,0 +1,28 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.NOTATION = exports.ENTITY = exports.ENTITY_REFERENCE = exports.PROCESSING_INSTRUCTION = exports.TEXT = exports.ELEMENT = exports.DOCUMENT_FRAGMENT = exports.DOCUMENT_TYPE = exports.DOCUMENT = exports.COMMENT = exports.CDATA_SECTION = exports.ATTRIBUTE = void 0;
+var ATTRIBUTE = 2;
+exports.ATTRIBUTE = ATTRIBUTE;
+var CDATA_SECTION = 4;
+exports.CDATA_SECTION = CDATA_SECTION;
+var COMMENT = 8;
+exports.COMMENT = COMMENT;
+var DOCUMENT = 9;
+exports.DOCUMENT = DOCUMENT;
+var DOCUMENT_TYPE = 10;
+exports.DOCUMENT_TYPE = DOCUMENT_TYPE;
+var DOCUMENT_FRAGMENT = 11;
+exports.DOCUMENT_FRAGMENT = DOCUMENT_FRAGMENT;
+var ELEMENT = 1;
+exports.ELEMENT = ELEMENT;
+var TEXT = 3;
+exports.TEXT = TEXT;
+var PROCESSING_INSTRUCTION = 7;
+exports.PROCESSING_INSTRUCTION = PROCESSING_INSTRUCTION;
+var ENTITY_REFERENCE = 5;
+exports.ENTITY_REFERENCE = ENTITY_REFERENCE;
+var ENTITY = 6;
+exports.ENTITY = ENTITY;
+var NOTATION = 12;
+exports.NOTATION = NOTATION;
+//# sourceMappingURL=NodeTypes.js.map
