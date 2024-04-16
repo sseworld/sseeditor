@@ -1,1 +1,1 @@
-{"version":3,"file":"MathElement.js","sourceRoot":"","sources":["../../../../../../../src/test/ts/module/ssephox/sugar/test/MathElement.ts"],"names":[],"mappings":";;AAAA,oEAAmE;AAEnE,mBAAe,cAAiC,OAAA,2BAAY,CAAC,QAAQ,CAAc,0DAA0D,CAAC,EAA9F,CAA8F,EAAC"}
+{"version":3,"file":"MathElement.js","sourceRoot":"","sources":["../../../../../../../src/test/ts/module/ssephox/sugar/test/MathElement.ts"],"names":[],"mappings":"AAAA,OAAO,EAAE,YAAY,EAAE,MAAM,qCAAqC,CAAC;AAEnE,eAAe,GAA8B,EAAE,CAAC,YAAY,CAAC,QAAQ,CAAc,0DAA0D,CAAC,CAAC"}

@@ -1,0 +1,19 @@
+{
+  "extends": "../../tsconfig.shared.json",
+  "compilerOptions": {
+    "outDir": "lib",
+    "rootDir": "src",
+    "baseUrl": ".",
+    "tsBuildInfoFile": "lib/tsconfig.tsbuildinfo",
+    "paths": {
+      "ssephox/robin/test/*": ["src/test/ts/module/ssephox/robin/test/*"],
+      "ssephox/robin/demo/*": ["src/demo/ts/ssephox/robin/demo/*"],
+      "ssephox/robin/*": ["src/main/ts/ssephox/robin/*"]
+    }
+  },
+  "include": [
+    "src/demo/ts",
+    "src/main/ts",
+    "src/test/ts"
+  ]
+}

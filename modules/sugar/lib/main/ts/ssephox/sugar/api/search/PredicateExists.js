@@ -1,29 +1,9 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.descendant = exports.child = exports.sibling = exports.closest = exports.ancestor = exports.any = void 0;
-var PredicateFind = require("./PredicateFind");
-var any = function (predicate) {
-    return PredicateFind.first(predicate).isSome();
-};
-exports.any = any;
-var ancestor = function (scope, predicate, isRoot) {
-    return PredicateFind.ancestor(scope, predicate, isRoot).isSome();
-};
-exports.ancestor = ancestor;
-var closest = function (scope, predicate, isRoot) {
-    return PredicateFind.closest(scope, predicate, isRoot).isSome();
-};
-exports.closest = closest;
-var sibling = function (scope, predicate) {
-    return PredicateFind.sibling(scope, predicate).isSome();
-};
-exports.sibling = sibling;
-var child = function (scope, predicate) {
-    return PredicateFind.child(scope, predicate).isSome();
-};
-exports.child = child;
-var descendant = function (scope, predicate) {
-    return PredicateFind.descendant(scope, predicate).isSome();
-};
-exports.descendant = descendant;
+import * as PredicateFind from './PredicateFind';
+const any = (predicate) => PredicateFind.first(predicate).isSome();
+const ancestor = (scope, predicate, isRoot) => PredicateFind.ancestor(scope, predicate, isRoot).isSome();
+const closest = (scope, predicate, isRoot) => PredicateFind.closest(scope, predicate, isRoot).isSome();
+const sibling = (scope, predicate) => PredicateFind.sibling(scope, predicate).isSome();
+const child = (scope, predicate) => PredicateFind.child(scope, predicate).isSome();
+const descendant = (scope, predicate) => PredicateFind.descendant(scope, predicate).isSome();
+export { any, ancestor, closest, sibling, child, descendant };
 //# sourceMappingURL=PredicateExists.js.map

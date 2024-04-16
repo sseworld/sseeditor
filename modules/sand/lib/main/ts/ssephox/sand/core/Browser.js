@@ -1,27 +1,24 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.Browser = void 0;
-var katamari_1 = require("@ssephox/katamari");
-var Version_1 = require("../detect/Version");
-var edge = "Edge";
-var chromium = "Chromium";
-var ie = "IE";
-var opera = "Opera";
-var firefox = "Firefox";
-var safari = "Safari";
-var unknown = function () {
+import { Fun } from "@ssephox/katamari";
+import { Version } from "../detect/Version";
+const edge = "Edge";
+const chromium = "Chromium";
+const ie = "IE";
+const opera = "Opera";
+const firefox = "Firefox";
+const safari = "Safari";
+const unknown = () => {
     return nu({
         current: undefined,
-        version: Version_1.Version.unknown(),
+        version: Version.unknown(),
     });
 };
-var nu = function (info) {
-    var current = info.current;
-    var version = info.version;
-    var isBrowser = function (name) { return function () { return current === name; }; };
+const nu = (info) => {
+    const current = info.current;
+    const version = info.version;
+    const isBrowser = (name) => () => current === name;
     return {
-        current: current,
-        version: version,
+        current,
+        version,
         isEdge: isBrowser(edge),
         isChromium: isBrowser(chromium),
         // NOTE: isIe just looks too weird
@@ -31,14 +28,14 @@ var nu = function (info) {
         isSafari: isBrowser(safari),
     };
 };
-exports.Browser = {
-    unknown: unknown,
-    nu: nu,
-    edge: katamari_1.Fun.constant(edge),
-    chromium: katamari_1.Fun.constant(chromium),
-    ie: katamari_1.Fun.constant(ie),
-    opera: katamari_1.Fun.constant(opera),
-    firefox: katamari_1.Fun.constant(firefox),
-    safari: katamari_1.Fun.constant(safari),
+export const Browser = {
+    unknown,
+    nu,
+    edge: Fun.constant(edge),
+    chromium: Fun.constant(chromium),
+    ie: Fun.constant(ie),
+    opera: Fun.constant(opera),
+    firefox: Fun.constant(firefox),
+    safari: Fun.constant(safari),
 };
 //# sourceMappingURL=Browser.js.map

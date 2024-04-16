@@ -1,0 +1,16 @@
+{
+  "extends": "../../tsconfig.shared.json",
+  "compilerOptions": {
+    "strict": true,
+    "outDir": "lib",
+    "rootDir": "src",
+    "baseUrl": ".",
+    "tsBuildInfoFile": "lib/tsconfig.tsbuildinfo",
+    "paths": {
+      "ssephox/jax/test/*": ["src/test/ts/module/ssephox/jax/test/*"],
+      "ssephox/jax/demo/*": ["src/demo/ts/ssephox/jax/demo/*"],
+      "ssephox/jax/*": ["src/main/ts/ssephox/jax/*"]
+    }
+  },
+  "include": ["src/demo/ts", "src/main/ts", "src/test/ts"]
+}

@@ -1,0 +1,45 @@
+{
+  "name": "@ssephox/phoenix",
+  "version": "1.0.1",
+  "description": "DOM node text gathering library, rose from the ashes of some other projects we can't remember the names of now (edit: seek, sherlock, gift)",
+  "author": "SSE World",
+  "license": "MIT",
+  "files": [
+    "lib/main",
+    "lib/demo",
+    "lib/test",
+    "src",
+    "tsconfig.json",
+    "README.md",
+    "LEGAL.txt",
+    "CHANGELOG.txt",
+    "LICENSE.txt"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/sseworld/sseeditor.git",
+    "directory": "modules/phoenix"
+  },
+  "dependencies": {
+    "@ssephox/boss": "^1.0.0",
+    "@ssephox/katamari": "^1.0.2",
+    "@ssephox/polaris": "^1.0.0",
+    "@ssephox/sugar": "^1.0.2"
+  },
+  "devDependencies": {
+    "@ssephox/katamari-assertions": "^1.0.4",
+    "typescript": "^5.4.5"
+  },
+  "main": "./lib/main/ts/ssephox/phoenix/api/Main.js",
+  "module": "./lib/main/ts/ssephox/phoenix/api/Main.js",
+  "types": "./lib/main/ts/ssephox/phoenix/api/Main.d.ts",
+  "scripts": {
+    "test-manual": "bedrock -d src/test",
+    "lint": "eslint --config ../../.eslintrc.json --max-warnings=0 src/**/*.ts",
+    "prepublishOnly": "tsc -b",
+    "build": "tsc"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

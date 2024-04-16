@@ -1,23 +1,21 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-var bedrock_client_1 = require("@ephox/bedrock-client");
-var Hierarchy = require("ssephox/sugar/api/dom/Hierarchy");
-var SugarElement_1 = require("ssephox/sugar/api/node/SugarElement");
-var Html = require("ssephox/sugar/api/properties/Html");
-var Prefilter = require("ssephox/sugar/selection/quirks/Prefilter");
-bedrock_client_1.UnitTest.test('Browser Test: PrefilterTest', function () {
-    var root = SugarElement_1.SugarElement.fromHtml('<div>' +
+import { Assert, UnitTest } from '@ephox/bedrock-client';
+import * as Hierarchy from 'ssephox/sugar/api/dom/Hierarchy';
+import { SugarElement } from 'ssephox/sugar/api/node/SugarElement';
+import * as Html from 'ssephox/sugar/api/properties/Html';
+import * as Prefilter from 'ssephox/sugar/selection/quirks/Prefilter';
+UnitTest.test('Browser Test: PrefilterTest', () => {
+    const root = SugarElement.fromHtml('<div>' +
         '<span>dog</span>' +
         '<br>' +
         '<img>' +
         '<span>cat</span>' +
         '</div>');
-    var toString = function (situ) { return situ.fold(function (b) { return 'before(' + Html.getOuter(b) + ')'; }, function (e, o) { return 'on(' + Html.getOuter(e) + ', ' + o + ')'; }, function (a) { return 'after(' + Html.getOuter(a) + ')'; }); };
-    var check = function (label, expected, elementPath, offset) {
-        var element = Hierarchy.follow(root, elementPath).getOrDie('Test: ' + label + '. Could not find the element path within root: ' + elementPath);
-        var actual = Prefilter.beforeSpecial(element, offset);
-        var actualS = toString(actual);
-        bedrock_client_1.Assert.eq('Test: ' + label + '. Was: ' + actualS + ', but expected: ' + expected, expected, actualS);
+    const toString = (situ) => situ.fold((b) => 'before(' + Html.getOuter(b) + ')', (e, o) => 'on(' + Html.getOuter(e) + ', ' + o + ')', (a) => 'after(' + Html.getOuter(a) + ')');
+    const check = (label, expected, elementPath, offset) => {
+        const element = Hierarchy.follow(root, elementPath).getOrDie('Test: ' + label + '. Could not find the element path within root: ' + elementPath);
+        const actual = Prefilter.beforeSpecial(element, offset);
+        const actualS = toString(actual);
+        Assert.eq('Test: ' + label + '. Was: ' + actualS + ', but expected: ' + expected, expected, actualS);
     };
     check('div 0', 'on(<div><span>dog</span><br><img><span>cat</span></div>, 0)', [], 0);
     check('div > span, 0', 'on(<span>dog</span>, 0)', [0], 0);

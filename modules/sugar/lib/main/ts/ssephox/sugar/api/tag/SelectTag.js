@@ -1,27 +1,21 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.setSelected = exports.addAll = exports.add = exports.getValue = void 0;
-var katamari_1 = require("@ssephox/katamari");
-var getValueFromIndex = function (options, index) {
-    return katamari_1.Arr.get(options, index).bind(function (optionVal) { return katamari_1.Optional.from(optionVal.value); });
+import { Arr, Optional } from '@ssephox/katamari';
+const getValueFromIndex = (options, index) => {
+    return Arr.get(options, index).bind((optionVal) => Optional.from(optionVal.value));
 };
-var getValue = function (select) {
-    var selectDom = select.dom;
+const getValue = (select) => {
+    const selectDom = select.dom;
     return getValueFromIndex(selectDom.options, selectDom.selectedIndex);
 };
-exports.getValue = getValue;
-var add = function (select, option) {
+const add = (select, option) => {
     select.dom.add(option.dom);
 };
-exports.add = add;
-var addAll = function (select, options) {
-    katamari_1.Arr.each(options, function (option) {
+const addAll = (select, options) => {
+    Arr.each(options, (option) => {
         add(select, option);
     });
 };
-exports.addAll = addAll;
-var setSelected = function (select, index) {
+const setSelected = (select, index) => {
     select.dom.selectedIndex = index;
 };
-exports.setSelected = setSelected;
+export { getValue, add, addAll, setSelected };
 //# sourceMappingURL=SelectTag.js.map

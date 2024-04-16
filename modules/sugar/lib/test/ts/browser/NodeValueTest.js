@@ -1,50 +1,48 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-var bedrock_client_1 = require("@ephox/bedrock-client");
-var katamari_assertions_1 = require("@ssephox/katamari-assertions");
-var SugarElement_1 = require("ssephox/sugar/api/node/SugarElement");
-var SugarNode = require("ssephox/sugar/api/node/SugarNode");
-var NodeValue_1 = require("ssephox/sugar/impl/NodeValue");
-bedrock_client_1.UnitTest.test('NodeValue Test', function () {
-    var nodeValueThrowsForWrongElement = function () {
+import { Assert, UnitTest } from '@ephox/bedrock-client';
+import { KAssert } from '@ssephox/katamari-assertions';
+import { SugarElement } from 'ssephox/sugar/api/node/SugarElement';
+import * as SugarNode from 'ssephox/sugar/api/node/SugarNode';
+import { NodeValue } from 'ssephox/sugar/impl/NodeValue';
+UnitTest.test('NodeValue Test', () => {
+    const nodeValueThrowsForWrongElement = () => {
         // NodeValue throws for wrong element
-        bedrock_client_1.Assert.throws('should have thrown', function () {
-            (0, NodeValue_1.NodeValue)(SugarNode.isComment, 'comment').get(SugarElement_1.SugarElement.fromHtml('<span />'));
+        Assert.throws('should have thrown', () => {
+            NodeValue(SugarNode.isComment, 'comment').get(SugarElement.fromHtml('<span />'));
         });
-        bedrock_client_1.Assert.throws('should have thrown', function () {
-            (0, NodeValue_1.NodeValue)(SugarNode.isText, 'text').get(SugarElement_1.SugarElement.fromHtml('<div />'));
+        Assert.throws('should have thrown', () => {
+            NodeValue(SugarNode.isText, 'text').get(SugarElement.fromHtml('<div />'));
         });
-        bedrock_client_1.Assert.throws('should have thrown', function () {
-            var n = SugarElement_1.SugarElement.fromDom(document.createComment('Llamas are bigger than frogs.'));
-            (0, NodeValue_1.NodeValue)(SugarNode.isElement, 'tt').get(n);
+        Assert.throws('should have thrown', () => {
+            const n = SugarElement.fromDom(document.createComment('Llamas are bigger than frogs.'));
+            NodeValue(SugarNode.isElement, 'tt').get(n);
         });
     };
-    var nodeValueIsEmptyForElement = function () {
-        var div = SugarElement_1.SugarElement.fromHtml('<div />');
-        bedrock_client_1.Assert.eq('eq', '', (0, NodeValue_1.NodeValue)(SugarNode.isElement, 'div').get(div));
-        katamari_assertions_1.KAssert.eqNone('eq', (0, NodeValue_1.NodeValue)(SugarNode.isElement, 'div').getOption(div));
+    const nodeValueIsEmptyForElement = () => {
+        const div = SugarElement.fromHtml('<div />');
+        Assert.eq('eq', '', NodeValue(SugarNode.isElement, 'div').get(div));
+        KAssert.eqNone('eq', NodeValue(SugarNode.isElement, 'div').getOption(div));
     };
-    var nodeValueForTextElement = function () {
-        var t = 'Llamas. Llamas everywhere.';
-        var n = SugarElement_1.SugarElement.fromText(t);
-        bedrock_client_1.Assert.eq('eq', t, (0, NodeValue_1.NodeValue)(SugarNode.isText, 'text').get(n));
-        katamari_assertions_1.KAssert.eqSome('eq', t, (0, NodeValue_1.NodeValue)(SugarNode.isText, 'text').getOption(n));
+    const nodeValueForTextElement = () => {
+        const t = 'Llamas. Llamas everywhere.';
+        const n = SugarElement.fromText(t);
+        Assert.eq('eq', t, NodeValue(SugarNode.isText, 'text').get(n));
+        KAssert.eqSome('eq', t, NodeValue(SugarNode.isText, 'text').getOption(n));
     };
-    var nodeValueForCommentElement = function () {
-        var t = 'arbitrary content';
-        var n = SugarElement_1.SugarElement.fromDom(document.createComment(t));
-        bedrock_client_1.Assert.eq('eq', t, (0, NodeValue_1.NodeValue)(SugarNode.isComment, 'comment').get(n));
-        katamari_assertions_1.KAssert.eqSome('eq', t, (0, NodeValue_1.NodeValue)(SugarNode.isComment, 'comment').getOption(n));
+    const nodeValueForCommentElement = () => {
+        const t = 'arbitrary content';
+        const n = SugarElement.fromDom(document.createComment(t));
+        Assert.eq('eq', t, NodeValue(SugarNode.isComment, 'comment').get(n));
+        KAssert.eqSome('eq', t, NodeValue(SugarNode.isComment, 'comment').getOption(n));
     };
-    var setNodeValueForTextElement = function () {
-        var n = SugarElement_1.SugarElement.fromText('Llamas. Llamas everywhere.');
-        (0, NodeValue_1.NodeValue)(SugarNode.isText, 'text').set(n, 'patronus');
-        bedrock_client_1.Assert.eq('eq', 'patronus', (0, NodeValue_1.NodeValue)(SugarNode.isText, 'text').get(n));
+    const setNodeValueForTextElement = () => {
+        const n = SugarElement.fromText('Llamas. Llamas everywhere.');
+        NodeValue(SugarNode.isText, 'text').set(n, 'patronus');
+        Assert.eq('eq', 'patronus', NodeValue(SugarNode.isText, 'text').get(n));
     };
-    var setNodeValueForCommentElement = function () {
-        var n = SugarElement_1.SugarElement.fromDom(document.createComment('arbitrary content'));
-        (0, NodeValue_1.NodeValue)(SugarNode.isComment, 'comment').set(n, '&&*#*(@');
-        bedrock_client_1.Assert.eq('eq', '&&*#*(@', (0, NodeValue_1.NodeValue)(SugarNode.isComment, 'comment').get(n));
+    const setNodeValueForCommentElement = () => {
+        const n = SugarElement.fromDom(document.createComment('arbitrary content'));
+        NodeValue(SugarNode.isComment, 'comment').set(n, '&&*#*(@');
+        Assert.eq('eq', '&&*#*(@', NodeValue(SugarNode.isComment, 'comment').get(n));
     };
     nodeValueThrowsForWrongElement();
     nodeValueIsEmptyForElement();

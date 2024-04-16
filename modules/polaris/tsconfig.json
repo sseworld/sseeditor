@@ -1,0 +1,15 @@
+{
+  "extends": "../../tsconfig.shared.json",
+  "compilerOptions": {
+    "outDir": "lib",
+    "rootDir": "src",
+    "baseUrl": ".",
+    "tsBuildInfoFile": "lib/tsconfig.tsbuildinfo",
+    "paths": {
+      "ssephox/polaris/test/*": ["src/test/ts/module/ssephox/polaris/test/*"],
+      "ssephox/polaris/demo/*": ["src/demo/ts/ssephox/polaris/demo/*"],
+      "ssephox/polaris/*": ["src/main/ts/ssephox/polaris/*"]
+    }
+  },
+  "include": ["src/demo/ts", "src/main/ts", "src/test/ts"]
+}

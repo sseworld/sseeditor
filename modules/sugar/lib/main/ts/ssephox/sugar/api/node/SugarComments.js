@@ -1,21 +1,18 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.find = void 0;
-var katamari_1 = require("@ssephox/katamari");
-var SugarElement_1 = require("./SugarElement");
-var getNodes = function (texas) {
-    var ret = [];
+import { Fun } from '@ssephox/katamari';
+import { SugarElement } from './SugarElement';
+const getNodes = (texas) => {
+    const ret = [];
     while (texas.nextNode() !== null) {
-        ret.push(SugarElement_1.SugarElement.fromDom(texas.currentNode));
+        ret.push(SugarElement.fromDom(texas.currentNode));
     }
     return ret;
 };
-var find = function (node, filterOpt) {
-    var predicate = filterOpt.getOr(katamari_1.Fun.always);
-    var texas = document.createTreeWalker(node.dom, NodeFilter.SHOW_COMMENT, {
-        acceptNode: function (comment) { return predicate(comment.nodeValue) ? NodeFilter.FILTER_ACCEPT : NodeFilter.FILTER_REJECT; }
+const find = (node, filterOpt) => {
+    const predicate = filterOpt.getOr(Fun.always);
+    const texas = document.createTreeWalker(node.dom, NodeFilter.SHOW_COMMENT, {
+        acceptNode: (comment) => predicate(comment.nodeValue) ? NodeFilter.FILTER_ACCEPT : NodeFilter.FILTER_REJECT
     });
     return getNodes(texas);
 };
-exports.find = find;
+export { find };
 //# sourceMappingURL=SugarComments.js.map

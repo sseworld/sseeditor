@@ -1,12 +1,10 @@
 {
+  "extends": "../../tsconfig.shared.json",
   "compilerOptions": {
-    "allowJs": true,
-    "sourceMap": true,
-    "declaration": true,  // Keep for type definitions
-    "declarationMap": true,
     "outDir": "lib",
     "rootDir": "src",
     "baseUrl": ".",
+    "tsBuildInfoFile": "lib/tsconfig.tsbuildinfo",
     "paths": {
       "ssephox/katamari-assertions/test/*": [
         "src/test/ts/module/ssephox/katamari-assertions/test/*"

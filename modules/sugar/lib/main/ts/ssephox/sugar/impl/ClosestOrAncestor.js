@@ -1,15 +1,13 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-var katamari_1 = require("@ssephox/katamari");
-exports.default = (function (is, ancestor, scope, a, isRoot) {
+import { Optional, Type } from '@ssephox/katamari';
+export default (is, ancestor, scope, a, isRoot) => {
     if (is(scope, a)) {
-        return katamari_1.Optional.some(scope);
+        return Optional.some(scope);
     }
-    else if (katamari_1.Type.isFunction(isRoot) && isRoot(scope)) {
-        return katamari_1.Optional.none();
+    else if (Type.isFunction(isRoot) && isRoot(scope)) {
+        return Optional.none();
     }
     else {
         return ancestor(scope, a, isRoot);
     }
-});
+};
 //# sourceMappingURL=ClosestOrAncestor.js.map

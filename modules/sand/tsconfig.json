@@ -1,12 +1,10 @@
 {
+  "extends": "../../tsconfig.shared.json",
   "compilerOptions": {
-    "allowJs": true,
-    "sourceMap": true,
-    "declaration": true,  // Keep for type definitions
-    "declarationMap": true,
     "outDir": "lib",
     "rootDir": "src",
     "baseUrl": ".",
+    "tsBuildInfoFile": "lib/tsconfig.tsbuildinfo",
     "paths": {
       "ssephox/sand/test/*": ["src/test/ts/module/ssephox/sand/test/*"],
       "ssephox/sand/demo/*": ["src/demo/ts/ssephox/sand/demo/*"],

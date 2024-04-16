@@ -1,46 +1,44 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-var bedrock_client_1 = require("@ephox/bedrock-client");
-var katamari_1 = require("@ssephox/katamari");
-var Attribute = require("ssephox/sugar/api/properties/Attribute");
-var Div_1 = require("ssephox/sugar/test/Div");
-bedrock_client_1.UnitTest.test('AttributeTransfer', function () {
-    var alpha = function () {
-        var r = (0, Div_1.default)();
+import { Assert, UnitTest } from '@ephox/bedrock-client';
+import { Arr, Obj } from '@ssephox/katamari';
+import * as Attribute from 'ssephox/sugar/api/properties/Attribute';
+import Div from 'ssephox/sugar/test/Div';
+UnitTest.test('AttributeTransfer', () => {
+    const alpha = () => {
+        const r = Div();
         Attribute.setAll(r, {
             title: 'monkey',
             placeholder: 'start typing'
         });
         return r;
     };
-    var beta = function () {
-        var r = (0, Div_1.default)();
+    const beta = () => {
+        const r = Div();
         Attribute.setAll(r, {
             title: 'chimp',
             name: 'anon'
         });
         return r;
     };
-    var gamma = function () {
-        var r = (0, Div_1.default)();
+    const gamma = () => {
+        const r = Div();
         Attribute.setAll(r, {
             placeholder: 'lookup'
         });
         return r;
     };
-    var check = function (expectedPresent, expectedAbsent, source, destination, attributes) {
+    const check = (expectedPresent, expectedAbsent, source, destination, attributes) => {
         Attribute.transfer(source, destination, attributes);
-        katamari_1.Arr.each(expectedAbsent, function (k) {
+        Arr.each(expectedAbsent, (k) => {
             if (Attribute.has(destination, k)) {
-                bedrock_client_1.Assert.fail('Result should not have attribute: ' + k);
+                Assert.fail('Result should not have attribute: ' + k);
             }
         });
-        katamari_1.Obj.each(expectedPresent, function (v, k) {
+        Obj.each(expectedPresent, (v, k) => {
             if (!Attribute.has(destination, k)) {
-                bedrock_client_1.Assert.fail('Result should have attribute: ' + k);
+                Assert.fail('Result should have attribute: ' + k);
             }
             else {
-                bedrock_client_1.Assert.eq('', v, Attribute.get(destination, k));
+                Assert.eq('', v, Attribute.get(destination, k));
             }
         });
     };

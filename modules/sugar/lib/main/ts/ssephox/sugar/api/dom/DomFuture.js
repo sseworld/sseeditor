@@ -1,25 +1,17 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.waitFor = exports.cWaitFor = void 0;
-var katamari_1 = require("@ssephox/katamari");
-var DomEvent = require("../events/DomEvent");
-var w = function (fType, element, eventType, timeout) { return fType(function (callback) {
-    var listener = DomEvent.bind(element, eventType, function (event) {
+import { Future, LazyValue, Result } from '@ssephox/katamari';
+import * as DomEvent from '../events/DomEvent';
+const w = (fType, element, eventType, timeout) => fType((callback) => {
+    const listener = DomEvent.bind(element, eventType, (event) => {
         clearTimeout(time);
         listener.unbind();
-        callback(katamari_1.Result.value(event));
+        callback(Result.value(event));
     });
-    var time = setTimeout(function () {
+    const time = setTimeout(() => {
         listener.unbind();
-        callback(katamari_1.Result.error('Event ' + eventType + ' did not fire within ' + timeout + 'ms'));
+        callback(Result.error('Event ' + eventType + ' did not fire within ' + timeout + 'ms'));
     }, timeout);
-}); };
-var cWaitFor = function (element, eventType, timeout) {
-    return w(katamari_1.LazyValue.nu, element, eventType, timeout);
-};
-exports.cWaitFor = cWaitFor;
-var waitFor = function (element, eventType, timeout) {
-    return w(katamari_1.Future.nu, element, eventType, timeout);
-};
-exports.waitFor = waitFor;
+});
+const cWaitFor = (element, eventType, timeout) => w(LazyValue.nu, element, eventType, timeout);
+const waitFor = (element, eventType, timeout) => w(Future.nu, element, eventType, timeout);
+export { cWaitFor, waitFor };
 //# sourceMappingURL=DomFuture.js.map

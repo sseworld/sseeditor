@@ -1,54 +1,51 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-var bedrock_client_1 = require("@ephox/bedrock-client");
-var katamari_1 = require("@ssephox/katamari");
-var sand_1 = require("@ssephox/sand");
-var Insert = require("ssephox/sugar/api/dom/Insert");
-var Remove = require("ssephox/sugar/api/dom/Remove");
-var DomEvent = require("ssephox/sugar/api/events/DomEvent");
-var SugarBody = require("ssephox/sugar/api/node/SugarBody");
-var SugarElement_1 = require("ssephox/sugar/api/node/SugarElement");
-var Attribute = require("ssephox/sugar/api/properties/Attribute");
-var Css = require("ssephox/sugar/api/properties/Css");
-var Traverse = require("ssephox/sugar/api/search/Traverse");
-var Scroll = require("ssephox/sugar/api/view/Scroll");
-var SugarLocation = require("ssephox/sugar/api/view/SugarLocation");
-bedrock_client_1.UnitTest.asynctest('LocationTest', function (success, failure) {
-    var platform = sand_1.PlatformDetection.detect();
-    var scrollBarWidth = Scroll.scrollBarWidth();
-    var leftScrollBarWidth = function (doc) {
-        // Tries to detect the width of the left scrollbar by checking the offsetLeft of the documentElement
-        // Chrome adds the scrollbar to the left in rtl mode as of Chrome 70+
-        return SugarLocation.relative(Traverse.documentElement(doc.body)).left;
-    };
-    var asserteq = function (expected, actual, message) {
+import { Assert, UnitTest } from '@ephox/bedrock-client';
+import { Arr, Fun, Optional } from '@ssephox/katamari';
+import { PlatformDetection } from '@ssephox/sand';
+import * as Insert from 'ssephox/sugar/api/dom/Insert';
+import * as Remove from 'ssephox/sugar/api/dom/Remove';
+import * as DomEvent from 'ssephox/sugar/api/events/DomEvent';
+import * as SugarBody from 'ssephox/sugar/api/node/SugarBody';
+import { SugarElement } from 'ssephox/sugar/api/node/SugarElement';
+import * as Attribute from 'ssephox/sugar/api/properties/Attribute';
+import * as Css from 'ssephox/sugar/api/properties/Css';
+import * as Traverse from 'ssephox/sugar/api/search/Traverse';
+import * as Scroll from 'ssephox/sugar/api/view/Scroll';
+import * as SugarLocation from 'ssephox/sugar/api/view/SugarLocation';
+UnitTest.asynctest('LocationTest', (success, failure) => {
+    const platform = PlatformDetection.detect();
+    const scrollBarWidth = Scroll.scrollBarWidth();
+    const leftScrollBarWidth = (doc) => 
+    // Tries to detect the width of the left scrollbar by checking the offsetLeft of the documentElement
+    // Chrome adds the scrollbar to the left in rtl mode as of Chrome 70+
+    SugarLocation.relative(Traverse.documentElement(doc.body)).left;
+    const asserteq = (expected, actual, message) => {
         // I wish assert.eq printed expected and actual on failure
-        var m = message === undefined ? '' : 'expected ' + expected + ', was ' + actual + ': ' + message;
-        bedrock_client_1.Assert.eq(m, expected, actual);
+        const m = message === undefined ? '' : 'expected ' + expected + ', was ' + actual + ': ' + message;
+        Assert.eq(m, expected, actual);
     };
-    var testOne = function (i, attrMap, next) {
-        var iframe = SugarElement_1.SugarElement.fromHtml(i);
+    const testOne = (i, attrMap, next) => {
+        const iframe = SugarElement.fromHtml(i);
         Attribute.setAll(iframe, attrMap.iframe);
-        var run = DomEvent.bind(iframe, 'load', function () {
+        const run = DomEvent.bind(iframe, 'load', () => {
             run.unbind();
             try {
                 // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-                var iframeWin = iframe.dom.contentWindow;
-                var iframeDoc_1 = iframeWin.document;
-                var html = SugarElement_1.SugarElement.fromDom(iframeDoc_1.documentElement);
-                var body = SugarElement_1.SugarElement.fromDom(iframeDoc_1.body);
-                attrMap.html.each(katamari_1.Fun.curry(Attribute.setAll, html));
-                attrMap.body.each(katamari_1.Fun.curry(Attribute.setAll, body));
-                var doc = {
-                    iframe: iframe,
+                const iframeWin = iframe.dom.contentWindow;
+                const iframeDoc = iframeWin.document;
+                const html = SugarElement.fromDom(iframeDoc.documentElement);
+                const body = SugarElement.fromDom(iframeDoc.body);
+                attrMap.html.each(Fun.curry(Attribute.setAll, html));
+                attrMap.body.each(Fun.curry(Attribute.setAll, body));
+                const doc = {
+                    iframe,
                     rawWin: iframeWin,
-                    rawDoc: SugarElement_1.SugarElement.fromDom(iframeDoc_1),
-                    body: body,
-                    rtl: iframeDoc_1.body.dir === 'rtl',
+                    rawDoc: SugarElement.fromDom(iframeDoc),
+                    body,
+                    rtl: iframeDoc.body.dir === 'rtl',
                     dir: Attribute.get(body, 'dir') || 'ltr',
-                    byId: function (str) {
-                        return katamari_1.Optional.from(iframeDoc_1.getElementById(str))
-                            .map(SugarElement_1.SugarElement.fromDom)
+                    byId: (str) => {
+                        return Optional.from(iframeDoc.getElementById(str))
+                            .map(SugarElement.fromDom)
                             .getOrDie('cannot find element with id ' + str);
                     }
                 };
@@ -63,20 +60,20 @@ bedrock_client_1.UnitTest.asynctest('LocationTest', function (success, failure) 
         });
         Insert.append(SugarBody.body(), iframe);
     };
-    var ifr = '<iframe src="/project/@ephox/sugar/src/test/data/locationTest.html"></iframe>';
+    const ifr = '<iframe src="/project/@ephox/sugar/src/test/data/locationTest.html"></iframe>';
     testOne(ifr, {
         iframe: { id: 'vanilla', style: 'height:200px; width:500px; border: 1px dashed chartreuse;' },
-        html: katamari_1.Optional.none(),
-        body: katamari_1.Optional.some({ contenteditable: 'true', style: 'margin: 0; padding: 5px;' })
-    }, function () {
+        html: Optional.none(),
+        body: Optional.some({ contenteditable: 'true', style: 'margin: 0; padding: 5px;' })
+    }, () => {
         testOne(ifr, {
             iframe: { id: 'ifrRtl', style: 'height:200px; width:500px; border: 1px dashed turquoise;' },
-            html: katamari_1.Optional.none(),
-            body: katamari_1.Optional.some({ dir: 'rtl', contenteditable: 'true', style: 'margin: 0; padding: 5px;' })
+            html: Optional.none(),
+            body: Optional.some({ dir: 'rtl', contenteditable: 'true', style: 'margin: 0; padding: 5px;' })
         }, success);
     });
-    var checks = function (doc) {
-        katamari_1.Arr.each([
+    const checks = (doc) => {
+        Arr.each([
             baseChecks,
             disconnectedChecks,
             absoluteChecks,
@@ -85,45 +82,45 @@ bedrock_client_1.UnitTest.asynctest('LocationTest', function (success, failure) 
             tableChecks,
             fixedChecks, // recommend making these last, as they adjust the iframe scroll
             bodyChecks
-        ], function (f) {
+        ], (f) => {
             f(doc);
         });
     };
-    var baseChecks = function () {
+    const baseChecks = () => {
         // these checks actually depend on the tunic stylesheet. They might not actually be useful.
-        var body = SugarBody.body();
-        var pos = SugarLocation.absolute(body);
-        bedrock_client_1.Assert.eq('', 0, pos.top);
-        bedrock_client_1.Assert.eq('', 0, pos.left);
+        const body = SugarBody.body();
+        let pos = SugarLocation.absolute(body);
+        Assert.eq('', 0, pos.top);
+        Assert.eq('', 0, pos.left);
         pos = SugarLocation.relative(body);
-        bedrock_client_1.Assert.eq('', 0, pos.top); // JQuery doesn't return 0, but this makes more sense
-        bedrock_client_1.Assert.eq('', 0, pos.left);
+        Assert.eq('', 0, pos.top); // JQuery doesn't return 0, but this makes more sense
+        Assert.eq('', 0, pos.left);
         pos = SugarLocation.viewport(body);
-        bedrock_client_1.Assert.eq('', 0, pos.top);
-        bedrock_client_1.Assert.eq('', 0, pos.left);
+        Assert.eq('', 0, pos.top);
+        Assert.eq('', 0, pos.left);
         // TINY-9203: due to Win11 FF adopting native hidden scrollbar behavior and current inability to distinguish between Win10 and Win11
         // (both os.version.major === 10), allow scrollbar to be either hidden or visible when on Win10/11 FF
-        var noVisibleScrollbarBrowser = platform.os.isMacOS() || (platform.browser.isFirefox() && platform.os.isLinux()) || (platform.browser.isFirefox() && platform.os.isWindows() && platform.os.version.major >= 10);
-        bedrock_client_1.Assert.eq('scroll bar width, got=' + scrollBarWidth, true, scrollBarWidth > 5 && scrollBarWidth < 50 || (noVisibleScrollbarBrowser && scrollBarWidth === 0));
+        const noVisibleScrollbarBrowser = platform.os.isMacOS() || (platform.browser.isFirefox() && platform.os.isLinux()) || (platform.browser.isFirefox() && platform.os.isWindows() && platform.os.version.major >= 10);
+        Assert.eq('scroll bar width, got=' + scrollBarWidth, true, scrollBarWidth > 5 && scrollBarWidth < 50 || (noVisibleScrollbarBrowser && scrollBarWidth === 0));
     };
-    var disconnectedChecks = function () {
-        var div = SugarElement_1.SugarElement.fromTag('div');
-        var pos = SugarLocation.absolute(div);
-        bedrock_client_1.Assert.eq('', 0, pos.top);
-        bedrock_client_1.Assert.eq('', 0, pos.left);
+    const disconnectedChecks = () => {
+        const div = SugarElement.fromTag('div');
+        let pos = SugarLocation.absolute(div);
+        Assert.eq('', 0, pos.top);
+        Assert.eq('', 0, pos.left);
         pos = SugarLocation.relative(div);
-        bedrock_client_1.Assert.eq('', 0, pos.top);
-        bedrock_client_1.Assert.eq('', 0, pos.left);
+        Assert.eq('', 0, pos.top);
+        Assert.eq('', 0, pos.left);
         pos = SugarLocation.viewport(div);
-        bedrock_client_1.Assert.eq('', 0, pos.top);
-        bedrock_client_1.Assert.eq('', 0, pos.left);
+        Assert.eq('', 0, pos.top);
+        Assert.eq('', 0, pos.left);
     };
-    var absoluteChecks = function (doc) {
-        var leftScrollW = leftScrollBarWidth(doc);
+    const absoluteChecks = (doc) => {
+        const leftScrollW = leftScrollBarWidth(doc);
         // This one has position absolute, but no values set initially
         Css.setAll(doc.byId('positionTest'), { top: '10px', left: '10px' });
         // GUESS: 1px differences from JQuery is due to the 1px margin on the body
-        var tests = [
+        const tests = [
             {
                 id: 'absolute-1',
                 absolute: { top: 1, left: { ltr: 1, rtl: 1 + leftScrollW } },
@@ -157,10 +154,10 @@ bedrock_client_1.UnitTest.asynctest('LocationTest', function (success, failure) 
         ];
         runChecks(doc, tests);
     };
-    var relativeChecks = function (doc) {
-        var leftScrollW = leftScrollBarWidth(doc);
+    const relativeChecks = (doc) => {
+        const leftScrollW = leftScrollBarWidth(doc);
         // GUESS: 1px differences from JQuery is due to the 1px margin on the body
-        var tests = [
+        const tests = [
             {
                 id: 'relative-1',
                 absolute: { top: 6, left: { ltr: 6, rtl: 380 - scrollBarWidth + leftScrollW } },
@@ -201,11 +198,11 @@ bedrock_client_1.UnitTest.asynctest('LocationTest', function (success, failure) 
         ];
         runChecks(doc, tests);
     };
-    var staticChecks = function (doc) {
-        var leftScrollW = leftScrollBarWidth(doc);
-        var extraHeight = 230; // because all tests are in one page
+    const staticChecks = (doc) => {
+        const leftScrollW = leftScrollBarWidth(doc);
+        const extraHeight = 230; // because all tests are in one page
         // GUESS: 1px differences from JQuery is due to the 1px margin on the body
-        var tests = [
+        const tests = [
             {
                 id: 'static-1',
                 absolute: { top: extraHeight + 6, left: { ltr: 6, rtl: 380 - scrollBarWidth + leftScrollW } },
@@ -233,14 +230,14 @@ bedrock_client_1.UnitTest.asynctest('LocationTest', function (success, failure) 
         ];
         runChecks(doc, tests);
     };
-    var tableChecks = function (doc) {
-        var extraHeight = 460; // because all tests are in one page
-        var leftScrollW = leftScrollBarWidth(doc);
+    const tableChecks = (doc) => {
+        const extraHeight = 460; // because all tests are in one page
+        const leftScrollW = leftScrollBarWidth(doc);
         // JQUERY BUG:
         // jQuery doesn't accept position:static elements as the offsetParent in relative calculations, so it uses the whole document.
         // We aren't replicating that.
         // GUESS: 1px differences from JQuery is due to the 1px margin on the body
-        var tests = [
+        const tests = [
             {
                 id: 'table-1',
                 absolute: { top: extraHeight + 6, left: { ltr: 5, rtl: 171 - scrollBarWidth + leftScrollW } },
@@ -277,23 +274,23 @@ bedrock_client_1.UnitTest.asynctest('LocationTest', function (success, failure) 
         // I don't want to make every browser pay for Chrome's mistake in a scenario we don't need for TBIO, so we're living with it.
         // Firefox 71 has also started behaving the same as chrome but seems to be fixed in 124
         if (platform.browser.isChromium() || platform.browser.isFirefox() && platform.browser.version.major >= 71 && platform.browser.version.major < 124) {
-            var chromeDifference_1 = -2;
-            katamari_1.Arr.each(tests, function (t) {
+            const chromeDifference = -2;
+            Arr.each(tests, (t) => {
                 if (t.id !== 'table-1') {
                     // eslint-disable-next-line no-console
-                    console.log('> Note - fix for Chrome bug - subtracting from relative top and left: ', chromeDifference_1);
-                    t.relative.top += chromeDifference_1;
-                    t.relative.left.ltr += chromeDifference_1;
-                    t.relative.left.rtl += chromeDifference_1;
+                    console.log('> Note - fix for Chrome bug - subtracting from relative top and left: ', chromeDifference);
+                    t.relative.top += chromeDifference;
+                    t.relative.left.ltr += chromeDifference;
+                    t.relative.left.rtl += chromeDifference;
                 }
             });
         }
         runChecks(doc, tests);
     };
-    var fixedChecks = function (doc) {
-        var leftScrollW = leftScrollBarWidth(doc);
+    const fixedChecks = (doc) => {
+        const leftScrollW = leftScrollBarWidth(doc);
         // GUESS: 1px differences from JQuery is due to the 1px margin on the body
-        var noScroll = [
+        const noScroll = [
             {
                 id: 'fixed-1',
                 absolute: { top: 1, left: { ltr: 1, rtl: 1 + leftScrollW } },
@@ -314,10 +311,10 @@ bedrock_client_1.UnitTest.asynctest('LocationTest', function (success, failure) 
             }
         ];
         // relative scroll
-        var leftScroll = 1000;
-        var topScroll = 2000;
+        const leftScroll = 1000;
+        const topScroll = 2000;
         // GUESS: 1px differences from JQuery is due to the 1px margin on the body
-        var withScroll = [
+        const withScroll = [
             {
                 id: 'fixed-1',
                 absolute: { top: topScroll + 1, left: { ltr: leftScroll + 1, rtl: 1 + leftScrollW } },
@@ -337,7 +334,7 @@ bedrock_client_1.UnitTest.asynctest('LocationTest', function (success, failure) 
                 viewport: { top: 6, left: { ltr: 6, rtl: 380 - scrollBarWidth + leftScrollW } }
             }
         ];
-        var afterSetPosition = [
+        const afterSetPosition = [
             {
                 id: 'fixed-no-top-left',
                 absolute: { top: topScroll + 11, left: { ltr: leftScroll + 21, rtl: 21 + leftScrollW } },
@@ -346,31 +343,31 @@ bedrock_client_1.UnitTest.asynctest('LocationTest', function (success, failure) 
             }
         ];
         runChecks(doc, noScroll);
-        var scr = Scroll.get(doc.rawDoc);
-        bedrock_client_1.Assert.eq('expected 0, left is=' + scr.left, 0, scr.left);
-        bedrock_client_1.Assert.eq('expected 0, top is ' + scr.top, 0, scr.top);
+        const scr = Scroll.get(doc.rawDoc);
+        Assert.eq('expected 0, left is=' + scr.left, 0, scr.left);
+        Assert.eq('expected 0, top is ' + scr.top, 0, scr.top);
         Scroll.by(leftScroll, topScroll, doc.rawDoc);
         runChecks(doc, withScroll);
         Css.setAll(doc.byId('fixed-no-top-left'), { top: '10px', left: '20px' });
         runChecks(doc, afterSetPosition);
     };
-    var bodyChecks = function (doc) {
+    const bodyChecks = (doc) => {
         Scroll.to(1000, 1000, doc.rawDoc);
-        var pos = SugarLocation.absolute(doc.body);
-        bedrock_client_1.Assert.eq('', 0, pos.top);
-        bedrock_client_1.Assert.eq('', 0, pos.left);
+        let pos = SugarLocation.absolute(doc.body);
+        Assert.eq('', 0, pos.top);
+        Assert.eq('', 0, pos.left);
         pos = SugarLocation.relative(doc.body);
-        bedrock_client_1.Assert.eq('', 0, pos.top);
-        bedrock_client_1.Assert.eq('', 0, pos.left);
+        Assert.eq('', 0, pos.top);
+        Assert.eq('', 0, pos.left);
         pos = SugarLocation.viewport(doc.body);
-        bedrock_client_1.Assert.eq('', 0, pos.top);
-        bedrock_client_1.Assert.eq('', 0, pos.left);
+        Assert.eq('', 0, pos.top);
+        Assert.eq('', 0, pos.left);
     };
     /* Simple verification logic */
-    var runChecks = function (doc, tests) {
-        katamari_1.Arr.each(tests, function (t) {
-            var div = doc.byId(t.id);
-            var pos = SugarLocation.absolute(div);
+    const runChecks = (doc, tests) => {
+        Arr.each(tests, (t) => {
+            const div = doc.byId(t.id);
+            let pos = SugarLocation.absolute(div);
             asserteq(t.absolute.top, pos.top, '.absolute().top  ' + t.id);
             asserteq(t.absolute.left[doc.dir], pos.left, '.absolute().left.' + doc.dir + ' ' + t.id);
             pos = SugarLocation.relative(div);

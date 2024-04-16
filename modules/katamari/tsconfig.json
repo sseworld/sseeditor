@@ -1,22 +1,15 @@
 {
-    "compilerOptions": {
-      "allowJs": true,
-      "sourceMap": true,
-      "declaration": true,
-      "declarationMap": true,
-      "outDir": "lib",
-      "rootDir": "src",
-      "baseUrl": ".",
-      "paths": {
-        "ssephox/katamari/test/*": ["src/test/ts/module/ssephox/katamari/test/*"],
-        "ssephox/katamari/demo/*": ["src/demo/ts/ssephox/katamari/demo/*"],
-        "ssephox/katamari/*": ["src/main/ts/ssephox/katamari/*"]
-      }
-    },
-    "include": [
-      "src/demo/ts",
-      "src/main/ts",
-      "src/test/ts"
-    ]
-  }
-  
+  "extends": "../../tsconfig.shared.json",
+  "compilerOptions": {
+    "outDir": "lib",
+    "rootDir": "src",
+    "baseUrl": ".",
+    "tsBuildInfoFile": "lib/tsconfig.tsbuildinfo",
+    "paths": {
+      "ssephox/katamari/test/*": ["src/test/ts/module/ssephox/katamari/test/*"],
+      "ssephox/katamari/demo/*": ["src/demo/ts/ssephox/katamari/demo/*"],
+      "ssephox/katamari/*": ["src/main/ts/ssephox/katamari/*"]
+    }
+  },
+  "include": ["src/demo/ts", "src/main/ts", "src/test/ts"]
+}

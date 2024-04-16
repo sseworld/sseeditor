@@ -1,29 +1,9 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.closest = exports.descendant = exports.child = exports.sibling = exports.ancestor = exports.any = void 0;
-var SelectorFind = require("./SelectorFind");
-var any = function (selector) {
-    return SelectorFind.first(selector).isSome();
-};
-exports.any = any;
-var ancestor = function (scope, selector, isRoot) {
-    return SelectorFind.ancestor(scope, selector, isRoot).isSome();
-};
-exports.ancestor = ancestor;
-var sibling = function (scope, selector) {
-    return SelectorFind.sibling(scope, selector).isSome();
-};
-exports.sibling = sibling;
-var child = function (scope, selector) {
-    return SelectorFind.child(scope, selector).isSome();
-};
-exports.child = child;
-var descendant = function (scope, selector) {
-    return SelectorFind.descendant(scope, selector).isSome();
-};
-exports.descendant = descendant;
-var closest = function (scope, selector, isRoot) {
-    return SelectorFind.closest(scope, selector, isRoot).isSome();
-};
-exports.closest = closest;
+import * as SelectorFind from './SelectorFind';
+const any = (selector) => SelectorFind.first(selector).isSome();
+const ancestor = (scope, selector, isRoot) => SelectorFind.ancestor(scope, selector, isRoot).isSome();
+const sibling = (scope, selector) => SelectorFind.sibling(scope, selector).isSome();
+const child = (scope, selector) => SelectorFind.child(scope, selector).isSome();
+const descendant = (scope, selector) => SelectorFind.descendant(scope, selector).isSome();
+const closest = (scope, selector, isRoot) => SelectorFind.closest(scope, selector, isRoot).isSome();
+export { any, ancestor, sibling, child, descendant, closest };
 //# sourceMappingURL=SelectorExists.js.map

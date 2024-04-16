@@ -1,31 +1,25 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.append = exports.prepend = exports.after = exports.before = void 0;
-var katamari_1 = require("@ssephox/katamari");
-var Insert = require("./Insert");
-var before = function (marker, elements) {
-    katamari_1.Arr.each(elements, function (x) {
+import { Arr } from '@ssephox/katamari';
+import * as Insert from './Insert';
+const before = (marker, elements) => {
+    Arr.each(elements, (x) => {
         Insert.before(marker, x);
     });
 };
-exports.before = before;
-var after = function (marker, elements) {
-    katamari_1.Arr.each(elements, function (x, i) {
-        var e = i === 0 ? marker : elements[i - 1];
+const after = (marker, elements) => {
+    Arr.each(elements, (x, i) => {
+        const e = i === 0 ? marker : elements[i - 1];
         Insert.after(e, x);
     });
 };
-exports.after = after;
-var prepend = function (parent, elements) {
-    katamari_1.Arr.each(elements.slice().reverse(), function (x) {
+const prepend = (parent, elements) => {
+    Arr.each(elements.slice().reverse(), (x) => {
         Insert.prepend(parent, x);
     });
 };
-exports.prepend = prepend;
-var append = function (parent, elements) {
-    katamari_1.Arr.each(elements, function (x) {
+const append = (parent, elements) => {
+    Arr.each(elements, (x) => {
         Insert.append(parent, x);
     });
 };
-exports.append = append;
+export { before, after, prepend, append };
 //# sourceMappingURL=InsertAll.js.map

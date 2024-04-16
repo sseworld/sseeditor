@@ -1,9 +1,3 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.getDocument = void 0;
-var SugarElement_1 = require("./SugarElement");
-var getDocument = function () {
-    return SugarElement_1.SugarElement.fromDom(document);
-};
-exports.getDocument = getDocument;
+import { SugarElement } from './SugarElement';
+export const getDocument = () => SugarElement.fromDom(document);
 //# sourceMappingURL=SugarDocument.js.map

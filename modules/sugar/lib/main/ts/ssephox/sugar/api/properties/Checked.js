@@ -1,19 +1,10 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.find = exports.set = exports.get = void 0;
-var SelectorFind = require("../search/SelectorFind");
-var set = function (element, status) {
+import * as SelectorFind from '../search/SelectorFind';
+const set = (element, status) => {
     element.dom.checked = status;
 };
-exports.set = set;
-var get = function (element) {
-    return element.dom.checked;
-};
-exports.get = get;
+const get = (element) => element.dom.checked;
 // :checked selector requires IE9
 // http://www.quirksmode.org/css/selectors/#t60
-var find = function (parent) {
-    return SelectorFind.descendant(parent, 'input:checked');
-};
-exports.find = find;
+const find = (parent) => SelectorFind.descendant(parent, 'input:checked');
+export { get, set, find };
 //# sourceMappingURL=Checked.js.map

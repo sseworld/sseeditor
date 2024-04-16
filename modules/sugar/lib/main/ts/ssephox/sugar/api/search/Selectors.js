@@ -1,16 +1,13 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.one = exports.is = exports.all = void 0;
-var katamari_1 = require("@ssephox/katamari");
-var NodeTypes_1 = require("../node/NodeTypes");
-var SugarElement_1 = require("../node/SugarElement");
-var is = function (element, selector) {
-    var dom = element.dom;
-    if (dom.nodeType !== NodeTypes_1.ELEMENT) {
+import { Arr, Optional } from '@ssephox/katamari';
+import { DOCUMENT, DOCUMENT_FRAGMENT, ELEMENT } from '../node/NodeTypes';
+import { SugarElement } from '../node/SugarElement';
+const is = (element, selector) => {
+    const dom = element.dom;
+    if (dom.nodeType !== ELEMENT) {
         return false;
     }
     else {
-        var elem = dom;
+        const elem = dom;
         if (elem.matches !== undefined) {
             return elem.matches(selector);
         }
@@ -29,22 +26,19 @@ var is = function (element, selector) {
         } // unfortunately we can't throw this on startup :(
     }
 };
-exports.is = is;
-var bypassSelector = function (dom) {
-    // Only elements, documents and shadow roots support querySelector
-    // shadow root element type is DOCUMENT_FRAGMENT
-    return dom.nodeType !== NodeTypes_1.ELEMENT && dom.nodeType !== NodeTypes_1.DOCUMENT && dom.nodeType !== NodeTypes_1.DOCUMENT_FRAGMENT ||
-        // IE fix for complex queries on empty nodes: http://jsfiddle.net/spyder/fv9ptr5L/
-        dom.childElementCount === 0;
+const bypassSelector = (dom) => 
+// Only elements, documents and shadow roots support querySelector
+// shadow root element type is DOCUMENT_FRAGMENT
+dom.nodeType !== ELEMENT && dom.nodeType !== DOCUMENT && dom.nodeType !== DOCUMENT_FRAGMENT ||
+    // IE fix for complex queries on empty nodes: http://jsfiddle.net/spyder/fv9ptr5L/
+    dom.childElementCount === 0;
+const all = (selector, scope) => {
+    const base = scope === undefined ? document : scope.dom;
+    return bypassSelector(base) ? [] : Arr.map(base.querySelectorAll(selector), SugarElement.fromDom);
 };
-var all = function (selector, scope) {
-    var base = scope === undefined ? document : scope.dom;
-    return bypassSelector(base) ? [] : katamari_1.Arr.map(base.querySelectorAll(selector), SugarElement_1.SugarElement.fromDom);
+const one = (selector, scope) => {
+    const base = scope === undefined ? document : scope.dom;
+    return bypassSelector(base) ? Optional.none() : Optional.from(base.querySelector(selector)).map(SugarElement.fromDom);
 };
-exports.all = all;
-var one = function (selector, scope) {
-    var base = scope === undefined ? document : scope.dom;
-    return bypassSelector(base) ? katamari_1.Optional.none() : katamari_1.Optional.from(base.querySelector(selector)).map(SugarElement_1.SugarElement.fromDom);
-};
-exports.one = one;
+export { all, is, one };
 //# sourceMappingURL=Selectors.js.map

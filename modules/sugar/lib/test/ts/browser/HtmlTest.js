@@ -1,19 +1,17 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-var bedrock_client_1 = require("@ephox/bedrock-client");
-var Insert = require("ssephox/sugar/api/dom/Insert");
-var Html = require("ssephox/sugar/api/properties/Html");
-var Div_1 = require("ssephox/sugar/test/Div");
-bedrock_client_1.UnitTest.test('HtmlTest', function () {
+import { Assert, UnitTest } from '@ephox/bedrock-client';
+import * as Insert from 'ssephox/sugar/api/dom/Insert';
+import * as Html from 'ssephox/sugar/api/properties/Html';
+import Div from 'ssephox/sugar/test/Div';
+UnitTest.test('HtmlTest', () => {
     // checks that Html.getOuter does not fiddle with the dom
-    var c = (0, Div_1.default)();
-    var container = (0, Div_1.default)();
+    const c = Div();
+    const container = Div();
     Insert.append(container, c);
-    bedrock_client_1.Assert.eq('', '<div></div>', Html.getOuter(c));
-    bedrock_client_1.Assert.eq('getOuter must not change the DOM', true, c.dom.parentNode === container.dom);
-    var content = '<p>stuff</p>';
+    Assert.eq('', '<div></div>', Html.getOuter(c));
+    Assert.eq('getOuter must not change the DOM', true, c.dom.parentNode === container.dom);
+    const content = '<p>stuff</p>';
     Html.set(c, content);
-    bedrock_client_1.Assert.eq('', content, c.dom.innerHTML);
-    bedrock_client_1.Assert.eq('', content, Html.get(c));
+    Assert.eq('', content, c.dom.innerHTML);
+    Assert.eq('', content, Html.get(c));
 });
 //# sourceMappingURL=HtmlTest.js.map

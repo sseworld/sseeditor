@@ -1,22 +1,12 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.CssProperty = void 0;
-var Css = require("./Css");
-var CssProperty = function (property, value) {
-    var is = function (element) {
-        return Css.get(element, property) === value;
-    };
-    var remove = function (element) {
-        return Css.remove(element, property);
-    };
-    var set = function (element) {
-        return Css.set(element, property, value);
-    };
+import * as Css from './Css';
+export const CssProperty = (property, value) => {
+    const is = (element) => Css.get(element, property) === value;
+    const remove = (element) => Css.remove(element, property);
+    const set = (element) => Css.set(element, property, value);
     return {
-        is: is,
-        remove: remove,
-        set: set
+        is,
+        remove,
+        set
     };
 };
-exports.CssProperty = CssProperty;
 //# sourceMappingURL=CssProperty.js.map

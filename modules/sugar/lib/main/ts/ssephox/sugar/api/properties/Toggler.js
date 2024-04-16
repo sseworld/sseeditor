@@ -1,27 +1,23 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.Toggler = void 0;
-var Toggler = function (turnOff, turnOn, initial) {
-    var active = initial || false;
-    var on = function () {
+export const Toggler = (turnOff, turnOn, initial) => {
+    let active = initial || false;
+    const on = () => {
         turnOn();
         active = true;
     };
-    var off = function () {
+    const off = () => {
         turnOff();
         active = false;
     };
-    var toggle = function () {
-        var f = active ? off : on;
+    const toggle = () => {
+        const f = active ? off : on;
         f();
     };
-    var isOn = function () { return active; };
+    const isOn = () => active;
     return {
-        on: on,
-        off: off,
-        toggle: toggle,
-        isOn: isOn
+        on,
+        off,
+        toggle,
+        isOn
     };
 };
-exports.Toggler = Toggler;
 //# sourceMappingURL=Toggler.js.map

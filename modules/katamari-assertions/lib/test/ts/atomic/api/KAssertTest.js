@@ -1,204 +1,189 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-var bedrock_client_1 = require("@ephox/bedrock-client");
-var dispute_1 = require("@ephox/dispute");
-var katamari_1 = require("@ssephox/katamari");
-var fast_check_1 = require("fast-check");
-var KAssert = require("ssephox/katamari-assertions/api/KAssert");
-var tNumber = dispute_1.Testable.tNumber;
-var tBoom = function () {
-    return dispute_1.Testable.testable(dispute_1.Eq.eq(katamari_1.Fun.die("should not be called")), dispute_1.Pprint.pprint(katamari_1.Fun.die("should not be called")));
-};
-var twoDifferentNumbers = fast_check_1.default
-    .tuple(fast_check_1.default.integer(), fast_check_1.default.integer())
-    .filter(function (_a) {
-    var a = _a[0], b = _a[1];
-    return a !== b;
-});
-bedrock_client_1.UnitTest.test("KAssert.eqError: success (reflexivity)", function () {
-    fast_check_1.default.assert(fast_check_1.default.property(fast_check_1.default.integer(), function (i) {
-        KAssert.eqError("eq", i, katamari_1.Result.error(i));
-        KAssert.eqError("eq", i, katamari_1.Result.error(i), tBoom());
-        KAssert.eqError("eq", i, katamari_1.Result.error(i), tBoom(), tNumber);
+import { Assert, UnitTest } from "@ephox/bedrock-client";
+import { Eq, Pprint, Testable } from "@ephox/dispute";
+import { Fun, Optional, Result } from "@ssephox/katamari";
+import fc from "fast-check";
+import * as KAssert from "ssephox/katamari-assertions/api/KAssert";
+const { tNumber } = Testable;
+const tBoom = () => Testable.testable(Eq.eq(Fun.die("should not be called")), Pprint.pprint(Fun.die("should not be called")));
+const twoDifferentNumbers = fc
+    .tuple(fc.integer(), fc.integer())
+    .filter(([a, b]) => a !== b);
+UnitTest.test("KAssert.eqError: success (reflexivity)", () => {
+    fc.assert(fc.property(fc.integer(), (i) => {
+        KAssert.eqError("eq", i, Result.error(i));
+        KAssert.eqError("eq", i, Result.error(i), tBoom());
+        KAssert.eqError("eq", i, Result.error(i), tBoom(), tNumber);
     }));
 });
-bedrock_client_1.UnitTest.test("KAssert.eqError: failure", function () {
-    fast_check_1.default.assert(fast_check_1.default.property(twoDifferentNumbers, function (_a) {
-        var a = _a[0], b = _a[1];
-        bedrock_client_1.Assert.throws("should throw if numbers differ #1", function () {
-            KAssert.eqError("eq", a, katamari_1.Result.error(b));
+UnitTest.test("KAssert.eqError: failure", () => {
+    fc.assert(fc.property(twoDifferentNumbers, ([a, b]) => {
+        Assert.throws("should throw if numbers differ #1", () => {
+            KAssert.eqError("eq", a, Result.error(b));
         });
-        bedrock_client_1.Assert.throws("should throw if numbers differ #2", function () {
-            KAssert.eqError("eq", a, katamari_1.Result.error(b), tBoom());
+        Assert.throws("should throw if numbers differ #2", () => {
+            KAssert.eqError("eq", a, Result.error(b), tBoom());
         });
-        bedrock_client_1.Assert.throws("should throw if numbers differ #2", function () {
-            KAssert.eqError("eq", a, katamari_1.Result.error(b), tBoom(), tNumber);
+        Assert.throws("should throw if numbers differ #2", () => {
+            KAssert.eqError("eq", a, Result.error(b), tBoom(), tNumber);
         });
     }));
-    fast_check_1.default.assert(fast_check_1.default.property(fast_check_1.default.integer(), fast_check_1.default.string(), function (i, s) {
-        bedrock_client_1.Assert.throws("should throw if value #1", function () {
-            KAssert.eqError("eq", i, katamari_1.Result.value(s));
+    fc.assert(fc.property(fc.integer(), fc.string(), (i, s) => {
+        Assert.throws("should throw if value #1", () => {
+            KAssert.eqError("eq", i, Result.value(s));
         });
-        bedrock_client_1.Assert.throws("should throw if value #2", function () {
-            KAssert.eqError("eq", i, katamari_1.Result.value(s), tBoom());
+        Assert.throws("should throw if value #2", () => {
+            KAssert.eqError("eq", i, Result.value(s), tBoom());
         });
-        bedrock_client_1.Assert.throws("should throw if value #3", function () {
-            KAssert.eqError("eq", i, katamari_1.Result.value(s), tBoom(), tBoom());
+        Assert.throws("should throw if value #3", () => {
+            KAssert.eqError("eq", i, Result.value(s), tBoom(), tBoom());
         });
     }));
 });
-bedrock_client_1.UnitTest.test("KAssert.eqValue: success", function () {
-    fast_check_1.default.assert(fast_check_1.default.property(fast_check_1.default.integer(), function (i) {
-        KAssert.eqValue("eq", i, katamari_1.Result.value(i));
-        KAssert.eqValue("eq", i, katamari_1.Result.value(i), tNumber);
-        KAssert.eqValue("eq", i, katamari_1.Result.value(i), tNumber, tBoom());
+UnitTest.test("KAssert.eqValue: success", () => {
+    fc.assert(fc.property(fc.integer(), (i) => {
+        KAssert.eqValue("eq", i, Result.value(i));
+        KAssert.eqValue("eq", i, Result.value(i), tNumber);
+        KAssert.eqValue("eq", i, Result.value(i), tNumber, tBoom());
     }));
 });
-bedrock_client_1.UnitTest.test("KAssert.eqValue: failure", function () {
-    fast_check_1.default.assert(fast_check_1.default.property(twoDifferentNumbers, function (_a) {
-        var a = _a[0], b = _a[1];
-        bedrock_client_1.Assert.throws("should throw if numbers differ #1", function () {
-            KAssert.eqValue("eq", a, katamari_1.Result.value(b));
+UnitTest.test("KAssert.eqValue: failure", () => {
+    fc.assert(fc.property(twoDifferentNumbers, ([a, b]) => {
+        Assert.throws("should throw if numbers differ #1", () => {
+            KAssert.eqValue("eq", a, Result.value(b));
         });
-        bedrock_client_1.Assert.throws("should throw if numbers differ #2", function () {
-            KAssert.eqValue("eq", a, katamari_1.Result.value(b), tNumber);
+        Assert.throws("should throw if numbers differ #2", () => {
+            KAssert.eqValue("eq", a, Result.value(b), tNumber);
         });
-        bedrock_client_1.Assert.throws("should throw if numbers differ #2", function () {
-            KAssert.eqValue("eq", a, katamari_1.Result.value(b), tNumber, tBoom());
-        });
-    }));
-    fast_check_1.default.assert(fast_check_1.default.property(fast_check_1.default.integer(), fast_check_1.default.string(), function (i, s) {
-        bedrock_client_1.Assert.throws("should throw if error #1", function () {
-            KAssert.eqValue("eq", i, katamari_1.Result.error(s));
-        });
-        bedrock_client_1.Assert.throws("should throw if error #2", function () {
-            KAssert.eqValue("eq", i, katamari_1.Result.error(s), tBoom());
-        });
-        bedrock_client_1.Assert.throws("should throw if error #3", function () {
-            KAssert.eqValue("eq", i, katamari_1.Result.error(s), tBoom(), tBoom());
+        Assert.throws("should throw if numbers differ #2", () => {
+            KAssert.eqValue("eq", a, Result.value(b), tNumber, tBoom());
         });
     }));
-});
-bedrock_client_1.UnitTest.test("KAssert.eqResult: success", function () {
-    fast_check_1.default.assert(fast_check_1.default.property(fast_check_1.default.integer(), function (i) {
-        KAssert.eqResult("eq", katamari_1.Result.value(i), katamari_1.Result.value(i));
-        KAssert.eqResult("eq", katamari_1.Result.value(i), katamari_1.Result.value(i), tNumber);
-        KAssert.eqResult("eq", katamari_1.Result.value(i), katamari_1.Result.value(i), tNumber, tBoom());
-        KAssert.eqResult("eq", katamari_1.Result.error(i), katamari_1.Result.error(i));
-        KAssert.eqResult("eq", katamari_1.Result.error(i), katamari_1.Result.error(i), tBoom());
-        KAssert.eqResult("eq", katamari_1.Result.error(i), katamari_1.Result.error(i), tBoom(), tNumber);
-    }));
-});
-bedrock_client_1.UnitTest.test("KAssert.eqResult: fail", function () {
-    fast_check_1.default.assert(fast_check_1.default.property(twoDifferentNumbers, function (_a) {
-        var a = _a[0], b = _a[1];
-        bedrock_client_1.Assert.throws("value(a) != (value(!a)) #1", function () {
-            KAssert.eqResult("eq", katamari_1.Result.value(a), katamari_1.Result.value(b));
+    fc.assert(fc.property(fc.integer(), fc.string(), (i, s) => {
+        Assert.throws("should throw if error #1", () => {
+            KAssert.eqValue("eq", i, Result.error(s));
         });
-        bedrock_client_1.Assert.throws("value(a) != (value(!a)) #2", function () {
-            KAssert.eqResult("eq", katamari_1.Result.value(a), katamari_1.Result.value(b), tNumber);
+        Assert.throws("should throw if error #2", () => {
+            KAssert.eqValue("eq", i, Result.error(s), tBoom());
         });
-        bedrock_client_1.Assert.throws("value(a) != (value(!a)) #2", function () {
-            KAssert.eqResult("eq", katamari_1.Result.value(a), katamari_1.Result.value(b), tNumber, tBoom());
-        });
-    }));
-    fast_check_1.default.assert(fast_check_1.default.property(twoDifferentNumbers, function (_a) {
-        var a = _a[0], b = _a[1];
-        bedrock_client_1.Assert.throws("error(a) != (error(!a)) #1", function () {
-            KAssert.eqResult("eq", katamari_1.Result.error(a), katamari_1.Result.error(b));
-        });
-        bedrock_client_1.Assert.throws("error(a) != (error(!a)) #2", function () {
-            KAssert.eqResult("eq", katamari_1.Result.error(a), katamari_1.Result.error(b), tBoom());
-        });
-        bedrock_client_1.Assert.throws("result(a) != (result(!a)) #2", function () {
-            KAssert.eqResult("eq", katamari_1.Result.error(a), katamari_1.Result.error(b), tBoom(), tNumber);
-        });
-    }));
-    fast_check_1.default.assert(fast_check_1.default.property(fast_check_1.default.integer(), fast_check_1.default.string(), function (i, s) {
-        bedrock_client_1.Assert.throws("value != error #1", function () {
-            KAssert.eqResult("eq", katamari_1.Result.value(i), katamari_1.Result.error(s));
-        });
-        bedrock_client_1.Assert.throws("value != error #2", function () {
-            KAssert.eqResult("eq", katamari_1.Result.value(i), katamari_1.Result.error(s), tBoom());
-        });
-        bedrock_client_1.Assert.throws("value != error #3", function () {
-            KAssert.eqResult("eq", katamari_1.Result.value(i), katamari_1.Result.error(s), tBoom());
-        });
-        bedrock_client_1.Assert.throws("error != value #1", function () {
-            KAssert.eqResult("eq", katamari_1.Result.error(i), katamari_1.Result.value(s));
-        });
-        bedrock_client_1.Assert.throws("error != value #2", function () {
-            KAssert.eqResult("eq", katamari_1.Result.error(i), katamari_1.Result.value(s), tBoom());
-        });
-        bedrock_client_1.Assert.throws("error != value #3", function () {
-            KAssert.eqResult("eq", katamari_1.Result.error(i), katamari_1.Result.value(s), tBoom(), tBoom());
+        Assert.throws("should throw if error #3", () => {
+            KAssert.eqValue("eq", i, Result.error(s), tBoom(), tBoom());
         });
     }));
 });
-bedrock_client_1.UnitTest.test("KAssert.eqSome: success (reflexivity)", function () {
-    fast_check_1.default.assert(fast_check_1.default.property(fast_check_1.default.integer(), function (i) {
-        KAssert.eqSome("eq", i, katamari_1.Optional.some(i));
-        KAssert.eqSome("eq", i, katamari_1.Optional.some(i), tNumber);
+UnitTest.test("KAssert.eqResult: success", () => {
+    fc.assert(fc.property(fc.integer(), (i) => {
+        KAssert.eqResult("eq", Result.value(i), Result.value(i));
+        KAssert.eqResult("eq", Result.value(i), Result.value(i), tNumber);
+        KAssert.eqResult("eq", Result.value(i), Result.value(i), tNumber, tBoom());
+        KAssert.eqResult("eq", Result.error(i), Result.error(i));
+        KAssert.eqResult("eq", Result.error(i), Result.error(i), tBoom());
+        KAssert.eqResult("eq", Result.error(i), Result.error(i), tBoom(), tNumber);
     }));
 });
-bedrock_client_1.UnitTest.test("KAssert.eqSome: failure", function () {
-    fast_check_1.default.assert(fast_check_1.default.property(twoDifferentNumbers, function (_a) {
-        var a = _a[0], b = _a[1];
-        bedrock_client_1.Assert.throws("some(i) != some(!i) #1", function () {
-            KAssert.eqSome("eq", a, katamari_1.Optional.some(b));
+UnitTest.test("KAssert.eqResult: fail", () => {
+    fc.assert(fc.property(twoDifferentNumbers, ([a, b]) => {
+        Assert.throws("value(a) != (value(!a)) #1", () => {
+            KAssert.eqResult("eq", Result.value(a), Result.value(b));
+        });
+        Assert.throws("value(a) != (value(!a)) #2", () => {
+            KAssert.eqResult("eq", Result.value(a), Result.value(b), tNumber);
+        });
+        Assert.throws("value(a) != (value(!a)) #2", () => {
+            KAssert.eqResult("eq", Result.value(a), Result.value(b), tNumber, tBoom());
         });
     }));
-    fast_check_1.default.assert(fast_check_1.default.property(twoDifferentNumbers, function (_a) {
-        var a = _a[0], b = _a[1];
-        bedrock_client_1.Assert.throws("some(i) != some(!i) #2", function () {
-            KAssert.eqSome("eq", a, katamari_1.Optional.some(b), tNumber);
+    fc.assert(fc.property(twoDifferentNumbers, ([a, b]) => {
+        Assert.throws("error(a) != (error(!a)) #1", () => {
+            KAssert.eqResult("eq", Result.error(a), Result.error(b));
+        });
+        Assert.throws("error(a) != (error(!a)) #2", () => {
+            KAssert.eqResult("eq", Result.error(a), Result.error(b), tBoom());
+        });
+        Assert.throws("result(a) != (result(!a)) #2", () => {
+            KAssert.eqResult("eq", Result.error(a), Result.error(b), tBoom(), tNumber);
+        });
+    }));
+    fc.assert(fc.property(fc.integer(), fc.string(), (i, s) => {
+        Assert.throws("value != error #1", () => {
+            KAssert.eqResult("eq", Result.value(i), Result.error(s));
+        });
+        Assert.throws("value != error #2", () => {
+            KAssert.eqResult("eq", Result.value(i), Result.error(s), tBoom());
+        });
+        Assert.throws("value != error #3", () => {
+            KAssert.eqResult("eq", Result.value(i), Result.error(s), tBoom());
+        });
+        Assert.throws("error != value #1", () => {
+            KAssert.eqResult("eq", Result.error(i), Result.value(s));
+        });
+        Assert.throws("error != value #2", () => {
+            KAssert.eqResult("eq", Result.error(i), Result.value(s), tBoom());
+        });
+        Assert.throws("error != value #3", () => {
+            KAssert.eqResult("eq", Result.error(i), Result.value(s), tBoom(), tBoom());
         });
     }));
 });
-bedrock_client_1.UnitTest.test("KAssert.eqNone: success (reflexivity)", function () {
-    KAssert.eqNone("eq", katamari_1.Optional.none());
-});
-bedrock_client_1.UnitTest.test("KAssert.eqNone: failure", function () {
-    fast_check_1.default.assert(fast_check_1.default.property(fast_check_1.default.integer(), function (i) {
-        bedrock_client_1.Assert.throws("some(i) != none", function () {
-            KAssert.eqNone("eq", katamari_1.Optional.some(i));
-        });
+UnitTest.test("KAssert.eqSome: success (reflexivity)", () => {
+    fc.assert(fc.property(fc.integer(), (i) => {
+        KAssert.eqSome("eq", i, Optional.some(i));
+        KAssert.eqSome("eq", i, Optional.some(i), tNumber);
     }));
 });
-bedrock_client_1.UnitTest.test("KAssert.eqOption: success (reflexivity)", function () {
-    fast_check_1.default.assert(fast_check_1.default.property(fast_check_1.default.integer(), function (i) {
-        KAssert.eqOptional("eq", katamari_1.Optional.some(i), katamari_1.Optional.some(i));
-        KAssert.eqOptional("eq", katamari_1.Optional.some(i), katamari_1.Optional.some(i), tNumber);
+UnitTest.test("KAssert.eqSome: failure", () => {
+    fc.assert(fc.property(twoDifferentNumbers, ([a, b]) => {
+        Assert.throws("some(i) != some(!i) #1", () => {
+            KAssert.eqSome("eq", a, Optional.some(b));
+        });
     }));
-    KAssert.eqOptional("eq", katamari_1.Optional.none(), katamari_1.Optional.none());
+    fc.assert(fc.property(twoDifferentNumbers, ([a, b]) => {
+        Assert.throws("some(i) != some(!i) #2", () => {
+            KAssert.eqSome("eq", a, Optional.some(b), tNumber);
+        });
+    }));
 });
-bedrock_client_1.UnitTest.test("KAssert.eqOption: failure", function () {
-    fast_check_1.default.assert(fast_check_1.default.property(twoDifferentNumbers, function (_a) {
-        var a = _a[0], b = _a[1];
-        bedrock_client_1.Assert.throws("some(i) != some(!i) #1", function () {
-            KAssert.eqOptional("eq", katamari_1.Optional.some(a), katamari_1.Optional.some(b));
+UnitTest.test("KAssert.eqNone: success (reflexivity)", () => {
+    KAssert.eqNone("eq", Optional.none());
+});
+UnitTest.test("KAssert.eqNone: failure", () => {
+    fc.assert(fc.property(fc.integer(), (i) => {
+        Assert.throws("some(i) != none", () => {
+            KAssert.eqNone("eq", Optional.some(i));
         });
     }));
-    fast_check_1.default.assert(fast_check_1.default.property(twoDifferentNumbers, function (_a) {
-        var a = _a[0], b = _a[1];
-        bedrock_client_1.Assert.throws("some(i) != some(!i) #2", function () {
-            KAssert.eqOptional("eq", katamari_1.Optional.some(a), katamari_1.Optional.some(b), tNumber);
+});
+UnitTest.test("KAssert.eqOption: success (reflexivity)", () => {
+    fc.assert(fc.property(fc.integer(), (i) => {
+        KAssert.eqOptional("eq", Optional.some(i), Optional.some(i));
+        KAssert.eqOptional("eq", Optional.some(i), Optional.some(i), tNumber);
+    }));
+    KAssert.eqOptional("eq", Optional.none(), Optional.none());
+});
+UnitTest.test("KAssert.eqOption: failure", () => {
+    fc.assert(fc.property(twoDifferentNumbers, ([a, b]) => {
+        Assert.throws("some(i) != some(!i) #1", () => {
+            KAssert.eqOptional("eq", Optional.some(a), Optional.some(b));
         });
     }));
-    fast_check_1.default.assert(fast_check_1.default.property(fast_check_1.default.integer(), function (i) {
-        bedrock_client_1.Assert.throws("none != some(i) #1", function () {
-            KAssert.eqOptional("eq", katamari_1.Optional.none(), katamari_1.Optional.some(i));
-        });
-        bedrock_client_1.Assert.throws("none != some(i) #2", function () {
-            KAssert.eqOptional("eq", katamari_1.Optional.none(), katamari_1.Optional.some(i), tBoom());
+    fc.assert(fc.property(twoDifferentNumbers, ([a, b]) => {
+        Assert.throws("some(i) != some(!i) #2", () => {
+            KAssert.eqOptional("eq", Optional.some(a), Optional.some(b), tNumber);
         });
     }));
-    fast_check_1.default.assert(fast_check_1.default.property(fast_check_1.default.integer(), function (i) {
-        bedrock_client_1.Assert.throws("some(i) != none #1", function () {
-            KAssert.eqOptional("eq", katamari_1.Optional.some(i), katamari_1.Optional.none());
+    fc.assert(fc.property(fc.integer(), (i) => {
+        Assert.throws("none != some(i) #1", () => {
+            KAssert.eqOptional("eq", Optional.none(), Optional.some(i));
         });
-        bedrock_client_1.Assert.throws("some(i) != none #2", function () {
-            KAssert.eqOptional("eq", katamari_1.Optional.some(i), katamari_1.Optional.none(), tBoom());
+        Assert.throws("none != some(i) #2", () => {
+            KAssert.eqOptional("eq", Optional.none(), Optional.some(i), tBoom());
+        });
+    }));
+    fc.assert(fc.property(fc.integer(), (i) => {
+        Assert.throws("some(i) != none #1", () => {
+            KAssert.eqOptional("eq", Optional.some(i), Optional.none());
+        });
+        Assert.throws("some(i) != none #2", () => {
+            KAssert.eqOptional("eq", Optional.some(i), Optional.none(), tBoom());
         });
     }));
 });

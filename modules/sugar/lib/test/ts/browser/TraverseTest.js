@@ -1,72 +1,70 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-var bedrock_client_1 = require("@ephox/bedrock-client");
-var katamari_1 = require("@ssephox/katamari");
-var katamari_assertions_1 = require("@ssephox/katamari-assertions");
-var InsertAll = require("ssephox/sugar/api/dom/InsertAll");
-var SugarElement_1 = require("ssephox/sugar/api/node/SugarElement");
-var SugarNode = require("ssephox/sugar/api/node/SugarNode");
-var Attribute = require("ssephox/sugar/api/properties/Attribute");
-var Traverse = require("ssephox/sugar/api/search/Traverse");
-bedrock_client_1.UnitTest.test('TraverseTest', function () {
-    var node = function (name) {
-        var div = SugarElement_1.SugarElement.fromTag('div');
+import { Assert, UnitTest } from '@ephox/bedrock-client';
+import { Arr } from '@ssephox/katamari';
+import { KAssert } from '@ssephox/katamari-assertions';
+import * as InsertAll from 'ssephox/sugar/api/dom/InsertAll';
+import { SugarElement } from 'ssephox/sugar/api/node/SugarElement';
+import * as SugarNode from 'ssephox/sugar/api/node/SugarNode';
+import * as Attribute from 'ssephox/sugar/api/properties/Attribute';
+import * as Traverse from 'ssephox/sugar/api/search/Traverse';
+UnitTest.test('TraverseTest', () => {
+    const node = (name) => {
+        const div = SugarElement.fromTag('div');
         Attribute.set(div, 'name', name);
         return div;
     };
-    var textNode = function (text) { return SugarElement_1.SugarElement.fromText(text); };
-    var grandparent = node('grandparent');
-    var uncle = node('uncle');
-    var mother = node('mother');
-    var youngest = node('youngest');
-    var middle = node('middle');
-    var oldest = node('oldest');
+    const textNode = (text) => SugarElement.fromText(text);
+    const grandparent = node('grandparent');
+    const uncle = node('uncle');
+    const mother = node('mother');
+    const youngest = node('youngest');
+    const middle = node('middle');
+    const oldest = node('oldest');
     InsertAll.append(grandparent, [uncle, mother]);
     InsertAll.append(mother, [youngest, middle, oldest]);
-    var checkNone = function (subject) {
-        katamari_assertions_1.KAssert.eqNone(function () { return 'Expected "' + Attribute.get(subject, 'name') + '" not to have a parent.'; }, Traverse.findIndex(subject));
+    const checkNone = (subject) => {
+        KAssert.eqNone(() => 'Expected "' + Attribute.get(subject, 'name') + '" not to have a parent.', Traverse.findIndex(subject));
     };
-    var checkIndex = function (expected, subject) {
-        var actual = Traverse.findIndex(subject);
-        katamari_assertions_1.KAssert.eqSome('eq', expected, actual);
+    const checkIndex = (expected, subject) => {
+        const actual = Traverse.findIndex(subject);
+        KAssert.eqSome('eq', expected, actual);
     };
-    katamari_1.Arr.each([grandparent], checkNone);
+    Arr.each([grandparent], checkNone);
     checkIndex(0, uncle);
     checkIndex(1, mother);
     checkIndex(0, youngest);
     checkIndex(1, middle);
     checkIndex(2, oldest);
-    var checkSiblings = function (expected, subject, direction) {
-        var actual = direction(subject);
-        var getName = function (e) { return SugarNode.isElement(e) ? Attribute.get(e, 'name') : ''; };
-        bedrock_client_1.Assert.eq('eq', katamari_1.Arr.map(expected, getName), katamari_1.Arr.map(actual, getName));
+    const checkSiblings = (expected, subject, direction) => {
+        const actual = direction(subject);
+        const getName = (e) => SugarNode.isElement(e) ? Attribute.get(e, 'name') : '';
+        Assert.eq('eq', Arr.map(expected, getName), Arr.map(actual, getName));
     };
-    var aunt = node('aunt');
-    var c1 = node('c1');
-    var c2 = node('c2');
-    var c3 = node('c3');
-    var c4 = node('c4');
-    var c5 = node('c5');
-    var c6 = node('c6');
+    const aunt = node('aunt');
+    let c1 = node('c1');
+    let c2 = node('c2');
+    const c3 = node('c3');
+    const c4 = node('c4');
+    const c5 = node('c5');
+    const c6 = node('c6');
     InsertAll.append(aunt, [c1, c2, c3, c4, c5, c6]);
     checkSiblings([c1, c2], c3, Traverse.prevSiblings);
     checkSiblings([c4, c5, c6], c3, Traverse.nextSiblings);
     checkSiblings([c1], c2, Traverse.prevSiblings);
     checkSiblings([c6], c5, Traverse.nextSiblings);
-    var el = SugarElement_1.SugarElement.fromTag('div');
-    bedrock_client_1.Assert.eq('eq', true, Traverse.owner(el).dom === document);
-    bedrock_client_1.Assert.eq('eq', true, Traverse.defaultView(el).dom === window);
-    var n = node('n');
+    const el = SugarElement.fromTag('div');
+    Assert.eq('eq', true, Traverse.owner(el).dom === document);
+    Assert.eq('eq', true, Traverse.defaultView(el).dom === window);
+    const n = node('n');
     c1 = node('c1');
     c2 = node('c2');
-    var t1 = textNode('t1');
-    var t2 = textNode('t2');
-    var t3 = textNode('t3');
+    const t1 = textNode('t1');
+    const t2 = textNode('t2');
+    const t3 = textNode('t3');
     InsertAll.append(n, [c1, t1, c2, t2, t3]);
-    bedrock_client_1.Assert.eq('eq', 0, Traverse.childNodesCount(c1));
-    bedrock_client_1.Assert.eq('eq', 0, Traverse.childNodesCount(t1));
-    bedrock_client_1.Assert.eq('eq', 5, Traverse.childNodesCount(n));
-    bedrock_client_1.Assert.eq('eq', false, Traverse.hasChildNodes(t1));
-    bedrock_client_1.Assert.eq('eq', true, Traverse.hasChildNodes(n));
+    Assert.eq('eq', 0, Traverse.childNodesCount(c1));
+    Assert.eq('eq', 0, Traverse.childNodesCount(t1));
+    Assert.eq('eq', 5, Traverse.childNodesCount(n));
+    Assert.eq('eq', false, Traverse.hasChildNodes(t1));
+    Assert.eq('eq', true, Traverse.hasChildNodes(n));
 });
 //# sourceMappingURL=TraverseTest.js.map

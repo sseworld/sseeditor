@@ -1,0 +1,15 @@
+{
+  "extends": "../../tsconfig.shared.json",
+  "compilerOptions": {
+    "outDir": "lib",
+    "rootDir": "src",
+    "baseUrl": ".",
+    "tsBuildInfoFile": "lib/tsconfig.tsbuildinfo",
+    "paths": {
+      "ssephox/boss/test/*": ["src/test/ts/module/ssephox/boss/test/*"],
+      "ssephox/boss/demo/*": ["src/demo/ts/ssephox/boss/demo/*"],
+      "ssephox/boss/*": ["src/main/ts/ssephox/boss/*"]
+    }
+  },
+  "include": ["src/demo/ts", "src/main/ts", "src/test/ts"]
+}

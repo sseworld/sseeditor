@@ -1,15 +1,13 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-var bedrock_client_1 = require("@ephox/bedrock-client");
-var SugarElement_1 = require("ssephox/sugar/api/node/SugarElement");
-var Value = require("ssephox/sugar/api/properties/Value");
-bedrock_client_1.UnitTest.test('ValueTest', function () {
-    var ta = SugarElement_1.SugarElement.fromHtml('<textarea>sometexthere</textarea>');
-    bedrock_client_1.Assert.eq('', 'sometexthere', Value.get(ta));
+import { Assert, UnitTest } from '@ephox/bedrock-client';
+import { SugarElement } from 'ssephox/sugar/api/node/SugarElement';
+import * as Value from 'ssephox/sugar/api/properties/Value';
+UnitTest.test('ValueTest', () => {
+    const ta = SugarElement.fromHtml('<textarea>sometexthere</textarea>');
+    Assert.eq('', 'sometexthere', Value.get(ta));
     Value.set(ta, 'one');
-    bedrock_client_1.Assert.eq('', 'one', ta.dom.value);
-    bedrock_client_1.Assert.eq('', 'one', Value.get(ta));
-    var success = false;
+    Assert.eq('', 'one', ta.dom.value);
+    Assert.eq('', 'one', Value.get(ta));
+    let success = false;
     try {
         Value.set(ta, undefined);
         success = true;
@@ -18,7 +16,7 @@ bedrock_client_1.UnitTest.test('ValueTest', function () {
         // expected
     }
     if (success) {
-        bedrock_client_1.Assert.fail('setting undefined did not fail');
+        Assert.fail('setting undefined did not fail');
     }
 });
 //# sourceMappingURL=ValueTest.js.map

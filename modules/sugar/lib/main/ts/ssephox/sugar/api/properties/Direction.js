@@ -1,13 +1,5 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.getDirection = exports.onDirection = void 0;
-var Css = require("./Css");
-var onDirection = function (isLtr, isRtl) { return function (element) {
-    return getDirection(element) === 'rtl' ? isRtl : isLtr;
-}; };
-exports.onDirection = onDirection;
-var getDirection = function (element) {
-    return Css.get(element, 'direction') === 'rtl' ? 'rtl' : 'ltr';
-};
-exports.getDirection = getDirection;
+import * as Css from './Css';
+const onDirection = (isLtr, isRtl) => (element) => getDirection(element) === 'rtl' ? isRtl : isLtr;
+const getDirection = (element) => Css.get(element, 'direction') === 'rtl' ? 'rtl' : 'ltr';
+export { onDirection, getDirection };
 //# sourceMappingURL=Direction.js.map

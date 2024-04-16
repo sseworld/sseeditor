@@ -1,72 +1,57 @@
-"use strict";
-var __assign = (this && this.__assign) || function () {
-    __assign = Object.assign || function(t) {
-        for (var s, i = 1, n = arguments.length; i < n; i++) {
-            s = arguments[i];
-            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
-                t[p] = s[p];
-        }
-        return t;
-    };
-    return __assign.apply(this, arguments);
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-var bedrock_client_1 = require("@ephox/bedrock-client");
-var katamari_1 = require("@ssephox/katamari");
-var chai_1 = require("chai");
-var Insert = require("ssephox/sugar/api/dom/Insert");
-var InsertAll = require("ssephox/sugar/api/dom/InsertAll");
-var Remove = require("ssephox/sugar/api/dom/Remove");
-var SugarBody = require("ssephox/sugar/api/node/SugarBody");
-var SugarElement_1 = require("ssephox/sugar/api/node/SugarElement");
-var Attribute = require("ssephox/sugar/api/properties/Attribute");
-var Css = require("ssephox/sugar/api/properties/Css");
-var Html = require("ssephox/sugar/api/properties/Html");
-var SelectorFilter = require("ssephox/sugar/api/search/SelectorFilter");
-var RuntimeSize = require("ssephox/sugar/impl/RuntimeSize");
-bedrock_client_1.UnitTest.test('Runtime Size Test', function () {
-    var random = function (min, max) { return Math.round(Math.random() * (max - min) + min); };
-    var getOuterHeight = function (elm) { return Math.round(elm.dom.getBoundingClientRect().height); };
-    var getOuterWidth = function (elm) { return Math.round(elm.dom.getBoundingClientRect().width); };
-    var measureCells = function (getSize, table) {
-        return katamari_1.Arr.map(SelectorFilter.descendants(table, 'td'), getSize);
-    };
-    var measureTable = function (table, getSize) { return ({
+import { UnitTest } from '@ephox/bedrock-client';
+import { Arr, Fun } from '@ssephox/katamari';
+import { assert } from 'chai';
+import * as Insert from 'ssephox/sugar/api/dom/Insert';
+import * as InsertAll from 'ssephox/sugar/api/dom/InsertAll';
+import * as Remove from 'ssephox/sugar/api/dom/Remove';
+import * as SugarBody from 'ssephox/sugar/api/node/SugarBody';
+import { SugarElement } from 'ssephox/sugar/api/node/SugarElement';
+import * as Attribute from 'ssephox/sugar/api/properties/Attribute';
+import * as Css from 'ssephox/sugar/api/properties/Css';
+import * as Html from 'ssephox/sugar/api/properties/Html';
+import * as SelectorFilter from 'ssephox/sugar/api/search/SelectorFilter';
+import * as RuntimeSize from 'ssephox/sugar/impl/RuntimeSize';
+UnitTest.test('Runtime Size Test', () => {
+    const random = (min, max) => Math.round(Math.random() * (max - min) + min);
+    const getOuterHeight = (elm) => Math.round(elm.dom.getBoundingClientRect().height);
+    const getOuterWidth = (elm) => Math.round(elm.dom.getBoundingClientRect().width);
+    const measureCells = (getSize, table) => Arr.map(SelectorFilter.descendants(table, 'td'), getSize);
+    const measureTable = (table, getSize) => ({
         total: getSize(table),
         cells: measureCells(getSize, table)
-    }); };
-    var setHeight = function (table, value) { return Css.set(table, 'height', value); };
-    var setWidth = function (table, value) { return Css.set(table, 'width', value); };
-    var resizeTableBy = function (table, setSize, tableInfo, delta) {
+    });
+    const setHeight = (table, value) => Css.set(table, 'height', value);
+    const setWidth = (table, value) => Css.set(table, 'width', value);
+    const resizeTableBy = (table, setSize, tableInfo, delta) => {
         setSize(table, '');
-        katamari_1.Arr.map(SelectorFilter.descendants(table, 'td'), function (cell, i) {
+        Arr.map(SelectorFilter.descendants(table, 'td'), (cell, i) => {
             setSize(cell, (tableInfo.cells[i] + delta) + 'px');
         });
     };
-    var assertSize = function (s1, table, getOuterSize, message) {
-        var s2 = measureTable(table, getOuterSize);
-        var tableHtml = Html.getOuter(table);
-        chai_1.assert.equal(s1.total, s2.total, "".concat(message, ", expected table size: ").concat(s1.total, ", actual: ").concat(s2.total, ", table: ").concat(tableHtml));
-        katamari_1.Arr.each(s1.cells, function (cz1, i) {
-            var cz2 = s2.cells[i];
-            chai_1.assert.equal(cz1, cz2, "".concat(message, ", expected cell size: ").concat(cz1, ", actual: ").concat(cz2, ", table: ").concat(tableHtml));
+    const assertSize = (s1, table, getOuterSize, message) => {
+        const s2 = measureTable(table, getOuterSize);
+        const tableHtml = Html.getOuter(table);
+        assert.equal(s1.total, s2.total, `${message}, expected table size: ${s1.total}, actual: ${s2.total}, table: ${tableHtml}`);
+        Arr.each(s1.cells, (cz1, i) => {
+            const cz2 = s2.cells[i];
+            assert.equal(cz1, cz2, `${message}, expected cell size: ${cz1}, actual: ${cz2}, table: ${tableHtml}`);
         });
     };
-    var randomValue = function (values) {
-        var idx = random(0, values.length - 1);
+    const randomValue = (values) => {
+        const idx = random(0, values.length - 1);
         return values[idx];
     };
-    var randomSize = function (min, max) {
-        var n = random(min, max);
+    const randomSize = (min, max) => {
+        const n = random(min, max);
         return n > 0 ? n + 'px' : '0';
     };
-    var randomBorder = function (min, max, color) {
-        var n = random(min, max);
+    const randomBorder = (min, max, color) => {
+        const n = random(min, max);
         return n > 0 ? n + 'px solid ' + color : '0';
     };
-    var createTable = function (rows, cols) {
-        var table = SugarElement_1.SugarElement.fromTag('table');
-        var tbody = SugarElement_1.SugarElement.fromTag('tbody');
+    const createTable = (rows, cols) => {
+        const table = SugarElement.fromTag('table');
+        const tbody = SugarElement.fromTag('tbody');
         Attribute.set(table, 'border', '1');
         Attribute.set(table, 'cellpadding', random(0, 10).toString());
         Attribute.set(table, 'cellspacing', random(0, 10).toString());
@@ -79,10 +64,10 @@ bedrock_client_1.UnitTest.test('Runtime Size Test', function () {
             'height': randomSize(100, 1000),
             'width': randomSize(100, 1000)
         });
-        var rowElms = katamari_1.Arr.range(rows, function () {
-            var row = SugarElement_1.SugarElement.fromTag('tr');
-            katamari_1.Arr.range(cols, function () {
-                var cell = SugarElement_1.SugarElement.fromTag('td');
+        const rowElms = Arr.range(rows, () => {
+            const row = SugarElement.fromTag('tr');
+            Arr.range(cols, () => {
+                const cell = SugarElement.fromTag('td');
                 Css.setAll(cell, {
                     'width': randomSize(1, 100),
                     'height': randomSize(1, 100),
@@ -96,7 +81,7 @@ bedrock_client_1.UnitTest.test('Runtime Size Test', function () {
                     'border-bottom': randomBorder(0, 5, 'green'),
                     'border-right': randomBorder(0, 5, 'green')
                 });
-                var content = SugarElement_1.SugarElement.fromTag('div');
+                const content = SugarElement.fromTag('div');
                 Css.setAll(content, {
                     width: '10px',
                     height: randomSize(1, 200)
@@ -111,28 +96,32 @@ bedrock_client_1.UnitTest.test('Runtime Size Test', function () {
         Insert.append(SugarBody.body(), table);
         return table;
     };
-    var resizeModel = function (model, delta, getTotalDelta) {
-        var deltaTotal = getTotalDelta(model, delta);
-        var cells = katamari_1.Arr.map(model.cells, function (cz) { return cz + delta; });
+    const resizeModel = (model, delta, getTotalDelta) => {
+        const deltaTotal = getTotalDelta(model, delta);
+        const cells = Arr.map(model.cells, (cz) => cz + delta);
         return {
             total: model.total + deltaTotal,
-            cells: cells
+            cells
         };
     };
-    var getHeightDelta = function (model, delta) { return model.rows * delta; };
-    var getWidthDelta = function (model, delta) { return model.cols * delta; };
-    var testTableSize = function (createTable, getOuterSize, getSize, setSize, getTotalDelta) { return function () {
-        var rows = random(1, 5);
-        var cols = random(1, 5);
-        var table = createTable(rows, cols);
-        var beforeSize = __assign(__assign({}, measureTable(table, getOuterSize)), { rows: rows, cols: cols });
+    const getHeightDelta = (model, delta) => model.rows * delta;
+    const getWidthDelta = (model, delta) => model.cols * delta;
+    const testTableSize = (createTable, getOuterSize, getSize, setSize, getTotalDelta) => () => {
+        const rows = random(1, 5);
+        const cols = random(1, 5);
+        const table = createTable(rows, cols);
+        const beforeSize = {
+            ...measureTable(table, getOuterSize),
+            rows,
+            cols
+        };
         resizeTableBy(table, setSize, measureTable(table, getSize), 0);
         assertSize(beforeSize, table, getOuterSize, 'Should be unchanged in size');
         resizeTableBy(table, setSize, measureTable(table, getSize), 10);
         assertSize(resizeModel(beforeSize, 10, getTotalDelta), table, getOuterSize, 'Should be changed by 10 size');
         Remove.remove(table);
-    }; };
-    var generateTest = function (generator, n) { return katamari_1.Arr.each(katamari_1.Arr.range(n, katamari_1.Fun.identity), generator); };
+    };
+    const generateTest = (generator, n) => Arr.each(Arr.range(n, Fun.identity), generator);
     generateTest(testTableSize(createTable, getOuterHeight, RuntimeSize.getHeight, setHeight, getHeightDelta), 50);
     generateTest(testTableSize(createTable, getOuterWidth, RuntimeSize.getWidth, setWidth, getWidthDelta), 50);
 });

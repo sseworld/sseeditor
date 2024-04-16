@@ -1,28 +1,21 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.Situ = void 0;
-var katamari_1 = require("@ssephox/katamari");
-var adt = katamari_1.Adt.generate([
+import { Adt, Fun } from '@ssephox/katamari';
+const adt = Adt.generate([
     { before: ['element'] },
     { on: ['element', 'offset'] },
     { after: ['element'] }
 ]);
 // Probably don't need this given that we now have "match"
-var cata = function (subject, onBefore, onOn, onAfter) {
-    return subject.fold(onBefore, onOn, onAfter);
-};
-var getStart = function (situ) {
-    return situ.fold(katamari_1.Fun.identity, katamari_1.Fun.identity, katamari_1.Fun.identity);
-};
-var before = adt.before;
-var on = adt.on;
-var after = adt.after;
+const cata = (subject, onBefore, onOn, onAfter) => subject.fold(onBefore, onOn, onAfter);
+const getStart = (situ) => situ.fold(Fun.identity, Fun.identity, Fun.identity);
+const before = adt.before;
+const on = adt.on;
+const after = adt.after;
 // tslint:disable-next-line:variable-name
-exports.Situ = {
-    before: before,
-    on: on,
-    after: after,
-    cata: cata,
-    getStart: getStart
+export const Situ = {
+    before,
+    on,
+    after,
+    cata,
+    getStart
 };
 //# sourceMappingURL=Situ.js.map

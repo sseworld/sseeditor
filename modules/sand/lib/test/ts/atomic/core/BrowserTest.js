@@ -1,40 +1,35 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-var bedrock_client_1 = require("@ephox/bedrock-client");
-var katamari_1 = require("@ssephox/katamari");
-var chai_1 = require("chai");
-var PlatformDetection_1 = require("ssephox/sand/core/PlatformDetection");
-var PlatformQuery = require("ssephox/sand/test/PlatformQuery");
-(0, bedrock_client_1.describe)("BrowserTest", function () {
-    var check = function (expectedQuery, expectedOs, expectedBrowser, expectedMajor, expectedMinor, userAgent, userAgentData) {
-        var platform = PlatformDetection_1.PlatformDetection.detect(userAgent, katamari_1.Optional.from(userAgentData), katamari_1.Fun.never);
-        chai_1.assert.equal(expectedBrowser, platform.browser.current);
-        chai_1.assert.equal(expectedOs, platform.os.current);
-        var actualBrowserVersion = platform.browser.version;
-        chai_1.assert.equal(expectedMajor, actualBrowserVersion.major);
-        chai_1.assert.equal(expectedMinor, actualBrowserVersion.minor);
-        chai_1.assert.isTrue(PlatformQuery[expectedQuery](platform), "The query ".concat(expectedQuery, " should match.\nUser Agent: ").concat(userAgent, "\nbrowser: ").concat(expectedBrowser));
+import { describe, it } from "@ephox/bedrock-client";
+import { Fun, Optional } from "@ssephox/katamari";
+import { assert } from "chai";
+import { PlatformDetection } from "ssephox/sand/core/PlatformDetection";
+import * as PlatformQuery from "ssephox/sand/test/PlatformQuery";
+describe("BrowserTest", () => {
+    const check = (expectedQuery, expectedOs, expectedBrowser, expectedMajor, expectedMinor, userAgent, userAgentData) => {
+        const platform = PlatformDetection.detect(userAgent, Optional.from(userAgentData), Fun.never);
+        assert.equal(expectedBrowser, platform.browser.current);
+        assert.equal(expectedOs, platform.os.current);
+        const actualBrowserVersion = platform.browser.version;
+        assert.equal(expectedMajor, actualBrowserVersion.major);
+        assert.equal(expectedMinor, actualBrowserVersion.minor);
+        assert.isTrue(PlatformQuery[expectedQuery](platform), `The query ${expectedQuery} should match.\nUser Agent: ${userAgent}\nbrowser: ${expectedBrowser}`);
     };
-    var checkOSVersion = function (expectedMajor, expectedMinor, userAgent, userAgentData) {
-        var platform = PlatformDetection_1.PlatformDetection.detect(userAgent, katamari_1.Optional.from(userAgentData), katamari_1.Fun.never);
-        chai_1.assert.equal(expectedMajor, platform.os.version.major, "Invalid major OS version ".concat(platform.os.version.major, " for agent: ").concat(userAgent));
-        chai_1.assert.equal(expectedMinor, platform.os.version.minor, "Invalid minor OS version ".concat(platform.os.version.minor, " for agent: ").concat(userAgent));
+    const checkOSVersion = (expectedMajor, expectedMinor, userAgent, userAgentData) => {
+        const platform = PlatformDetection.detect(userAgent, Optional.from(userAgentData), Fun.never);
+        assert.equal(expectedMajor, platform.os.version.major, `Invalid major OS version ${platform.os.version.major} for agent: ${userAgent}`);
+        assert.equal(expectedMinor, platform.os.version.minor, `Invalid minor OS version ${platform.os.version.minor} for agent: ${userAgent}`);
     };
-    var mockUserAgentData = function (brands, isMobile) {
-        if (isMobile === void 0) { isMobile = false; }
-        return ({
-            brands: [{ brand: " Not A;Brand", version: "99" }].concat(brands),
-            mobile: isMobile,
-        });
-    };
+    const mockUserAgentData = (brands, isMobile = false) => ({
+        brands: [{ brand: " Not A;Brand", version: "99" }].concat(brands),
+        mobile: isMobile,
+    });
     // These tests are assuming there is no chromeframe activeX object active in the page.
-    (0, bedrock_client_1.it)("Edge", function () {
+    it("Edge", () => {
         check("isEdge", "Windows", "Edge", 12, 0, "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/39.0.2171.71 Safari/537.36 Edge/12.0");
     });
-    (0, bedrock_client_1.it)("IE11", function () {
+    it("IE11", () => {
         check("isIE11", "Windows", "IE", 11, 0, "Mozilla/5.0 (Windows NT 6.3; Trident/7.0; rv:11.0) like Gecko");
     });
-    (0, bedrock_client_1.it)("Other IE versions", function () {
+    it("Other IE versions", () => {
         check("isIE", "Windows", "IE", 10, 0, "Mozilla/5.0 (compatible; MSIE 10.0; Windows NT 6.2; WOW64; Trident/6.0; .NET4.0E; .NET4.0C; InfoPath.3)");
         check("isIE", "Windows", "IE", 9, 0, "Mozilla/5.0 (compatible; MSIE 9.0; Windows NT 6.1; Trident/5.0; SLCC2; .NET CLR 2.0.50727; .NET CLR 3.5.30729; .NET CLR 3.0.30729; Media Center PC 6.0)");
         check("isIE", "Windows", "IE", 8, 0, "Mozilla/4.0 (compatible; MSIE 8.0; Windows NT 6.0; WOW64; Trident/4.0; chromeframe/10.0.648.204; SLCC1; .NET CLR 2.0.50727; InfoPath.2; .NET CLR 1.1.4322; .NET CLR 3.5.21022; .NET CLR 3.5.30729; .NET CLR 3.0.30729)");
@@ -44,7 +39,7 @@ var PlatformQuery = require("ssephox/sand/test/PlatformQuery");
         check("isIE", "Windows", "IE", 6, 0, "Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1; SV1)");
         check("isIE", "Windows", "IE", 6, 0, "Mozilla/4.0 (compatible; MSIE 6.0; chromeframe/10.0.648.204; Windows NT 5.1; SV1)");
     });
-    (0, bedrock_client_1.it)("Firefox", function () {
+    it("Firefox", () => {
         check("isFirefox", "Windows", "Firefox", 3, 6, "Mozilla/5.0 (Windows; U; Windows NT 6.1; en-GB; rv:1.9.2) Gecko/20100115 Firefox/3.6");
         check("isFirefox", "Windows", "Firefox", 3, 5, "Mozilla/5.0 (Windows; U; Windows NT 6.0; en-US; rv:1.9.1.6) Gecko/20091201 Firefox/3.5.6 (.NET CLR 3.5.30729)");
         check("isFirefox", "Windows", "Firefox", 2, 0, "Mozilla/5.0 (Windows; U; Windows NT 5.1; en-GB; rv:1.8.1.20) Gecko/20081217 Firefox/2.0.0.20");
@@ -54,16 +49,16 @@ var PlatformQuery = require("ssephox/sand/test/PlatformQuery");
         // Should fallback to userAgent string if browser cannot be found in userAgentData
         check("isFirefox", "Windows", "Firefox", 3, 6, "Mozilla/5.0 (Windows; U; Windows NT 6.1; en-GB; rv:1.9.2) Gecko/20100115 Firefox/3.6", mockUserAgentData([{ brand: "Firefox", version: "10" }]));
     });
-    (0, bedrock_client_1.it)("Desktop Safari", function () {
+    it("Desktop Safari", () => {
         check("isSafari", "Windows", "Safari", 4, 0, "Mozilla/5.0 (Windows; U; Windows NT 6.0; en-US) AppleWebKit/531.21.8 (KHTML, like Gecko) Version/4.0.4 Safari/531.21.10");
         check("isSafari", "Windows", "Safari", 3, 2, "Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US) AppleWebKit/525.28 (KHTML, like Gecko) Version/3.2.2 Safari/525.28.1");
         check("isSafari", "macOS", "Safari", 5, 0, "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10_6_4; en-au) AppleWebKit/533.17.8 (KHTML, like Gecko) Version/5.0.1 Safari/533.17.8");
     });
-    (0, bedrock_client_1.it)("Opera", function () {
+    it("Opera", () => {
         check("isOpera", "Windows", "Opera", 10, 50, "Opera/9.80 (Windows NT 6.1; U; en) Presto/2.5.22 Version/10.50");
         check("isOpera", "Windows", "Opera", 9, 63, "Opera/9.63 (Windows NT 5.1; U; en) Presto/2.1.1");
     });
-    (0, bedrock_client_1.it)("Chrome", function () {
+    it("Chrome", () => {
         check("isChromium", "Windows", "Chromium", 3, 0, "Mozilla/5.0 (Windows; U; Windows NT 6.0; en-US) AppleWebKit/532.0 (KHTML, like Gecko) Chrome/3.0.195.38 Safari/532.0");
         check("isChromium", "Windows", "Chromium", 4, 0, "Mozilla/5.0 (Windows; U; Windows NT 6.0; en-US) AppleWebKit/532.0 (KHTML, like Gecko) Chrome/4.0.195.38 Safari/532.0");
         check("isChromium", "Windows", "Chromium", 5, 0, "Mozilla/5.0 (Windows; U; Windows NT 6.0; en-US) AppleWebKit/533.4 (KHTML, like Gecko) Chrome/5.0.375.127 Safari/533.4");
@@ -73,12 +68,12 @@ var PlatformQuery = require("ssephox/sand/test/PlatformQuery");
         // Should use browser info from userAgentData if available
         check("isChromium", "Windows", "Chromium", 10, 0, "Mozilla/5.0 (Windows; U; Windows NT 6.0; en-US) AppleWebKit/534.3 (KHTML, like Gecko) Chrome/6.0.472.53 Safari/534.3", mockUserAgentData([{ brand: "Chromium", version: "10" }]));
     });
-    (0, bedrock_client_1.it)("Chromium Edge", function () {
+    it("Chromium Edge", () => {
         check("isChromium", "Windows", "Chromium", 92, 0, "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/92.0.4515.131 Safari/537.36 Edg/92.0.902.73");
         // Should use browser info from userAgentData if available
         check("isChromium", "Windows", "Chromium", 93, 0, "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/92.0.4515.131 Safari/537.36 Edg/92.0.902.73", mockUserAgentData([{ brand: "Chromium", version: "93" }]));
     });
-    (0, bedrock_client_1.it)("Mobile Browsers", function () {
+    it("Mobile Browsers", () => {
         check("isSafari", "iOS", "Safari", 3, 0, "Mozilla/5.0 (iPhone; U; CPU like Mac OS X; en) AppleWebKit/420+ (KHTML, like Gecko) Version/3.0 Mobile/1A537a Safari/419.3");
         check("isSafari", "iOS", "Safari", 9, 3, "Mozilla/5.0 (iPad; CPU OS 9_3 like Mac OS X) AppleWebKit/601.1.46 (KHTML, like Gecko) Mobile/13E230");
         check("isSafari", "iOS", "Safari", 13, 0, "Mozilla/5.0 (iPhone; CPU iPhone OS 13_2 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/13.0.1 Mobile/15E148 Safari/604.1");
@@ -87,7 +82,7 @@ var PlatformQuery = require("ssephox/sand/test/PlatformQuery");
         check("isChromium", "Android", "Chromium", 18, 0, "Mozilla/5.0 (Linux; Android 4.2.2; Nexus 7 Build/JDQ39) AppleWebKit/535.19 (KHTML, like Gecko) Chrome/18.0.1025.166  Safari/535.19");
         check("isChromium", "ChromeOS", "Chromium", 78, 0, "Mozilla/5.0 (X11; CrOS x86_64 12499.66.0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/78.0.3904.106 Safari/537.36");
     });
-    (0, bedrock_client_1.it)("OS versions", function () {
+    it("OS versions", () => {
         checkOSVersion(4, 2, "Mozilla/5.0 (Linux; Android 4.2.2; Nexus 7 Build/JDQ39) AppleWebKit/535.19 (KHTML, like Gecko) Chrome/18.0.1025.166  Safari/535.19");
         checkOSVersion(6, 0, "Mozilla/5.0 (iPad; CPU OS 6_0 like Mac OS X) AppleWebKit/536.26 (KHTML, like Gecko) Version/6.0 Mobile/10A5355d Safari/8536.25");
         checkOSVersion(3, 0, "Mozilla/5.0 (iPhone; U; CPU like Mac OS X; en) AppleWebKit/420+ (KHTML, like Gecko) Version/3.0 Mobile/1A537a Safari/419.3");

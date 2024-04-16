@@ -1,28 +1,26 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-var bedrock_client_1 = require("@ephox/bedrock-client");
-var katamari_1 = require("@ssephox/katamari");
-var InsertAll = require("ssephox/sugar/api/dom/InsertAll");
-var Remove = require("ssephox/sugar/api/dom/Remove");
-var SugarBody = require("ssephox/sugar/api/node/SugarBody");
-var SugarElement_1 = require("ssephox/sugar/api/node/SugarElement");
-var SugarNode = require("ssephox/sugar/api/node/SugarNode");
-var Html = require("ssephox/sugar/api/properties/Html");
-var SimSelection_1 = require("ssephox/sugar/api/selection/SimSelection");
-var WindowSelection = require("ssephox/sugar/api/selection/WindowSelection");
-bedrock_client_1.UnitTest.test('Browser Test: SelectionTest', function () {
-    var p1 = SugarElement_1.SugarElement.fromHtml('<p>This is the <strong>first</strong> paragraph</p>');
-    var p2 = SugarElement_1.SugarElement.fromHtml('<p>This is the <em>second</em> paragraph</p>');
+import { Assert, UnitTest } from '@ephox/bedrock-client';
+import { Arr, Obj } from '@ssephox/katamari';
+import * as InsertAll from 'ssephox/sugar/api/dom/InsertAll';
+import * as Remove from 'ssephox/sugar/api/dom/Remove';
+import * as SugarBody from 'ssephox/sugar/api/node/SugarBody';
+import { SugarElement } from 'ssephox/sugar/api/node/SugarElement';
+import * as SugarNode from 'ssephox/sugar/api/node/SugarNode';
+import * as Html from 'ssephox/sugar/api/properties/Html';
+import { SimSelection } from 'ssephox/sugar/api/selection/SimSelection';
+import * as WindowSelection from 'ssephox/sugar/api/selection/WindowSelection';
+UnitTest.test('Browser Test: SelectionTest', () => {
+    const p1 = SugarElement.fromHtml('<p>This is the <strong>first</strong> paragraph</p>');
+    const p2 = SugarElement.fromHtml('<p>This is the <em>second</em> paragraph</p>');
     InsertAll.append(SugarBody.body(), [p1, p2]);
-    var assertWithin = function (expected, outer) {
+    const assertWithin = (expected, outer) => {
         WindowSelection.setToElement(window, outer);
-        WindowSelection.getExact(window).fold(function () {
-            bedrock_client_1.Assert.fail('Selection should be wrapping: ' + Html.getOuter(outer));
-        }, function (sel) {
-            katamari_1.Obj.each(expected, function (num, tag) {
-                var actual = WindowSelection.findWithin(window, SimSelection_1.SimSelection.exact(sel.start, sel.soffset, sel.finish, sel.foffset), tag);
-                bedrock_client_1.Assert.eq('Incorrect number of ' + tag + ' tags.\n' + 'Expected: ' + num + ', but was: ' + actual.length, num, actual.length);
-                bedrock_client_1.Assert.eq('All tags must be: ' + tag, true, katamari_1.Arr.forall(actual, function (a) { return SugarNode.name(a) === tag; }));
+        WindowSelection.getExact(window).fold(() => {
+            Assert.fail('Selection should be wrapping: ' + Html.getOuter(outer));
+        }, (sel) => {
+            Obj.each(expected, (num, tag) => {
+                const actual = WindowSelection.findWithin(window, SimSelection.exact(sel.start, sel.soffset, sel.finish, sel.foffset), tag);
+                Assert.eq('Incorrect number of ' + tag + ' tags.\n' + 'Expected: ' + num + ', but was: ' + actual.length, num, actual.length);
+                Assert.eq('All tags must be: ' + tag, true, Arr.forall(actual, (a) => SugarNode.name(a) === tag));
             });
         });
     };

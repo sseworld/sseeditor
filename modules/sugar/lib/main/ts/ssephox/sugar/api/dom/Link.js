@@ -1,17 +1,14 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.addStylesheet = void 0;
-var SugarElement_1 = require("../node/SugarElement");
-var SugarHead = require("../node/SugarHead");
-var Attribute = require("../properties/Attribute");
-var Insert = require("./Insert");
-var addToHead = function (doc, tag) {
-    var head = SugarHead.getHead(doc);
+import { SugarElement } from '../node/SugarElement';
+import * as SugarHead from '../node/SugarHead';
+import * as Attribute from '../properties/Attribute';
+import * as Insert from './Insert';
+const addToHead = (doc, tag) => {
+    const head = SugarHead.getHead(doc);
     Insert.append(head, tag);
 };
-var addStylesheet = function (url, scope) {
-    var doc = scope || SugarElement_1.SugarElement.fromDom(document);
-    var link = SugarElement_1.SugarElement.fromTag('link', doc.dom); // We really need to fix that SugarElement API
+const addStylesheet = (url, scope) => {
+    const doc = scope || SugarElement.fromDom(document);
+    const link = SugarElement.fromTag('link', doc.dom); // We really need to fix that SugarElement API
     Attribute.setAll(link, {
         rel: 'stylesheet',
         type: 'text/css',
@@ -20,5 +17,5 @@ var addStylesheet = function (url, scope) {
     addToHead(doc, link);
     return link;
 };
-exports.addStylesheet = addStylesheet;
+export { addStylesheet };
 //# sourceMappingURL=Link.js.map

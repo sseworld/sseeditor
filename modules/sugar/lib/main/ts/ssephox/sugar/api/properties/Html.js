@@ -1,32 +1,25 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.getOuter = exports.set = exports.get = void 0;
-var Insert = require("../dom/Insert");
-var InsertAll = require("../dom/InsertAll");
-var Remove = require("../dom/Remove");
-var SugarElement_1 = require("../node/SugarElement");
-var SugarElements = require("../node/SugarElements");
-var Traverse = require("../search/Traverse");
-var get = function (element) {
-    return element.dom.innerHTML;
-};
-exports.get = get;
-var set = function (element, content) {
-    var owner = Traverse.owner(element);
-    var docDom = owner.dom;
+import * as Insert from '../dom/Insert';
+import * as InsertAll from '../dom/InsertAll';
+import * as Remove from '../dom/Remove';
+import { SugarElement } from '../node/SugarElement';
+import * as SugarElements from '../node/SugarElements';
+import * as Traverse from '../search/Traverse';
+const get = (element) => element.dom.innerHTML;
+const set = (element, content) => {
+    const owner = Traverse.owner(element);
+    const docDom = owner.dom;
     // FireFox has *terrible* performance when using innerHTML = x
-    var fragment = SugarElement_1.SugarElement.fromDom(docDom.createDocumentFragment());
-    var contentElements = SugarElements.fromHtml(content, docDom);
+    const fragment = SugarElement.fromDom(docDom.createDocumentFragment());
+    const contentElements = SugarElements.fromHtml(content, docDom);
     InsertAll.append(fragment, contentElements);
     Remove.empty(element);
     Insert.append(element, fragment);
 };
-exports.set = set;
-var getOuter = function (element) {
-    var container = SugarElement_1.SugarElement.fromTag('div');
-    var clone = SugarElement_1.SugarElement.fromDom(element.dom.cloneNode(true));
+const getOuter = (element) => {
+    const container = SugarElement.fromTag('div');
+    const clone = SugarElement.fromDom(element.dom.cloneNode(true));
     Insert.append(container, clone);
     return get(container);
 };
-exports.getOuter = getOuter;
+export { get, set, getOuter };
 //# sourceMappingURL=Html.js.map

@@ -1,0 +1,31 @@
+import { SugarElement } from '@ssephox/sugar';
+declare const _default: () => {
+    connect: (element: SugarElement) => void;
+    d100: SugarElement<HTMLElement>;
+    p100: SugarElement<HTMLElement>;
+    t100: SugarElement<Text>;
+    p200: SugarElement<HTMLElement>;
+    t200: SugarElement<Text>;
+    t220: SugarElement<Text>;
+    t250: SugarElement<Text>;
+    t260: SugarElement<Text>;
+    t270: SugarElement<Text>;
+    t280: SugarElement<Text>;
+    s100: SugarElement<HTMLElement>;
+    t300: SugarElement<Text>;
+    s200: SugarElement<HTMLElement>;
+    t400: SugarElement<Text>;
+    s300: SugarElement<HTMLElement>;
+    t500: SugarElement<Text>;
+    p300: SugarElement<HTMLElement>;
+    t600: SugarElement<Text>;
+    d200: SugarElement<HTMLElement>;
+    t700: SugarElement<Text>;
+    p400: SugarElement<HTMLElement>;
+    t800: SugarElement<Text>;
+    s400: SugarElement<HTMLElement>;
+    t900: SugarElement<Text>;
+    t1000: SugarElement<Text>;
+};
+export default _default;
+//# sourceMappingURL=BasicPage.d.ts.map

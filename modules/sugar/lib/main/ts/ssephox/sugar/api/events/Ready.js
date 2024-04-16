@@ -1,10 +1,7 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.image = exports.document = void 0;
-var katamari_1 = require("@ssephox/katamari");
-var SugarElement_1 = require("../node/SugarElement");
-var DomEvent = require("./DomEvent");
-var documentReady = function (f) {
+import { Arr } from '@ssephox/katamari';
+import { SugarElement } from '../node/SugarElement';
+import * as DomEvent from './DomEvent';
+const documentReady = (f) => {
     /*
      * We only use this in one place, so creating one listener per ready request is more optimal than managing
      * a single event with a queue of functions.
@@ -24,29 +21,28 @@ var documentReady = function (f) {
     else {
         // Note that this fires when DOM manipulation is allowed, but before all resources are
         // available. This is the best practice but might be a bit weird.
-        var listener_1 = DomEvent.bind(SugarElement_1.SugarElement.fromDom(document), 'DOMContentLoaded', function () {
+        const listener = DomEvent.bind(SugarElement.fromDom(document), 'DOMContentLoaded', () => {
             f();
-            listener_1.unbind();
+            listener.unbind();
         });
     }
 };
-exports.document = documentReady;
-var image = function (image) { return new Promise(function (resolve, reject) {
-    var loaded = function () {
+const image = (image) => new Promise((resolve, reject) => {
+    const loaded = () => {
         destroy();
         resolve(image);
     };
-    var listeners = [
+    const listeners = [
         DomEvent.bind(image, 'load', loaded),
-        DomEvent.bind(image, 'error', function () {
+        DomEvent.bind(image, 'error', () => {
             destroy();
             reject('Unable to load data from image: ' + image.dom.src);
         }),
     ];
-    var destroy = function () { return katamari_1.Arr.each(listeners, function (l) { return l.unbind(); }); };
+    const destroy = () => Arr.each(listeners, (l) => l.unbind());
     if (image.dom.complete) {
         loaded();
     }
-}); };
-exports.image = image;
+});
+export { documentReady as document, image };
 //# sourceMappingURL=Ready.js.map

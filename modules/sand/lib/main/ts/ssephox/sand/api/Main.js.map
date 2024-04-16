@@ -1,1 +1,1 @@
-{"version":3,"file":"Main.js","sourceRoot":"","sources":["../../../../../../src/main/ts/ssephox/sand/api/Main.ts"],"names":[],"mappings":";;;AAAA,uDAAyD;AAIrB,8CAAiB;AAHrD,mDAAqD;AAG5C,0CAAe;AAFxB,qCAAuC;AAEb,4BAAQ"}
+{"version":3,"file":"Main.js","sourceRoot":"","sources":["../../../../../../src/main/ts/ssephox/sand/api/Main.ts"],"names":[],"mappings":"AAAA,OAAO,KAAK,iBAAiB,MAAM,qBAAqB,CAAC;AACzD,OAAO,KAAK,eAAe,MAAM,mBAAmB,CAAC;AACrD,OAAO,KAAK,QAAQ,MAAM,YAAY,CAAC;AAEvC,OAAO,EAAE,eAAe,EAAE,QAAQ,EAAE,iBAAiB,EAAE,CAAC"}

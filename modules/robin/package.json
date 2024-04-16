@@ -1,0 +1,48 @@
+{
+  "name": "@ssephox/robin",
+  "version": "1.0.0",
+  "description": "This project is for grouping sibling DOM nodes together by boundary points, for example the list of elements and nodes representing a word.",
+  "author": "SSE World",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/sseworld/sseeditor.git",
+    "directory": "modules/robin"
+  },
+  "files": [
+    "lib/main",
+    "lib/demo",
+    "lib/test",
+    "src",
+    "tsconfig.json",
+    "README.md",
+    "LEGAL.txt",
+    "CHANGELOG.txt",
+    "LICENSE.txt"
+  ],
+  "main": "./lib/main/ts/ssephox/robin/api/Main.js",
+  "module": "./lib/main/ts/ssephox/robin/api/Main.js",
+  "types": "./lib/main/ts/ssephox/robin/api/Main.d.ts",
+  "scripts": {
+    "test": "bedrock-auto -b chrome-headless -d src/test",
+    "test-manual": "bedrock -d src/test",
+    "lint": "eslint --config ../../.eslintrc.json --max-warnings=0 src/**/*.ts",
+    "prepublishOnly": "tsc -b",
+    "build": "tsc"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@ssephox/boss": "^1.0.0",
+    "@ssephox/katamari": "^1.0.2",
+    "@ssephox/phoenix": "^1.0.1",
+    "@ssephox/polaris": "^1.0.0",
+    "@ssephox/sugar": "^1.0.2"
+  },
+  "devDependencies": {
+    "@ssephox/agar": "^1.0.0",
+    "@ssephox/katamari-assertions": "^1.0.4",
+    "typescript": "^5.4.5"
+  }
+}

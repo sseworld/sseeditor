@@ -1,26 +1,23 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.unbind = exports.bind = void 0;
-var katamari_1 = require("@ssephox/katamari");
-var Monitors = require("../../impl/Monitors");
-var Compare = require("../dom/Compare");
-var SugarElement_1 = require("../node/SugarElement");
-var Height = require("../view/Height");
-var Visibility = require("../view/Visibility");
-var Width = require("../view/Width");
-var DomEvent = require("./DomEvent");
-var Viewable = require("./Viewable");
-var elem = function (element) { return ({
-    element: element,
+import { Arr, Fun, Optional } from '@ssephox/katamari';
+import * as Monitors from '../../impl/Monitors';
+import * as Compare from '../dom/Compare';
+import { SugarElement } from '../node/SugarElement';
+import * as Height from '../view/Height';
+import * as Visibility from '../view/Visibility';
+import * as Width from '../view/Width';
+import * as DomEvent from './DomEvent';
+import * as Viewable from './Viewable';
+const elem = (element) => ({
+    element,
     handlers: [],
     lastWidth: Width.get(element),
     lastHeight: Height.get(element)
-}); };
-var elems = [];
-var findElem = function (element) { return katamari_1.Arr.findIndex(elems, function (el) { return Compare.eq(el.element, element); }).getOr(-1); };
-var bind = function (element, handler) {
-    var el = katamari_1.Arr.find(elems, function (elm) { return Compare.eq(elm.element, element); }).getOrThunk(function () {
-        var newEl = elem(element);
+});
+const elems = [];
+const findElem = (element) => Arr.findIndex(elems, (el) => Compare.eq(el.element, element)).getOr(-1);
+const bind = (element, handler) => {
+    const el = Arr.find(elems, (elm) => Compare.eq(elm.element, element)).getOrThunk(() => {
+        const newEl = elem(element);
         elems.push(newEl);
         return newEl;
     });
@@ -31,22 +28,21 @@ var bind = function (element, handler) {
     // Fire an update event for this element on every bind call.
     // This is really handy if the element is currently hidden, the resize event
     // will fire as soon as it becomes visible.
-    setTimeout(function () {
+    setTimeout(() => {
         // Ensure we don't attempt to update something that is unbound in the 100ms since the bind call
         if (findElem(el.element) !== -1) {
             update(el);
         }
     }, 100);
 };
-exports.bind = bind;
-var unbind = function (element, handler) {
+const unbind = (element, handler) => {
     // remove any monitors on this element
     Monitors.end(element);
-    var index = findElem(element);
+    const index = findElem(element);
     if (index === -1) {
         return;
     }
-    var handlerIndex = katamari_1.Arr.indexOf(elems[index].handlers, handler);
+    const handlerIndex = Arr.indexOf(elems[index].handlers, handler);
     if (handlerIndex.isNone()) {
         return;
     }
@@ -58,55 +54,54 @@ var unbind = function (element, handler) {
         stop();
     }
 };
-exports.unbind = unbind;
-var visibleUpdate = function (el) {
-    var w = Width.get(el.element);
-    var h = Height.get(el.element);
+const visibleUpdate = (el) => {
+    const w = Width.get(el.element);
+    const h = Height.get(el.element);
     if (w !== el.lastWidth || h !== el.lastHeight) {
         el.lastWidth = w;
         el.lastHeight = h;
-        katamari_1.Arr.each(el.handlers, katamari_1.Fun.apply);
+        Arr.each(el.handlers, Fun.apply);
     }
 };
-var update = function (el) {
-    var element = el.element;
+const update = (el) => {
+    const element = el.element;
     // if already visible, run the update
     if (Visibility.isVisible(element)) {
         visibleUpdate(el);
     }
     else {
-        Monitors.begin(element, function () {
-            // the monitor is "wait for viewable"
-            return Viewable.onShow(element, function () {
-                Monitors.end(element);
-                visibleUpdate(el);
-            });
-        });
+        Monitors.begin(element, () => 
+        // the monitor is "wait for viewable"
+        Viewable.onShow(element, () => {
+            Monitors.end(element);
+            visibleUpdate(el);
+        }));
     }
 };
 // Don't use peanut Throttler, requestAnimationFrame is much much better than setTimeout for resize/scroll events:
 // http://www.html5rocks.com/en/tutorials/speed/animations/
-var throttle = false;
-var runHandler = function () {
+let throttle = false;
+const runHandler = () => {
     throttle = false;
     // cancelAnimationFrame isn't stable yet, so we can't pass events to the callback (they would be out of date)
-    katamari_1.Arr.each(elems, update);
+    Arr.each(elems, update);
 };
-var listener = function () {
+const listener = () => {
     // cancelAnimationFrame isn't stable yet, so we just ignore all subsequent events until the next animation frame
     if (!throttle) {
         throttle = true;
         window.requestAnimationFrame(runHandler);
     }
 };
-var interval = katamari_1.Optional.none();
-var start = function () {
-    interval = katamari_1.Optional.some(DomEvent.bind(SugarElement_1.SugarElement.fromDom(window), 'resize', listener));
+let interval = Optional.none();
+const start = () => {
+    interval = Optional.some(DomEvent.bind(SugarElement.fromDom(window), 'resize', listener));
 };
-var stop = function () {
-    interval.each(function (f) {
+const stop = () => {
+    interval.each((f) => {
         f.unbind();
-        interval = katamari_1.Optional.none();
+        interval = Optional.none();
     });
 };
+export { bind, unbind };
 //# sourceMappingURL=Resize.js.map

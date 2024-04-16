@@ -1,19 +1,17 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-var bedrock_client_1 = require("@ephox/bedrock-client");
-var katamari_1 = require("@ssephox/katamari");
-var katamari_assertions_1 = require("@ssephox/katamari-assertions");
-var Hierarchy = require("ssephox/sugar/api/dom/Hierarchy");
-var Insert = require("ssephox/sugar/api/dom/Insert");
-var Remove = require("ssephox/sugar/api/dom/Remove");
-var SugarBody = require("ssephox/sugar/api/node/SugarBody");
-var SugarElement_1 = require("ssephox/sugar/api/node/SugarElement");
-var SugarNode = require("ssephox/sugar/api/node/SugarNode");
-var Attribute = require("ssephox/sugar/api/properties/Attribute");
-var Html = require("ssephox/sugar/api/properties/Html");
-var ElementAddress = require("ssephox/sugar/api/search/ElementAddress");
-bedrock_client_1.UnitTest.test('ElementAddressTest', function () {
-    var page = SugarElement_1.SugarElement.fromHtml('<div>' +
+import { Assert, UnitTest } from '@ephox/bedrock-client';
+import { Arr } from '@ssephox/katamari';
+import { KAssert } from '@ssephox/katamari-assertions';
+import * as Hierarchy from 'ssephox/sugar/api/dom/Hierarchy';
+import * as Insert from 'ssephox/sugar/api/dom/Insert';
+import * as Remove from 'ssephox/sugar/api/dom/Remove';
+import * as SugarBody from 'ssephox/sugar/api/node/SugarBody';
+import { SugarElement } from 'ssephox/sugar/api/node/SugarElement';
+import * as SugarNode from 'ssephox/sugar/api/node/SugarNode';
+import * as Attribute from 'ssephox/sugar/api/properties/Attribute';
+import * as Html from 'ssephox/sugar/api/properties/Html';
+import * as ElementAddress from 'ssephox/sugar/api/search/ElementAddress';
+UnitTest.test('ElementAddressTest', () => {
+    const page = SugarElement.fromHtml('<div>' +
         '<p id="p1">This is a paragraph <span id="s1">word</span> and another <span id="s2">word</span> and another <span id="s3">word</span> and more</p>' +
         '<table>' +
         '<thead>' +
@@ -48,12 +46,12 @@ bedrock_client_1.UnitTest.test('ElementAddressTest', function () {
         '<p id="p2">Another paragraph</p>' +
         '</div>');
     Insert.append(SugarBody.body(), page);
-    var checkChild = function (expected, path) {
-        var element = Hierarchy.follow(page, path).getOrDie('Could not find path: ' + path.join(','));
-        var actual = ElementAddress.childOf(element, page).getOrDie('Expected to find in line to ancestor');
-        bedrock_client_1.Assert.eq('eq', expected, toStr(actual));
+    const checkChild = (expected, path) => {
+        const element = Hierarchy.follow(page, path).getOrDie('Could not find path: ' + path.join(','));
+        const actual = ElementAddress.childOf(element, page).getOrDie('Expected to find in line to ancestor');
+        Assert.eq('eq', expected, toStr(actual));
     };
-    var toStr = function (element) {
+    const toStr = (element) => {
         if (SugarNode.isElement(element) && Attribute.has(element, 'id')) {
             return SugarNode.name(element) + '#' + Attribute.get(element, 'id');
         }
@@ -74,26 +72,26 @@ bedrock_client_1.UnitTest.test('ElementAddressTest', function () {
     checkChild('p#p1', [0]);
     // page > p > span > word
     checkChild('p#p1', [0, 1, 0]);
-    var checkInParentOfSelector = function (expected, startPath, selector) {
-        var element = Hierarchy.follow(page, startPath).getOrDie('Could not find: ' + startPath);
-        var actual = ElementAddress.selectorsInParent(element, selector).getOrDie('None for inParent');
-        bedrock_client_1.Assert.eq('eq', expected.parent, toStr(actual.parent));
-        bedrock_client_1.Assert.eq('eq', expected.children, katamari_1.Arr.map(actual.children, toStr));
-        bedrock_client_1.Assert.eq('eq', expected.element, toStr(actual.element));
-        bedrock_client_1.Assert.eq('eq', expected.index, actual.index);
+    const checkInParentOfSelector = (expected, startPath, selector) => {
+        const element = Hierarchy.follow(page, startPath).getOrDie('Could not find: ' + startPath);
+        const actual = ElementAddress.selectorsInParent(element, selector).getOrDie('None for inParent');
+        Assert.eq('eq', expected.parent, toStr(actual.parent));
+        Assert.eq('eq', expected.children, Arr.map(actual.children, toStr));
+        Assert.eq('eq', expected.element, toStr(actual.element));
+        Assert.eq('eq', expected.index, actual.index);
     };
-    var checkInParentOfAny = function (expected, startPath) {
-        var element = Hierarchy.follow(page, startPath).getOrDie('Could not find: ' + startPath);
-        var actual = ElementAddress.indexInParent(element).getOrDie('None for inParent');
-        bedrock_client_1.Assert.eq('eq', expected.parent, toStr(actual.parent));
-        bedrock_client_1.Assert.eq('eq', expected.children, katamari_1.Arr.map(actual.children, toStr));
-        bedrock_client_1.Assert.eq('eq', expected.element, toStr(actual.element));
-        bedrock_client_1.Assert.eq('eq', expected.index, actual.index);
+    const checkInParentOfAny = (expected, startPath) => {
+        const element = Hierarchy.follow(page, startPath).getOrDie('Could not find: ' + startPath);
+        const actual = ElementAddress.indexInParent(element).getOrDie('None for inParent');
+        Assert.eq('eq', expected.parent, toStr(actual.parent));
+        Assert.eq('eq', expected.children, Arr.map(actual.children, toStr));
+        Assert.eq('eq', expected.element, toStr(actual.element));
+        Assert.eq('eq', expected.index, actual.index);
     };
-    var checkNoneInParentOfSelector = function (startPath, ancestorSelector) {
-        var element = Hierarchy.follow(page, startPath).getOrDie('Could not find: ' + startPath);
-        var actual = ElementAddress.selectorsInParent(element, ancestorSelector);
-        katamari_assertions_1.KAssert.eqNone('should be none', actual);
+    const checkNoneInParentOfSelector = (startPath, ancestorSelector) => {
+        const element = Hierarchy.follow(page, startPath).getOrDie('Could not find: ' + startPath);
+        const actual = ElementAddress.selectorsInParent(element, ancestorSelector);
+        KAssert.eqNone('should be none', actual);
     };
     checkInParentOfSelector({
         parent: 'p#p1',
@@ -120,18 +118,18 @@ bedrock_client_1.UnitTest.test('ElementAddressTest', function () {
         element: 'span#s2',
         index: 3
     }, [0, 3]);
-    var checkInAncestorOfSelector = function (expected, startPath, ancestorSelector, descendantSelector) {
-        var element = Hierarchy.follow(page, startPath).getOrDie('Could not find: ' + startPath);
-        var actual = ElementAddress.descendantsInAncestor(element, ancestorSelector, descendantSelector).getOrDie('None for inAncestor');
-        bedrock_client_1.Assert.eq('eq', expected.ancestor, toStr(actual.ancestor));
-        bedrock_client_1.Assert.eq('eq', expected.descendants, katamari_1.Arr.map(actual.descendants, toStr));
-        bedrock_client_1.Assert.eq('eq', expected.element, toStr(actual.element));
-        bedrock_client_1.Assert.eq('eq', expected.index, actual.index);
+    const checkInAncestorOfSelector = (expected, startPath, ancestorSelector, descendantSelector) => {
+        const element = Hierarchy.follow(page, startPath).getOrDie('Could not find: ' + startPath);
+        const actual = ElementAddress.descendantsInAncestor(element, ancestorSelector, descendantSelector).getOrDie('None for inAncestor');
+        Assert.eq('eq', expected.ancestor, toStr(actual.ancestor));
+        Assert.eq('eq', expected.descendants, Arr.map(actual.descendants, toStr));
+        Assert.eq('eq', expected.element, toStr(actual.element));
+        Assert.eq('eq', expected.index, actual.index);
     };
-    var checkNoneInAncestorOfSelector = function (startPath, ancestorSelector, descendantSelector) {
-        var element = Hierarchy.follow(page, startPath).getOrDie('Could not find: ' + startPath);
-        var actual = ElementAddress.descendantsInAncestor(element, ancestorSelector, descendantSelector);
-        katamari_assertions_1.KAssert.eqNone('should be none', actual);
+    const checkNoneInAncestorOfSelector = (startPath, ancestorSelector, descendantSelector) => {
+        const element = Hierarchy.follow(page, startPath).getOrDie('Could not find: ' + startPath);
+        const actual = ElementAddress.descendantsInAncestor(element, ancestorSelector, descendantSelector);
+        KAssert.eqNone('should be none', actual);
     };
     checkInAncestorOfSelector({
         ancestor: 'table',
@@ -152,16 +150,16 @@ bedrock_client_1.UnitTest.test('ElementAddressTest', function () {
         index: 2
     }, [1, 0, 0, 2], 'thead', 'th');
     checkNoneInAncestorOfSelector([1, 1, 0, 2], 'thead', 'th');
-    (function () {
-        var alpha = SugarElement_1.SugarElement.fromTag('div');
-        var beta = SugarElement_1.SugarElement.fromTag('div');
-        var gamma = SugarElement_1.SugarElement.fromTag('div');
-        katamari_assertions_1.KAssert.eqNone('Expected nothing in list.', ElementAddress.indexOf([], alpha));
-        katamari_assertions_1.KAssert.eqSome('alpha indexOf([alpha]) = 0', 0, ElementAddress.indexOf([alpha], alpha));
-        katamari_assertions_1.KAssert.eqNone('Alpha not in list [beta]', ElementAddress.indexOf([beta], alpha));
-        katamari_assertions_1.KAssert.eqSome('beta indexOf([alpha,beta]) = 1', 1, ElementAddress.indexOf([alpha, beta], beta));
-        katamari_assertions_1.KAssert.eqSome('gamma indexOf([alpha,beta,gamma]) = 1', 2, ElementAddress.indexOf([alpha, beta, gamma], gamma));
-        katamari_assertions_1.KAssert.eqSome('beta indexOf([alpha,beta,gamma]) = 1', 1, ElementAddress.indexOf([alpha, beta, gamma], beta));
+    (() => {
+        const alpha = SugarElement.fromTag('div');
+        const beta = SugarElement.fromTag('div');
+        const gamma = SugarElement.fromTag('div');
+        KAssert.eqNone('Expected nothing in list.', ElementAddress.indexOf([], alpha));
+        KAssert.eqSome('alpha indexOf([alpha]) = 0', 0, ElementAddress.indexOf([alpha], alpha));
+        KAssert.eqNone('Alpha not in list [beta]', ElementAddress.indexOf([beta], alpha));
+        KAssert.eqSome('beta indexOf([alpha,beta]) = 1', 1, ElementAddress.indexOf([alpha, beta], beta));
+        KAssert.eqSome('gamma indexOf([alpha,beta,gamma]) = 1', 2, ElementAddress.indexOf([alpha, beta, gamma], gamma));
+        KAssert.eqSome('beta indexOf([alpha,beta,gamma]) = 1', 1, ElementAddress.indexOf([alpha, beta, gamma], beta));
     })();
     Remove.remove(page);
 });

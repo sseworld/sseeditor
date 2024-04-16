@@ -1,17 +1,14 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.getHtml = void 0;
-var SugarShadowDom = require("../node/SugarShadowDom");
-var Html = require("../properties/Html");
-var Replication = require("./Replication");
-var getHtml = function (element) {
+import * as SugarShadowDom from '../node/SugarShadowDom';
+import * as Html from '../properties/Html';
+import * as Replication from './Replication';
+const getHtml = (element) => {
     if (SugarShadowDom.isShadowRoot(element)) {
         return '#shadow-root';
     }
     else {
-        var clone = Replication.shallow(element);
+        const clone = Replication.shallow(element);
         return Html.getOuter(clone);
     }
 };
-exports.getHtml = getHtml;
+export { getHtml };
 //# sourceMappingURL=Truncate.js.map

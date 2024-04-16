@@ -1,54 +1,41 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.mutate = exports.copy = exports.deep = exports.shallowAs = exports.shallow = void 0;
-var SugarElement_1 = require("../node/SugarElement");
-var Attribute = require("../properties/Attribute");
-var Traverse = require("../search/Traverse");
-var Insert = require("./Insert");
-var InsertAll = require("./InsertAll");
-var Remove = require("./Remove");
-var clone = function (original, isDeep) {
-    return SugarElement_1.SugarElement.fromDom(original.dom.cloneNode(isDeep));
-};
+import { SugarElement } from '../node/SugarElement';
+import * as Attribute from '../properties/Attribute';
+import * as Traverse from '../search/Traverse';
+import * as Insert from './Insert';
+import * as InsertAll from './InsertAll';
+import * as Remove from './Remove';
+const clone = (original, isDeep) => SugarElement.fromDom(original.dom.cloneNode(isDeep));
 /** Shallow clone - just the tag, no children */
-var shallow = function (original) {
-    return clone(original, false);
-};
-exports.shallow = shallow;
+const shallow = (original) => clone(original, false);
 /** Deep clone - everything copied including children */
-var deep = function (original) {
-    return clone(original, true);
-};
-exports.deep = deep;
+const deep = (original) => clone(original, true);
 /** Shallow clone, with a new tag */
-var shallowAs = function (original, tag) {
-    var nu = SugarElement_1.SugarElement.fromTag(tag);
-    var attributes = Attribute.clone(original);
+const shallowAs = (original, tag) => {
+    const nu = SugarElement.fromTag(tag);
+    const attributes = Attribute.clone(original);
     Attribute.setAll(nu, attributes);
     return nu;
 };
-exports.shallowAs = shallowAs;
 /** Deep clone, with a new tag */
-var copy = function (original, tag) {
-    var nu = shallowAs(original, tag);
+const copy = (original, tag) => {
+    const nu = shallowAs(original, tag);
     // NOTE
     // previously this used serialisation:
     // nu.dom.innerHTML = original.dom.innerHTML;
     //
     // Clone should be equivalent (and faster), but if TD <-> TH toggle breaks, put it back.
-    var cloneChildren = Traverse.children(deep(original));
+    const cloneChildren = Traverse.children(deep(original));
     InsertAll.append(nu, cloneChildren);
     return nu;
 };
-exports.copy = copy;
 /** Change the tag name, but keep all children */
-var mutate = function (original, tag) {
-    var nu = shallowAs(original, tag);
+const mutate = (original, tag) => {
+    const nu = shallowAs(original, tag);
     Insert.after(original, nu);
-    var children = Traverse.children(original);
+    const children = Traverse.children(original);
     InsertAll.append(nu, children);
     Remove.remove(original);
     return nu;
 };
-exports.mutate = mutate;
+export { shallow, shallowAs, deep, copy, mutate };
 //# sourceMappingURL=Replication.js.map

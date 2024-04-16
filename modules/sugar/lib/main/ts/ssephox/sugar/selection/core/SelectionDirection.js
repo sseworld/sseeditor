@@ -1,77 +1,68 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.asLtrRange = exports.diagnose = exports.rtl = exports.ltr = void 0;
-var katamari_1 = require("@ssephox/katamari");
-var SugarElement_1 = require("../../api/node/SugarElement");
-var NativeRange = require("./NativeRange");
-var adt = katamari_1.Adt.generate([
+import { Adt, Fun, Optional, Thunk } from '@ssephox/katamari';
+import { SugarElement } from '../../api/node/SugarElement';
+import * as NativeRange from './NativeRange';
+const adt = Adt.generate([
     { ltr: ['start', 'soffset', 'finish', 'foffset'] },
     { rtl: ['start', 'soffset', 'finish', 'foffset'] }
 ]);
-var fromRange = function (win, type, range) {
-    return type(SugarElement_1.SugarElement.fromDom(range.startContainer), range.startOffset, SugarElement_1.SugarElement.fromDom(range.endContainer), range.endOffset);
-};
-var getRanges = function (win, selection) { return selection.match({
-    domRange: function (rng) {
+const fromRange = (win, type, range) => type(SugarElement.fromDom(range.startContainer), range.startOffset, SugarElement.fromDom(range.endContainer), range.endOffset);
+const getRanges = (win, selection) => selection.match({
+    domRange: (rng) => {
         return {
-            ltr: katamari_1.Fun.constant(rng),
-            rtl: katamari_1.Optional.none
+            ltr: Fun.constant(rng),
+            rtl: Optional.none
         };
     },
-    relative: function (startSitu, finishSitu) {
+    relative: (startSitu, finishSitu) => {
         return {
-            ltr: katamari_1.Thunk.cached(function () { return NativeRange.relativeToNative(win, startSitu, finishSitu); }),
-            rtl: katamari_1.Thunk.cached(function () { return katamari_1.Optional.some(NativeRange.relativeToNative(win, finishSitu, startSitu)); })
+            ltr: Thunk.cached(() => NativeRange.relativeToNative(win, startSitu, finishSitu)),
+            rtl: Thunk.cached(() => Optional.some(NativeRange.relativeToNative(win, finishSitu, startSitu)))
         };
     },
-    exact: function (start, soffset, finish, foffset) {
+    exact: (start, soffset, finish, foffset) => {
         return {
-            ltr: katamari_1.Thunk.cached(function () { return NativeRange.exactToNative(win, start, soffset, finish, foffset); }),
-            rtl: katamari_1.Thunk.cached(function () { return katamari_1.Optional.some(NativeRange.exactToNative(win, finish, foffset, start, soffset)); })
+            ltr: Thunk.cached(() => NativeRange.exactToNative(win, start, soffset, finish, foffset)),
+            rtl: Thunk.cached(() => Optional.some(NativeRange.exactToNative(win, finish, foffset, start, soffset)))
         };
     }
-}); };
-var doDiagnose = function (win, ranges) {
+});
+const doDiagnose = (win, ranges) => {
     // If we cannot create a ranged selection from start > finish, it could be RTL
-    var rng = ranges.ltr();
+    const rng = ranges.ltr();
     if (rng.collapsed) {
         // Let's check if it's RTL ... if it is, then reversing the direction will not be collapsed
-        var reversed = ranges.rtl().filter(function (rev) { return rev.collapsed === false; });
-        return reversed.map(function (rev) {
-            // We need to use "reversed" here, because the original only has one point (collapsed)
-            return adt.rtl(SugarElement_1.SugarElement.fromDom(rev.endContainer), rev.endOffset, SugarElement_1.SugarElement.fromDom(rev.startContainer), rev.startOffset);
-        }).getOrThunk(function () { return fromRange(win, adt.ltr, rng); });
+        const reversed = ranges.rtl().filter((rev) => rev.collapsed === false);
+        return reversed.map((rev) => 
+        // We need to use "reversed" here, because the original only has one point (collapsed)
+        adt.rtl(SugarElement.fromDom(rev.endContainer), rev.endOffset, SugarElement.fromDom(rev.startContainer), rev.startOffset)).getOrThunk(() => fromRange(win, adt.ltr, rng));
     }
     else {
         return fromRange(win, adt.ltr, rng);
     }
 };
-var diagnose = function (win, selection) {
-    var ranges = getRanges(win, selection);
+const diagnose = (win, selection) => {
+    const ranges = getRanges(win, selection);
     return doDiagnose(win, ranges);
 };
-exports.diagnose = diagnose;
-var asLtrRange = function (win, selection) {
-    var diagnosis = diagnose(win, selection);
+const asLtrRange = (win, selection) => {
+    const diagnosis = diagnose(win, selection);
     return diagnosis.match({
-        ltr: function (start, soffset, finish, foffset) {
-            var rng = win.document.createRange();
+        ltr: (start, soffset, finish, foffset) => {
+            const rng = win.document.createRange();
             rng.setStart(start.dom, soffset);
             rng.setEnd(finish.dom, foffset);
             return rng;
         },
-        rtl: function (start, soffset, finish, foffset) {
+        rtl: (start, soffset, finish, foffset) => {
             // NOTE: Reversing start and finish
-            var rng = win.document.createRange();
+            const rng = win.document.createRange();
             rng.setStart(finish.dom, foffset);
             rng.setEnd(start.dom, soffset);
             return rng;
         }
     });
 };
-exports.asLtrRange = asLtrRange;
-var ltr = adt.ltr;
-exports.ltr = ltr;
-var rtl = adt.rtl;
-exports.rtl = rtl;
+const ltr = adt.ltr;
+const rtl = adt.rtl;
+export { ltr, rtl, diagnose, asLtrRange };
 //# sourceMappingURL=SelectionDirection.js.map

@@ -1,6 +1,3 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.toArray = void 0;
 /**
  * Applies f repeatedly until it completes (by returning Optional.none()).
  *
@@ -8,17 +5,17 @@ exports.toArray = void 0;
  *
  * This is what recursion looks like when manually unravelled :)
  */
-var toArray = function (target, f) {
-    var r = [];
-    var recurse = function (e) {
+const toArray = (target, f) => {
+    const r = [];
+    const recurse = (e) => {
         r.push(e);
         return f(e);
     };
-    var cur = f(target);
+    let cur = f(target);
     do {
         cur = cur.bind(recurse);
     } while (cur.isSome());
     return r;
 };
-exports.toArray = toArray;
+export { toArray };
 //# sourceMappingURL=Recurse.js.map

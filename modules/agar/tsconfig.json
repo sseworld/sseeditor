@@ -1,0 +1,20 @@
+{
+  "extends": "../../tsconfig.shared.json",
+  "compilerOptions": {
+    "strict": false,
+    "outDir": "lib",
+    "rootDir": "src",
+    "baseUrl": ".",
+    "tsBuildInfoFile": "lib/tsconfig.tsbuildinfo",
+    "paths": {
+      "ssephox/agar/test/*": ["src/test/ts/module/ssephox/agar/test/*"],
+      "ssephox/agar/demo/*": ["src/demo/ts/ssephox/agar/demo/*"],
+      "ssephox/agar/*": ["src/main/ts/ssephox/agar/*"]
+    }
+  },
+  "include": [
+    "src/demo/ts",
+    "src/main/ts",
+    "src/test/ts"
+  ]
+}

@@ -1,30 +1,15 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.descendants = exports.children = exports.siblings = exports.ancestors = exports.all = void 0;
-var katamari_1 = require("@ssephox/katamari");
-var SugarBody = require("../node/SugarBody");
-var Traverse = require("./Traverse");
+import { Arr } from '@ssephox/katamari';
+import * as SugarBody from '../node/SugarBody';
+import * as Traverse from './Traverse';
 // maybe TraverseWith, similar to traverse but with a predicate?
-var all = function (predicate) {
-    return descendants(SugarBody.body(), predicate);
-};
-exports.all = all;
-var ancestors = function (scope, predicate, isRoot) {
-    return katamari_1.Arr.filter(Traverse.parents(scope, isRoot), predicate);
-};
-exports.ancestors = ancestors;
-var siblings = function (scope, predicate) {
-    return katamari_1.Arr.filter(Traverse.siblings(scope), predicate);
-};
-exports.siblings = siblings;
-var children = function (scope, predicate) {
-    return katamari_1.Arr.filter(Traverse.children(scope), predicate);
-};
-exports.children = children;
-var descendants = function (scope, predicate) {
-    var result = [];
+const all = (predicate) => descendants(SugarBody.body(), predicate);
+const ancestors = (scope, predicate, isRoot) => Arr.filter(Traverse.parents(scope, isRoot), predicate);
+const siblings = (scope, predicate) => Arr.filter(Traverse.siblings(scope), predicate);
+const children = (scope, predicate) => Arr.filter(Traverse.children(scope), predicate);
+const descendants = (scope, predicate) => {
+    let result = [];
     // Recurse.toArray() might help here
-    katamari_1.Arr.each(Traverse.children(scope), function (x) {
+    Arr.each(Traverse.children(scope), (x) => {
         if (predicate(x)) {
             result = result.concat([x]);
         }
@@ -32,5 +17,5 @@ var descendants = function (scope, predicate) {
     });
     return result;
 };
-exports.descendants = descendants;
+export { all, ancestors, siblings, children, descendants };
 //# sourceMappingURL=PredicateFilter.js.map

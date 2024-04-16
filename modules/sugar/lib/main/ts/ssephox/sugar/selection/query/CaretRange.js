@@ -1,25 +1,22 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.fromPoint = void 0;
-var katamari_1 = require("@ssephox/katamari");
-var SugarElement_1 = require("../../api/node/SugarElement");
-var SimRange_1 = require("../../api/selection/SimRange");
-var caretPositionFromPoint = function (doc, x, y) {
+import { Optional } from '@ssephox/katamari';
+import { SugarElement } from '../../api/node/SugarElement';
+import { SimRange } from '../../api/selection/SimRange';
+const caretPositionFromPoint = (doc, x, y) => {
     var _a, _b;
-    return katamari_1.Optional.from((_b = (_a = doc.dom).caretPositionFromPoint) === null || _b === void 0 ? void 0 : _b.call(_a, x, y))
-        .bind(function (pos) {
+    return Optional.from((_b = (_a = doc.dom).caretPositionFromPoint) === null || _b === void 0 ? void 0 : _b.call(_a, x, y))
+        .bind((pos) => {
         // It turns out that Firefox can return null for pos.offsetNode
         if (pos.offsetNode === null) {
-            return katamari_1.Optional.none();
+            return Optional.none();
         }
-        var r = doc.dom.createRange();
+        const r = doc.dom.createRange();
         r.setStart(pos.offsetNode, pos.offset);
         r.collapse();
-        return katamari_1.Optional.some(r);
+        return Optional.some(r);
     });
 };
-var caretRangeFromPoint = function (doc, x, y) { var _a, _b; return katamari_1.Optional.from((_b = (_a = doc.dom).caretRangeFromPoint) === null || _b === void 0 ? void 0 : _b.call(_a, x, y)); };
-var availableSearch = (function () {
+const caretRangeFromPoint = (doc, x, y) => { var _a, _b; return Optional.from((_b = (_a = doc.dom).caretRangeFromPoint) === null || _b === void 0 ? void 0 : _b.call(_a, x, y)); };
+const availableSearch = (() => {
     if (document.caretPositionFromPoint) {
         return caretPositionFromPoint; // defined standard
     }
@@ -27,12 +24,12 @@ var availableSearch = (function () {
         return caretRangeFromPoint; // webkit implementation
     }
     else {
-        return katamari_1.Optional.none; // unsupported browser
+        return Optional.none; // unsupported browser
     }
 })();
-var fromPoint = function (win, x, y) {
-    var doc = SugarElement_1.SugarElement.fromDom(win.document);
-    return availableSearch(doc, x, y).map(function (rng) { return SimRange_1.SimRange.create(SugarElement_1.SugarElement.fromDom(rng.startContainer), rng.startOffset, SugarElement_1.SugarElement.fromDom(rng.endContainer), rng.endOffset); });
+const fromPoint = (win, x, y) => {
+    const doc = SugarElement.fromDom(win.document);
+    return availableSearch(doc, x, y).map((rng) => SimRange.create(SugarElement.fromDom(rng.startContainer), rng.startOffset, SugarElement.fromDom(rng.endContainer), rng.endOffset));
 };
-exports.fromPoint = fromPoint;
+export { fromPoint };
 //# sourceMappingURL=CaretRange.js.map

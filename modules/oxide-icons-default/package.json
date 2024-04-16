@@ -1,0 +1,39 @@
+{
+  "name": "@ssephox/oxide-icons-default",
+  "version": "1.0.0",
+  "description": "The default icon pack for SSE Editor",
+  "main": "dist/js/icons.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/sseworld/sseeditor.git",
+    "directory": "modules/oxide-icons-default"
+  },
+  "scripts": {
+    "build": "gulp",
+    "prepublishOnly": "yarn ci",
+    "ci": "gulp --no-color"
+  },
+  "keywords": [
+    "SSE Editor",
+    "Icons"
+  ],
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE.txt"
+  ],
+  "author": "SSE World",
+  "license": "MIT",
+  "devDependencies": {
+    "@ephox/oxide-icons-tools": "^4.0.0",
+    "gulp": "^5.0.0",
+    "gulp-clean": "^0.4.0",
+    "gulp-clean-css": "^4.3.0",
+    "gulp-connect": "^5.7.0",
+    "gulp-less": "^5.0.0",
+    "gulp-rename": "^2.0.0",
+    "gulp-sourcemaps": "^3.0.0",
+    "gulp-stylelint": "^13.0.0",
+    "gulp-touch": "^1.0.1"
+  }
+}

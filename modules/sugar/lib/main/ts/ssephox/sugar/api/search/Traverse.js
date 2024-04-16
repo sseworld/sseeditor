@@ -1,68 +1,41 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.leaf = exports.hasChildNodes = exports.childNodesCount = exports.lastChild = exports.firstChild = exports.child = exports.children = exports.nextSiblings = exports.nextSibling = exports.prevSiblings = exports.offsetParent = exports.prevSibling = exports.siblings = exports.parents = exports.findIndex = exports.parentElement = exports.parentNode = exports.parent = exports.documentElement = exports.defaultView = exports.documentOrOwner = exports.owner = void 0;
-var katamari_1 = require("@ssephox/katamari");
-var Recurse = require("../../alien/Recurse");
-var Compare = require("../dom/Compare");
-var SugarElement_1 = require("../node/SugarElement");
-var SugarNode = require("../node/SugarNode");
+import { Arr, Fun, Optional, Type } from '@ssephox/katamari';
+import * as Recurse from '../../alien/Recurse';
+import * as Compare from '../dom/Compare';
+import { SugarElement } from '../node/SugarElement';
+import * as SugarNode from '../node/SugarNode';
 /**
  * The document associated with the current element
  * NOTE: this will throw if the owner is null.
  */
-var owner = function (element) {
-    return SugarElement_1.SugarElement.fromDom(element.dom.ownerDocument);
-};
-exports.owner = owner;
+const owner = (element) => SugarElement.fromDom(element.dom.ownerDocument);
 /**
  * If the element is a document, return it. Otherwise, return its ownerDocument.
  * @param dos
  */
-var documentOrOwner = function (dos) {
-    return SugarNode.isDocument(dos) ? dos : owner(dos);
-};
-exports.documentOrOwner = documentOrOwner;
-var documentElement = function (element) {
-    return SugarElement_1.SugarElement.fromDom(documentOrOwner(element).dom.documentElement);
-};
-exports.documentElement = documentElement;
+const documentOrOwner = (dos) => SugarNode.isDocument(dos) ? dos : owner(dos);
+const documentElement = (element) => SugarElement.fromDom(documentOrOwner(element).dom.documentElement);
 /**
  * The window element associated with the element
  * NOTE: this will throw if the defaultView is null.
  */
-var defaultView = function (element) {
-    return SugarElement_1.SugarElement.fromDom(documentOrOwner(element).dom.defaultView);
-};
-exports.defaultView = defaultView;
-var parent = function (element) {
-    return katamari_1.Optional.from(element.dom.parentNode).map(SugarElement_1.SugarElement.fromDom);
-};
-exports.parent = parent;
+const defaultView = (element) => SugarElement.fromDom(documentOrOwner(element).dom.defaultView);
+const parent = (element) => Optional.from(element.dom.parentNode).map(SugarElement.fromDom);
 // Cast down to just be SugarElement<Node>
-var parentNode = function (element) {
-    return parent(element);
-};
-exports.parentNode = parentNode;
-var parentElement = function (element) {
-    return katamari_1.Optional.from(element.dom.parentElement).map(SugarElement_1.SugarElement.fromDom);
-};
-exports.parentElement = parentElement;
-var findIndex = function (element) {
-    return parent(element).bind(function (p) {
-        // TODO: Refactor out children so we can avoid the constant unwrapping
-        var kin = children(p);
-        return katamari_1.Arr.findIndex(kin, function (elem) { return Compare.eq(element, elem); });
-    });
-};
-exports.findIndex = findIndex;
-var parents = function (element, isRoot) {
-    var stop = katamari_1.Type.isFunction(isRoot) ? isRoot : katamari_1.Fun.never;
+const parentNode = (element) => parent(element);
+const parentElement = (element) => Optional.from(element.dom.parentElement).map(SugarElement.fromDom);
+const findIndex = (element) => parent(element).bind((p) => {
+    // TODO: Refactor out children so we can avoid the constant unwrapping
+    const kin = children(p);
+    return Arr.findIndex(kin, (elem) => Compare.eq(element, elem));
+});
+const parents = (element, isRoot) => {
+    const stop = Type.isFunction(isRoot) ? isRoot : Fun.never;
     // This is used a *lot* so it needs to be performant, not recursive
-    var dom = element.dom;
-    var ret = [];
+    let dom = element.dom;
+    const ret = [];
     while (dom.parentNode !== null && dom.parentNode !== undefined) {
-        var rawParent = dom.parentNode;
-        var p = SugarElement_1.SugarElement.fromDom(rawParent);
+        const rawParent = dom.parentNode;
+        const p = SugarElement.fromDom(rawParent);
         ret.push(p);
         if (stop(p) === true) {
             break;
@@ -73,66 +46,33 @@ var parents = function (element, isRoot) {
     }
     return ret;
 };
-exports.parents = parents;
-var siblings = function (element) {
+const siblings = (element) => {
     // TODO: Refactor out children so we can just not add self instead of filtering afterwards
-    var filterSelf = function (elements) { return katamari_1.Arr.filter(elements, function (x) { return !Compare.eq(element, x); }); };
+    const filterSelf = (elements) => Arr.filter(elements, (x) => !Compare.eq(element, x));
     return parent(element).map(children).map(filterSelf).getOr([]);
 };
-exports.siblings = siblings;
-var offsetParent = function (element) {
-    return katamari_1.Optional.from(element.dom.offsetParent).map(SugarElement_1.SugarElement.fromDom);
-};
-exports.offsetParent = offsetParent;
-var prevSibling = function (element) {
-    return katamari_1.Optional.from(element.dom.previousSibling).map(SugarElement_1.SugarElement.fromDom);
-};
-exports.prevSibling = prevSibling;
-var nextSibling = function (element) {
-    return katamari_1.Optional.from(element.dom.nextSibling).map(SugarElement_1.SugarElement.fromDom);
-};
-exports.nextSibling = nextSibling;
+const offsetParent = (element) => Optional.from(element.dom.offsetParent).map(SugarElement.fromDom);
+const prevSibling = (element) => Optional.from(element.dom.previousSibling).map(SugarElement.fromDom);
+const nextSibling = (element) => Optional.from(element.dom.nextSibling).map(SugarElement.fromDom);
 // This one needs to be reversed, so they're still in DOM order
-var prevSiblings = function (element) {
-    return katamari_1.Arr.reverse(Recurse.toArray(element, prevSibling));
+const prevSiblings = (element) => Arr.reverse(Recurse.toArray(element, prevSibling));
+const nextSiblings = (element) => Recurse.toArray(element, nextSibling);
+const children = (element) => Arr.map(element.dom.childNodes, SugarElement.fromDom);
+const child = (element, index) => {
+    const cs = element.dom.childNodes;
+    return Optional.from(cs[index]).map(SugarElement.fromDom);
 };
-exports.prevSiblings = prevSiblings;
-var nextSiblings = function (element) {
-    return Recurse.toArray(element, nextSibling);
-};
-exports.nextSiblings = nextSiblings;
-var children = function (element) {
-    return katamari_1.Arr.map(element.dom.childNodes, SugarElement_1.SugarElement.fromDom);
-};
-exports.children = children;
-var child = function (element, index) {
-    var cs = element.dom.childNodes;
-    return katamari_1.Optional.from(cs[index]).map(SugarElement_1.SugarElement.fromDom);
-};
-exports.child = child;
-var firstChild = function (element) {
-    return child(element, 0);
-};
-exports.firstChild = firstChild;
-var lastChild = function (element) {
-    return child(element, element.dom.childNodes.length - 1);
-};
-exports.lastChild = lastChild;
-var childNodesCount = function (element) {
-    return element.dom.childNodes.length;
-};
-exports.childNodesCount = childNodesCount;
-var hasChildNodes = function (element) {
-    return element.dom.hasChildNodes();
-};
-exports.hasChildNodes = hasChildNodes;
-var spot = function (element, offset) { return ({
-    element: element,
-    offset: offset
-}); };
-var leaf = function (element, offset) {
-    var cs = children(element);
+const firstChild = (element) => child(element, 0);
+const lastChild = (element) => child(element, element.dom.childNodes.length - 1);
+const childNodesCount = (element) => element.dom.childNodes.length;
+const hasChildNodes = (element) => element.dom.hasChildNodes();
+const spot = (element, offset) => ({
+    element,
+    offset
+});
+const leaf = (element, offset) => {
+    const cs = children(element);
     return cs.length > 0 && offset < cs.length ? spot(cs[offset], 0) : spot(element, offset);
 };
-exports.leaf = leaf;
+export { owner, documentOrOwner, defaultView, documentElement, parent, parentNode, parentElement, findIndex, parents, siblings, prevSibling, offsetParent, prevSiblings, nextSibling, nextSiblings, children, child, firstChild, lastChild, childNodesCount, hasChildNodes, leaf };
 //# sourceMappingURL=Traverse.js.map

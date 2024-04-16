@@ -1,0 +1,40 @@
+{
+  "name": "@ssephox/polaris",
+  "version": "1.0.0",
+  "description": "This project does data manipulation on arrays and strings.",
+  "author": "SSE World",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/sseworld/sseeditor.git",
+    "directory": "modules/polaris"
+  },
+  "files": [
+    "lib/main",
+    "lib/demo",
+    "lib/test",
+    "src",
+    "tsconfig.json",
+    "README.md"
+  ],
+  "scripts": {
+    "prepublishOnly": "tsc -b",
+    "build": "tsc",
+    "test": "bedrock-auto -b chrome-headless -d src/test/ts",
+    "test-manual": "bedrock -d src/test/ts",
+    "lint": "eslint --config ../../.eslintrc.json --max-warnings=0 src/**/*.ts"
+  },
+  "main": "./lib/main/ts/ssephox/polaris/api/Main.js",
+  "module": "./lib/main/ts/ssephox/polaris/api/Main.js",
+  "types": "./lib/main/ts/ssephox/polaris/api/Main.d.ts",
+  "dependencies": {
+    "@ssephox/katamari": "^1.0.2"
+  },
+  "devDependencies": {
+    "@ssephox/katamari-assertions": "^1.0.4",
+    "typescript": "^5.4.5"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

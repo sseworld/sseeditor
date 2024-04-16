@@ -1,15 +1,12 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.transfer = exports.hasNone = exports.remove = exports.has = exports.getOpt = exports.get = exports.setOptions = exports.setAll = exports.set = exports.clone = void 0;
-var katamari_1 = require("@ssephox/katamari");
-var SugarNode = require("../node/SugarNode");
-var rawSet = function (dom, key, value) {
+import { Arr, Obj, Optional, Type } from '@ssephox/katamari';
+import * as SugarNode from '../node/SugarNode';
+const rawSet = (dom, key, value) => {
     /*
      * JQuery coerced everything to a string, and silently did nothing on text node/null/undefined.
      *
      * We fail on those invalid cases, only allowing numbers and booleans.
      */
-    if (katamari_1.Type.isString(value) || katamari_1.Type.isBoolean(value) || katamari_1.Type.isNumber(value)) {
+    if (Type.isString(value) || Type.isBoolean(value) || Type.isNumber(value)) {
         dom.setAttribute(key, value + '');
     }
     else {
@@ -18,73 +15,60 @@ var rawSet = function (dom, key, value) {
         throw new Error('Attribute value was not simple');
     }
 };
-var set = function (element, key, value) {
+const set = (element, key, value) => {
     rawSet(element.dom, key, value);
 };
-exports.set = set;
-var setAll = function (element, attrs) {
-    var dom = element.dom;
-    katamari_1.Obj.each(attrs, function (v, k) {
+const setAll = (element, attrs) => {
+    const dom = element.dom;
+    Obj.each(attrs, (v, k) => {
         rawSet(dom, k, v);
     });
 };
-exports.setAll = setAll;
-var setOptions = function (element, attrs) {
-    katamari_1.Obj.each(attrs, function (v, k) {
-        v.fold(function () {
+const setOptions = (element, attrs) => {
+    Obj.each(attrs, (v, k) => {
+        v.fold(() => {
             remove(element, k);
-        }, function (value) {
+        }, (value) => {
             rawSet(element.dom, k, value);
         });
     });
 };
-exports.setOptions = setOptions;
-var get = function (element, key) {
-    var v = element.dom.getAttribute(key);
+const get = (element, key) => {
+    const v = element.dom.getAttribute(key);
     // undefined is the more appropriate value for JS, and this matches JQuery
     return v === null ? undefined : v;
 };
-exports.get = get;
-var getOpt = function (element, key) {
-    return katamari_1.Optional.from(get(element, key));
-};
-exports.getOpt = getOpt;
-var has = function (element, key) {
-    var dom = element.dom;
+const getOpt = (element, key) => Optional.from(get(element, key));
+const has = (element, key) => {
+    const dom = element.dom;
     // return false for non-element nodes, no point in throwing an error
     return dom && dom.hasAttribute ? dom.hasAttribute(key) : false;
 };
-exports.has = has;
-var remove = function (element, key) {
+const remove = (element, key) => {
     element.dom.removeAttribute(key);
 };
-exports.remove = remove;
-var hasNone = function (element) {
-    var attrs = element.dom.attributes;
+const hasNone = (element) => {
+    const attrs = element.dom.attributes;
     return attrs === undefined || attrs === null || attrs.length === 0;
 };
-exports.hasNone = hasNone;
-var clone = function (element) {
-    return katamari_1.Arr.foldl(element.dom.attributes, function (acc, attr) {
-        acc[attr.name] = attr.value;
-        return acc;
-    }, {});
-};
-exports.clone = clone;
-var transferOne = function (source, destination, attr) {
+const clone = (element) => Arr.foldl(element.dom.attributes, (acc, attr) => {
+    acc[attr.name] = attr.value;
+    return acc;
+}, {});
+const transferOne = (source, destination, attr) => {
     // NOTE: We don't want to clobber any existing attributes
     if (!has(destination, attr)) {
-        getOpt(source, attr).each(function (srcValue) { return set(destination, attr, srcValue); });
+        getOpt(source, attr).each((srcValue) => set(destination, attr, srcValue));
     }
 };
 // Transfer attributes(attrs) from source to destination, unless they are already present
-var transfer = function (source, destination, attrs) {
+const transfer = (source, destination, attrs) => {
     if (!SugarNode.isElement(source) || !SugarNode.isElement(destination)) {
         return;
     }
-    katamari_1.Arr.each(attrs, function (attr) {
+    Arr.each(attrs, (attr) => {
         transferOne(source, destination, attr);
     });
 };
-exports.transfer = transfer;
+export { clone, set, setAll, setOptions, get, getOpt, has, remove, hasNone, transfer };
 //# sourceMappingURL=Attribute.js.map

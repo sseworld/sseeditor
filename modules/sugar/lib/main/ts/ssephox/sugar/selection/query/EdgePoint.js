@@ -1,9 +1,6 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.search = void 0;
-var katamari_1 = require("@ssephox/katamari");
-var Traverse = require("../../api/search/Traverse");
-var CursorPosition = require("../../api/selection/CursorPosition");
+import { Optional } from '@ssephox/katamari';
+import * as Traverse from '../../api/search/Traverse';
+import * as CursorPosition from '../../api/selection/CursorPosition';
 /*
  * When a node has children, we return either the first or the last cursor
  * position, whichever is closer horizontally
@@ -12,33 +9,31 @@ var CursorPosition = require("../../api/selection/CursorPosition");
  * depending on which is closer horizontally
  * */
 // TODO: Make this RTL compatible
-var COLLAPSE_TO_LEFT = true;
-var COLLAPSE_TO_RIGHT = false;
-var getCollapseDirection = function (rect, x) {
-    return x - rect.left < rect.right - x ? COLLAPSE_TO_LEFT : COLLAPSE_TO_RIGHT;
-};
-var createCollapsedNode = function (doc, target, collapseDirection) {
-    var r = doc.dom.createRange();
+const COLLAPSE_TO_LEFT = true;
+const COLLAPSE_TO_RIGHT = false;
+const getCollapseDirection = (rect, x) => x - rect.left < rect.right - x ? COLLAPSE_TO_LEFT : COLLAPSE_TO_RIGHT;
+const createCollapsedNode = (doc, target, collapseDirection) => {
+    const r = doc.dom.createRange();
     r.selectNode(target.dom);
     r.collapse(collapseDirection);
     return r;
 };
-var locateInElement = function (doc, node, x) {
-    var cursorRange = doc.dom.createRange();
+const locateInElement = (doc, node, x) => {
+    const cursorRange = doc.dom.createRange();
     cursorRange.selectNode(node.dom);
-    var rect = cursorRange.getBoundingClientRect();
-    var collapseDirection = getCollapseDirection(rect, x);
-    var f = collapseDirection === COLLAPSE_TO_LEFT ? CursorPosition.first : CursorPosition.last;
-    return f(node).map(function (target) { return createCollapsedNode(doc, target, collapseDirection); });
+    const rect = cursorRange.getBoundingClientRect();
+    const collapseDirection = getCollapseDirection(rect, x);
+    const f = collapseDirection === COLLAPSE_TO_LEFT ? CursorPosition.first : CursorPosition.last;
+    return f(node).map((target) => createCollapsedNode(doc, target, collapseDirection));
 };
-var locateInEmpty = function (doc, node, x) {
-    var rect = node.dom.getBoundingClientRect();
-    var collapseDirection = getCollapseDirection(rect, x);
-    return katamari_1.Optional.some(createCollapsedNode(doc, node, collapseDirection));
+const locateInEmpty = (doc, node, x) => {
+    const rect = node.dom.getBoundingClientRect();
+    const collapseDirection = getCollapseDirection(rect, x);
+    return Optional.some(createCollapsedNode(doc, node, collapseDirection));
 };
-var search = function (doc, node, x) {
-    var f = Traverse.children(node).length === 0 ? locateInEmpty : locateInElement;
+const search = (doc, node, x) => {
+    const f = Traverse.children(node).length === 0 ? locateInEmpty : locateInElement;
     return f(doc, node, x);
 };
-exports.search = search;
+export { search };
 //# sourceMappingURL=EdgePoint.js.map

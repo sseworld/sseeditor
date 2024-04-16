@@ -1,43 +1,41 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-var bedrock_client_1 = require("@ephox/bedrock-client");
-var katamari_1 = require("@ssephox/katamari");
-var Css = require("ssephox/sugar/api/properties/Css");
-var Div_1 = require("ssephox/sugar/test/Div");
-bedrock_client_1.UnitTest.test('CssTransfer', function () {
-    var alpha = function () {
-        var r = (0, Div_1.default)();
+import { Assert, UnitTest } from '@ephox/bedrock-client';
+import { Arr, Obj } from '@ssephox/katamari';
+import * as Css from 'ssephox/sugar/api/properties/Css';
+import Div from 'ssephox/sugar/test/Div';
+UnitTest.test('CssTransfer', () => {
+    const alpha = () => {
+        const r = Div();
         Css.setAll(r, {
             'display': 'inline',
             'background-color': 'blue'
         });
         return r;
     };
-    var beta = function () {
-        var r = (0, Div_1.default)();
+    const beta = () => {
+        const r = Div();
         Css.setAll(r, {
             display: 'block',
             border: '1px solid black'
         });
         return r;
     };
-    var gamma = function () {
-        var r = (0, Div_1.default)();
+    const gamma = () => {
+        const r = Div();
         Css.setAll(r, {
             'background-color': 'red'
         });
         return r;
     };
-    var check = function (expectedPresent, expectedAbsent, source, destination, styles) {
+    const check = (expectedPresent, expectedAbsent, source, destination, styles) => {
         Css.transfer(source, destination, styles);
-        katamari_1.Arr.each(expectedAbsent, function (k) {
+        Arr.each(expectedAbsent, (k) => {
             if (Css.getRaw(destination, k).isSome()) {
-                bedrock_client_1.Assert.fail('Result should not have style: ' + k);
+                Assert.fail('Result should not have style: ' + k);
             }
         });
-        katamari_1.Obj.each(expectedPresent, function (v, k) {
-            var value = Css.getRaw(destination, k).getOrDie('Result should have style: ' + k);
-            bedrock_client_1.Assert.eq('', v, value);
+        Obj.each(expectedPresent, (v, k) => {
+            const value = Css.getRaw(destination, k).getOrDie('Result should have style: ' + k);
+            Assert.eq('', v, value);
         });
     };
     check({

@@ -1,10 +1,7 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.connect = exports.li = exports.ul = exports.t7 = exports.t6 = exports.t5 = exports.t4 = exports.t3 = exports.t2 = exports.t1 = exports.s4 = exports.s3 = exports.s2 = exports.s1 = exports.p3 = exports.p2 = exports.p1 = exports.d1 = exports.container = void 0;
-var Insert = require("ssephox/sugar/api/dom/Insert");
-var InsertAll = require("ssephox/sugar/api/dom/InsertAll");
-var SugarBody = require("ssephox/sugar/api/node/SugarBody");
-var SugarElement_1 = require("ssephox/sugar/api/node/SugarElement");
+import * as Insert from 'ssephox/sugar/api/dom/Insert';
+import * as InsertAll from 'ssephox/sugar/api/dom/InsertAll';
+import * as SugarBody from 'ssephox/sugar/api/node/SugarBody';
+import { SugarElement } from 'ssephox/sugar/api/node/SugarElement';
 /*
       <div>
         <p1>
@@ -33,42 +30,24 @@ var SugarElement_1 = require("ssephox/sugar/api/node/SugarElement");
         </p2>
       </div>
 */
-var container = SugarElement_1.SugarElement.fromTag('div');
-exports.container = container;
-var d1 = SugarElement_1.SugarElement.fromTag('div');
-exports.d1 = d1;
-var p1 = SugarElement_1.SugarElement.fromTag('p');
-exports.p1 = p1;
-var p2 = SugarElement_1.SugarElement.fromTag('p');
-exports.p2 = p2;
-var p3 = SugarElement_1.SugarElement.fromTag('p');
-exports.p3 = p3;
-var s1 = SugarElement_1.SugarElement.fromTag('span');
-exports.s1 = s1;
-var s2 = SugarElement_1.SugarElement.fromTag('span');
-exports.s2 = s2;
-var s3 = SugarElement_1.SugarElement.fromTag('span');
-exports.s3 = s3;
-var s4 = SugarElement_1.SugarElement.fromTag('span');
-exports.s4 = s4;
-var t1 = SugarElement_1.SugarElement.fromText('This is a test page. A test page contains ');
-exports.t1 = t1;
-var t2 = SugarElement_1.SugarElement.fromText('many');
-exports.t2 = t2;
-var t3 = SugarElement_1.SugarElement.fromText(' things. Like:');
-exports.t3 = t3;
-var t4 = SugarElement_1.SugarElement.fromText('More data');
-exports.t4 = t4;
-var t5 = SugarElement_1.SugarElement.fromText('And more data.');
-exports.t5 = t5;
-var t6 = SugarElement_1.SugarElement.fromText('Nested inside div');
-exports.t6 = t6;
-var t7 = SugarElement_1.SugarElement.fromText('Text in a node ancestor of another node with text (t6)');
-exports.t7 = t7;
-var ul = SugarElement_1.SugarElement.fromTag('ul');
-exports.ul = ul;
-var li = SugarElement_1.SugarElement.fromTag('li');
-exports.li = li;
+const container = SugarElement.fromTag('div');
+const d1 = SugarElement.fromTag('div');
+const p1 = SugarElement.fromTag('p');
+const p2 = SugarElement.fromTag('p');
+const p3 = SugarElement.fromTag('p');
+const s1 = SugarElement.fromTag('span');
+const s2 = SugarElement.fromTag('span');
+const s3 = SugarElement.fromTag('span');
+const s4 = SugarElement.fromTag('span');
+const t1 = SugarElement.fromText('This is a test page. A test page contains ');
+const t2 = SugarElement.fromText('many');
+const t3 = SugarElement.fromText(' things. Like:');
+const t4 = SugarElement.fromText('More data');
+const t5 = SugarElement.fromText('And more data.');
+const t6 = SugarElement.fromText('Nested inside div');
+const t7 = SugarElement.fromText('Text in a node ancestor of another node with text (t6)');
+const ul = SugarElement.fromTag('ul');
+const li = SugarElement.fromTag('li');
 Insert.append(ul, li);
 InsertAll.append(li, [t7, d1]);
 InsertAll.append(container, [p1, ul, p2]);
@@ -80,9 +59,9 @@ InsertAll.append(s3, [t4]);
 InsertAll.append(s4, [t5]);
 InsertAll.append(d1, [p3]);
 InsertAll.append(p3, [t6]);
-var connect = function () {
-    var body = SugarBody.body();
+const connect = () => {
+    const body = SugarBody.body();
     Insert.append(body, container);
 };
-exports.connect = connect;
+export { container, d1, p1, p2, p3, s1, s2, s3, s4, t1, t2, t3, t4, t5, t6, t7, ul, li, connect };
 //# sourceMappingURL=TestPage.js.map

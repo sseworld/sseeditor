@@ -1,0 +1,15 @@
+{
+  "extends": "../../tsconfig.shared.json",
+  "compilerOptions": {
+    "outDir": "lib",
+    "rootDir": "src",
+    "baseUrl": ".",
+    "tsBuildInfoFile": "lib/tsconfig.tsbuildinfo",
+    "paths": {
+      "ssephox/phoenix/test/*": ["src/test/ts/module/ssephox/phoenix/test/*"],
+      "ssephox/phoenix/demo/*": ["src/demo/ts/ssephox/phoenix/demo/*"],
+      "ssephox/phoenix/*": ["src/main/ts/ssephox/phoenix/*"]
+    }
+  },
+  "include": ["src/demo/ts", "src/main/ts", "src/test/ts"]
+}

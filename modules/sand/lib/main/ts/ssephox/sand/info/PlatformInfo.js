@@ -1,23 +1,20 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.PlatformInfo = void 0;
-var katamari_1 = require("@ssephox/katamari");
-var normalVersionRegex = /.*?version\/\ ?([0-9]+)\.([0-9]+).*/;
-var checkContains = function (target) {
-    return function (uastring) {
-        return katamari_1.Strings.contains(uastring, target);
+import { Fun, Strings } from "@ssephox/katamari";
+const normalVersionRegex = /.*?version\/\ ?([0-9]+)\.([0-9]+).*/;
+const checkContains = (target) => {
+    return (uastring) => {
+        return Strings.contains(uastring, target);
     };
 };
-var browsers = [
+const browsers = [
     // This is legacy Edge
     {
         name: "Edge",
         versionRegexes: [/.*?edge\/ ?([0-9]+)\.([0-9]+)$/],
-        search: function (uastring) {
-            return (katamari_1.Strings.contains(uastring, "edge/") &&
-                katamari_1.Strings.contains(uastring, "chrome") &&
-                katamari_1.Strings.contains(uastring, "safari") &&
-                katamari_1.Strings.contains(uastring, "applewebkit"));
+        search: (uastring) => {
+            return (Strings.contains(uastring, "edge/") &&
+                Strings.contains(uastring, "chrome") &&
+                Strings.contains(uastring, "safari") &&
+                Strings.contains(uastring, "applewebkit"));
         },
     },
     // This is Google Chrome and Chromium Edge
@@ -25,9 +22,9 @@ var browsers = [
         name: "Chromium",
         brand: "Chromium",
         versionRegexes: [/.*?chrome\/([0-9]+)\.([0-9]+).*/, normalVersionRegex],
-        search: function (uastring) {
-            return (katamari_1.Strings.contains(uastring, "chrome") &&
-                !katamari_1.Strings.contains(uastring, "chromeframe"));
+        search: (uastring) => {
+            return (Strings.contains(uastring, "chrome") &&
+                !Strings.contains(uastring, "chromeframe"));
         },
     },
     {
@@ -36,9 +33,9 @@ var browsers = [
             /.*?msie\ ?([0-9]+)\.([0-9]+).*/,
             /.*?rv:([0-9]+)\.([0-9]+).*/,
         ],
-        search: function (uastring) {
-            return (katamari_1.Strings.contains(uastring, "msie") ||
-                katamari_1.Strings.contains(uastring, "trident"));
+        search: (uastring) => {
+            return (Strings.contains(uastring, "msie") ||
+                Strings.contains(uastring, "trident"));
         },
     },
     // INVESTIGATE: Is this still the Opera user agent?
@@ -55,14 +52,14 @@ var browsers = [
     {
         name: "Safari",
         versionRegexes: [normalVersionRegex, /.*?cpu os ([0-9]+)_([0-9]+).*/],
-        search: function (uastring) {
-            return ((katamari_1.Strings.contains(uastring, "safari") ||
-                katamari_1.Strings.contains(uastring, "mobile/")) &&
-                katamari_1.Strings.contains(uastring, "applewebkit"));
+        search: (uastring) => {
+            return ((Strings.contains(uastring, "safari") ||
+                Strings.contains(uastring, "mobile/")) &&
+                Strings.contains(uastring, "applewebkit"));
         },
     },
 ];
-var oses = [
+const oses = [
     {
         name: "Windows",
         search: checkContains("win"),
@@ -70,9 +67,9 @@ var oses = [
     },
     {
         name: "iOS",
-        search: function (uastring) {
-            return (katamari_1.Strings.contains(uastring, "iphone") ||
-                katamari_1.Strings.contains(uastring, "ipad"));
+        search: (uastring) => {
+            return (Strings.contains(uastring, "iphone") ||
+                Strings.contains(uastring, "ipad"));
         },
         versionRegexes: [
             /.*?version\/\ ?([0-9]+)\.([0-9]+).*/,
@@ -107,8 +104,8 @@ var oses = [
         versionRegexes: [/.*?chrome\/([0-9]+)\.([0-9]+).*/],
     },
 ];
-exports.PlatformInfo = {
-    browsers: katamari_1.Fun.constant(browsers),
-    oses: katamari_1.Fun.constant(oses),
+export const PlatformInfo = {
+    browsers: Fun.constant(browsers),
+    oses: Fun.constant(oses),
 };
 //# sourceMappingURL=PlatformInfo.js.map
