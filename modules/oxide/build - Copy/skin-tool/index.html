@@ -1,0 +1,1303 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title></title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="styles.css" />
+    <link rel="stylesheet/less" type="text/css" href="theme/theme.less" />
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+    <script src="less.min.js" ></script>
+    <link rel="stylesheet" href="codemirror-material.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.42.2/codemirror.min.css" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.42.2/codemirror.min.js"></script>
+    <script src="//rawgithub.com/zaach/jsonlint/79b553fb65c192add9066da64043458981b3972b/lib/jsonlint.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.42.2/mode/javascript/javascript.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.42.2/mode/css/css.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.42.2/addon/selection/active-line.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.42.2/addon/lint/lint.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.42.2/addon/hint/show-hint.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.42.2/addon/lint/json-lint.min.js"></script>
+    <script src="https://cloud.sseeditor.com/5-dev/sseeditor.min.js?apiKey=qagffr3pkuv17a8on1afax661irst1hbr4e6tbv888sz91jc"></script>
+    <script>
+        sseeditor.init({
+            selector:'#testeditor',
+            height: 400,
+            skin: false,
+
+            plugins: [
+                "advlist autolink link image lists charmap print preview hr anchor pagebreak spellchecker",
+                "searchreplace wordcount visualblocks visualchars code fullscreen insertdatetime media nonbreaking",
+                "save table contextmenu directionality template paste textcolor colorpicker imagetools"
+            ],
+            toolbar: "insertfile undo redo | styleselect | bold italic forecolor backcolor | link image table media | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | fullpage ",
+
+            image_advtab: true,
+
+            spellchecker_callback: function(method, words, callback) {
+                if (method == "spellcheck") {
+                    var suggestions = {};
+
+                    for (var i = 0; i < words.length; i++) {
+                        suggestions[words[i]] = ["First", "second"];
+                    }
+
+                    callback(suggestions);
+                }
+            },
+
+            templates: [
+                {title: 'Some title 1', description: 'Some desc 1', content: '<strong class="red">My content: {$username}</strong>'},
+                {title: 'Some title 2', description: 'Some desc 2', url: 'development.html'}
+            ],
+        });
+    </script>
+</head>
+
+<body>
+    <div id="app">
+        <section class="config" id="left">
+            <textarea id="code" rows="10"></textarea>
+
+            <footer class="footer">
+                <div class="icon-packer"></div>
+                <p>Press <code>CTRL + .</code> to open an autocomplete dialog with all variables or inspect the theme less source files</p>
+                <p><button type="button" id="reset">Reset</button></p>
+            </section>
+
+            <section class="output" id="right">
+                <article class="component" style="flex-basis: 100%;">
+                    <textarea id="testeditor"></textarea>
+                </article>
+
+                <article class="component">
+                    <div class="tox tox-sseeditor-aux tox-sseeditor-pop---deprecate">
+    <div class="tox-pop tox-pop--bottom">
+        <div class="tox-pop__dialog">
+            <div class="tox-toolbar">
+                <div class="tox-toolbar__group">
+                    <button type="button" class="tox-tbtn">
+                        <svg data-name="bold"></svg>
+                    </button>
+
+                    <button type="button" class="tox-tbtn">
+                        <svg data-name="italic"></svg>
+                    </button>
+
+                    <button type="button" class="tox-tbtn">
+                        <svg data-name="link"></svg>
+                    </button>
+
+                    <button type="button" class="tox-tbtn">
+                        <span>H2</span>
+                    </button>
+
+                    <button type="button" class="tox-tbtn">
+                        <svg data-name="quote"></svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+                </article>
+
+                <article class="component">
+                    <div class="tox tox-sseeditor-aux tox-sseeditor-pop---deprecate">
+    <div class="tox-pop tox-pop--bottom">
+        <div class="tox-pop__dialog">
+            <div class="tox-toolbar">
+                <div class="tox-toolbar__group">
+                    <button type="button" class="tox-tbtn tox-tbtn--select">
+                        <span class="tox-tbtn__select-label">Paragraph</span>
+                        <div class="tox-tbtn__select-chevron">
+                            <svg data-name="chevron-down"></svg>
+                        </div>
+                    </button>
+                </div>
+
+                <div class="tox-toolbar__group">
+                    <button type="button" class="tox-tbtn">
+                        <svg data-name="bold"></svg>
+                    </button>
+
+                    <button type="button" class="tox-tbtn">
+                        <svg data-name="italic"></svg>
+                    </button>
+
+                    <div class="tox-split-button">
+                        <button type="button" class="tox-tbtn">
+                            <svg data-name="align-left"></svg>
+                        </button>
+                        <button type="button" class="tox-tbtn tox-split-button__chevron">
+                            <svg data-name="chevron-down"></svg>
+                        </button>
+                    </div>
+
+                    <button type="button" class="tox-tbtn">
+                        <svg data-name="help"></svg>
+                    </button>
+
+                    <button type="button" class="tox-tbtn">
+                        <span>H2</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+                </article>
+
+                <article class="component">
+                    <div class="tox tox-sseeditor-aux tox-sseeditor-pop---deprecate">
+    <div class="tox-pop tox-pop--top tox-pop--align-left">
+        <div class="tox-pop__dialog">
+            <div class="tox-toolbar">
+                <div class="tox-toolbar__group">
+                    <input type="text" class="tox-toolbar-textfield" value="https://tinymce.com">
+                </div>
+
+                <div class="tox-toolbar__group">
+                    <button type="button" class="tox-tbtn">
+                        <svg data-name="unlink"></svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+                </article>
+
+                <article class="component">
+                    <div class="tox tox-sseeditor-aux">
+    <div class="tox-menu tox-collection tox-collection--list">
+        <div class="tox-collection__group">
+            <div class="tox-collection__item">
+                <span class="tox-collection__item-icon">
+                    <svg data-name="sourcecode"></svg>
+                </span>
+                <span class="tox-collection__item-label">Source code</span>
+            </div>
+
+            <div class="tox-collection__item tox-collection__item--disabled">
+                <span class="tox-collection__item-icon"></span>
+                <span class="tox-collection__item-label">Disabled item</span>
+            </div>
+        </div>
+
+        <div class="tox-collection__group">
+            <div class="tox-collection__item tox-collection__item--enabled">
+                <span class="tox-collection__item-icon tox-collection__item-checkmark">
+                    <svg data-name="checkmark"></svg>
+                </span>
+                <span class="tox-collection__item-label">Visual aids (enabled)</span>
+            </div>
+
+            <div class="tox-collection__item">
+                <span class="tox-collection__item-icon"></span>
+                <span class="tox-collection__item-label">Show invisible characters</span>
+            </div>
+
+            <div class="tox-collection__item">
+                <span class="tox-collection__item-icon"></span>
+                <span class="tox-collection__item-label">Has submenu</span>
+                <span class="tox-collection__item-caret">
+                    <svg data-name="chevron-right"></svg>
+                </span>
+            </div>
+        </div>
+
+        <div class="tox-collection__group">
+            <div class="tox-collection__item" role="menuitemcheckbox">
+                <span class="tox-collection__item-icon tox-collection__item-checkmark">
+                    <svg data-name="checkmark"></svg>
+                </span>
+                <span class="tox-collection__item-label">Spellcheck (not enabled)</span>
+            </div>
+        </div>
+
+        <div class="tox-collection__group">
+            <div class="tox-collection__item">
+                <span class="tox-collection__item-icon"></span>
+                <span class="tox-collection__item-label">Preview</span>
+            </div>
+
+            <div class="tox-collection__item">
+                <span class="tox-collection__item-icon"></span>
+                <span class="tox-collection__item-label">Fullscreen</span>
+                <span class="tox-collection__item-accessory">⌘+⇧+F</span>
+            </div>
+        </div>
+        <div class="tox-collection__group">
+            <div class="tox-collection__group-heading">
+                Group Heading
+            </div>
+            <div class="tox-collection__item tox-collection__item--active">
+                <span class="tox-collection__item-icon"></span>
+                <span class="tox-collection__item-label">State hover/focus</span>
+            </div>
+        </div>
+    </div>
+</div>
+
+                </article>
+
+                <article class="component">
+                    <div class="tox tox-sseeditor-aux">
+    <div class="tox-menu tox-collection tox-collection--toolbar tox-collection--toolbar-lg">
+        <div class="tox-collection__group">
+            <div class="tox-collection__item">
+                <span class="tox-collection__item-icon">
+                    <svg data-name="list-num-default"></svg>
+                </span>
+            </div>
+
+            <div class="tox-collection__item">
+                <span class="tox-collection__item-icon">
+                    <svg data-name="list-num-lower-alpha"></svg>
+                </span>
+            </div>
+
+            <div class="tox-collection__item">
+                <span class="tox-collection__item-icon">
+                    <svg data-name="list-num-lower-greek"></svg>
+                </span>
+            </div>
+        </div>
+
+        <div class="tox-collection__group">
+            <div class="tox-collection__item">
+                <span class="tox-collection__item-icon">
+                    <svg data-name="list-num-lower-roman"></svg>
+                </span>
+            </div>
+
+            <div class="tox-collection__item tox-collection__item--active">
+                <span class="tox-collection__item-icon">
+                    <svg data-name="list-num-upper-alpha"></svg>
+                </span>
+            </div>
+
+            <div class="tox-collection__item tox-collection__item--enabled">
+                <span class="tox-collection__item-icon">
+                    <svg data-name="list-num-upper-roman"></svg>
+                </span>
+            </div>
+        </div>
+    </div>
+</div>
+
+                </article>
+
+                <article class="component" style="max-width: 362px;">
+                    <div class="tox tox-sseeditor-aux">
+    <div class="tox-menu tox-collection tox-collection--grid">
+        <div class="tox-collection__group">
+            <div class="tox-collection__item"><div class="tox-collection__item-icon">😀</div></div>
+            <div class="tox-collection__item tox-collection__item--active"><div class="tox-collection__item-icon">😃</div></div>
+            <div class="tox-collection__item tox-collection__item--enabled"><div class="tox-collection__item-icon">😄</div></div>
+            <div class="tox-collection__item"><div class="tox-collection__item-icon">😁</div></div>
+            <div class="tox-collection__item"><div class="tox-collection__item-icon">😆</div></div>
+            <div class="tox-collection__item"><div class="tox-collection__item-icon">😅</div></div>
+            <div class="tox-collection__item"><div class="tox-collection__item-icon">😂</div></div>
+            <div class="tox-collection__item"><div class="tox-collection__item-icon">🤣</div></div>
+            <div class="tox-collection__item"><div class="tox-collection__item-icon">☺️</div></div>
+            <div class="tox-collection__item"><div class="tox-collection__item-icon">😊</div></div>
+            <div class="tox-collection__item"><div class="tox-collection__item-icon">😇</div></div>
+            <div class="tox-collection__item"><div class="tox-collection__item-icon">🙂</div></div>
+            <div class="tox-collection__item"><div class="tox-collection__item-icon">🙃</div></div>
+            <div class="tox-collection__item"><div class="tox-collection__item-icon">😉</div></div>
+            <div class="tox-collection__item"><div class="tox-collection__item-icon">😌</div></div>
+            <div class="tox-collection__item"><div class="tox-collection__item-icon">😍</div></div>
+            <div class="tox-collection__item"><div class="tox-collection__item-icon">😘</div></div>
+            <div class="tox-collection__item"><div class="tox-collection__item-icon">😗</div></div>
+            <div class="tox-collection__item"><div class="tox-collection__item-icon">😙</div></div>
+            <div class="tox-collection__item"><div class="tox-collection__item-icon">😚</div></div>
+            <div class="tox-collection__item"><div class="tox-collection__item-icon">😋</div></div>
+            <div class="tox-collection__item"><div class="tox-collection__item-icon">😛</div></div>
+            <div class="tox-collection__item"><div class="tox-collection__item-icon">😝</div></div>
+            <div class="tox-collection__item"><div class="tox-collection__item-icon">😜</div></div>
+            <div class="tox-collection__item"><div class="tox-collection__item-icon">🤪</div></div>
+            <div class="tox-collection__item"><div class="tox-collection__item-icon">🤨</div></div>
+            <div class="tox-collection__item"><div class="tox-collection__item-icon">🧐</div></div>
+            <div class="tox-collection__item"><div class="tox-collection__item-icon">🤓</div></div>
+            <div class="tox-collection__item"><div class="tox-collection__item-icon">😎</div></div>
+            <div class="tox-collection__item"><div class="tox-collection__item-icon">🤩</div></div>
+            <div class="tox-collection__item"><div class="tox-collection__item-icon">😏</div></div>
+            <div class="tox-collection__item"><div class="tox-collection__item-icon">😒</div></div>
+            <div class="tox-collection__item"><div class="tox-collection__item-icon">😞</div></div>
+            <div class="tox-collection__item"><div class="tox-collection__item-icon">😔</div></div>
+            <div class="tox-collection__item"><div class="tox-collection__item-icon">😟</div></div>
+            <div class="tox-collection__item"><div class="tox-collection__item-icon">😕</div></div>
+            <div class="tox-collection__item"><div class="tox-collection__item-icon">🙁</div></div>
+            <div class="tox-collection__item"><div class="tox-collection__item-icon">☹️</div></div>
+            <div class="tox-collection__item"><div class="tox-collection__item-icon">😣</div></div>
+            <div class="tox-collection__item"><div class="tox-collection__item-icon">😖</div></div>
+            <div class="tox-collection__item"><div class="tox-collection__item-icon">😫</div></div>
+            <div class="tox-collection__item"><div class="tox-collection__item-icon">😩</div></div>
+            <div class="tox-collection__item"><div class="tox-collection__item-icon">😢</div></div>
+            <div class="tox-collection__item"><div class="tox-collection__item-icon">😭</div></div>
+            <div class="tox-collection__item"><div class="tox-collection__item-icon">😤</div></div>
+            <div class="tox-collection__item"><div class="tox-collection__item-icon">😠</div></div>
+            <div class="tox-collection__item"><div class="tox-collection__item-icon">😡</div></div>
+            <div class="tox-collection__item"><div class="tox-collection__item-icon">🤬</div></div>
+            <div class="tox-collection__item"><div class="tox-collection__item-icon">🤯</div></div>
+            <div class="tox-collection__item"><div class="tox-collection__item-icon">😳</div></div>
+            <div class="tox-collection__item"><div class="tox-collection__item-icon">😱</div></div>
+            <div class="tox-collection__item"><div class="tox-collection__item-icon">😨</div></div>
+            <div class="tox-collection__item"><div class="tox-collection__item-icon">😰</div></div>
+            <div class="tox-collection__item"><div class="tox-collection__item-icon">😥</div></div>
+            <div class="tox-collection__item"><div class="tox-collection__item-icon">😓</div></div>
+            <div class="tox-collection__item"><div class="tox-collection__item-icon">🤗</div></div>
+            <div class="tox-collection__item"><div class="tox-collection__item-icon">🤔</div></div>
+            <div class="tox-collection__item"><div class="tox-collection__item-icon">🤭</div></div>
+            <div class="tox-collection__item"><div class="tox-collection__item-icon">🤫</div></div>
+            <div class="tox-collection__item"><div class="tox-collection__item-icon">🤥</div></div>
+            <div class="tox-collection__item"><div class="tox-collection__item-icon">😶</div></div>
+            <div class="tox-collection__item"><div class="tox-collection__item-icon">😐</div></div>
+            <div class="tox-collection__item"><div class="tox-collection__item-icon">😑</div></div>
+            <div class="tox-collection__item"><div class="tox-collection__item-icon">🐶</div></div>
+            <div class="tox-collection__item"><div class="tox-collection__item-icon">🐱</div></div>
+            <div class="tox-collection__item"><div class="tox-collection__item-icon">🐭</div></div>
+            <div class="tox-collection__item"><div class="tox-collection__item-icon">🐹</div></div>
+            <div class="tox-collection__item"><div class="tox-collection__item-icon">🐰</div></div>
+            <div class="tox-collection__item"><div class="tox-collection__item-icon">🦊</div></div>
+            <div class="tox-collection__item"><div class="tox-collection__item-icon">🐻</div></div>
+            <div class="tox-collection__item"><div class="tox-collection__item-icon">🐼</div></div>
+            <div class="tox-collection__item"><div class="tox-collection__item-icon">🐨</div></div>
+            <div class="tox-collection__item"><div class="tox-collection__item-icon">🐯</div></div>
+            <div class="tox-collection__item"><div class="tox-collection__item-icon">🦁</div></div>
+            <div class="tox-collection__item"><div class="tox-collection__item-icon">🐮</div></div>
+            <div class="tox-collection__item"><div class="tox-collection__item-icon">🐷</div></div>
+            <div class="tox-collection__item"><div class="tox-collection__item-icon">🐽</div></div>
+            <div class="tox-collection__item"><div class="tox-collection__item-icon">🐸</div></div>
+            <div class="tox-collection__item"><div class="tox-collection__item-icon">🐵</div></div>
+            <div class="tox-collection__item"><div class="tox-collection__item-icon">🙈</div></div>
+            <div class="tox-collection__item"><div class="tox-collection__item-icon">🙉</div></div>
+            <div class="tox-collection__item"><div class="tox-collection__item-icon">🙊</div></div>
+
+        </div>
+    </div>
+</div>
+
+                </article>
+
+                <article class="component">
+                    <div class="tox tox-sseeditor-aux">
+    <div class="tox-menu">
+        <div class="tox-swatches">
+            <div class="tox-swatches__row">
+                <div class="tox-swatch" style="background-color: #1abc9c"></div>
+                <div class="tox-swatch" style="background-color: #2ecc71;"></div>
+                <div class="tox-swatch" style="background-color: #3498db;"></div>
+                <div class="tox-swatch" style="background-color: #9b59b6;"></div>
+                <div class="tox-swatch" style="background-color: #34495e;"></div>
+            </div>
+
+            <div class="tox-swatches__row">
+                <div class="tox-swatch" style="background-color: #16a085;"></div>
+                <div class="tox-swatch" style="background-color: #27ae60;"></div>
+                <div class="tox-swatch" style="background-color: #2980b9;"></div>
+                <div class="tox-swatch" style="background-color: #8e44ad;"></div>
+                <div class="tox-swatch" style="background-color: #2c3e50;"></div>
+            </div>
+
+            <div class="tox-swatches__row">
+                <div class="tox-swatch" style="background-color: #f1c40f;"></div>
+                <div class="tox-swatch" style="background-color: #e67e22;"></div>
+                <div class="tox-swatch" style="background-color: #e74c3c;"></div>
+                <div class="tox-swatch" style="background-color: #ecf0f1;"></div>
+                <div class="tox-swatch" style="background-color: #95a5a6;"></div>
+            </div>
+
+            <div class="tox-swatches__row">
+                <div class="tox-swatch" style="background-color: #f39c12;"></div>
+                <div class="tox-swatch" style="background-color: #d35400;"></div>
+                <div class="tox-swatch" style="background-color: #c0392b;"></div>
+                <div class="tox-swatch" style="background-color: #bdc3c7;"></div>
+                <div class="tox-swatch" style="background-color: #7f8c8d;"></div>
+            </div>
+
+            <div class="tox-swatches__row">
+                <div class="tox-swatch" style="background-color: #000000;"></div>
+                <div class="tox-swatch tox-swatch--outline" style="background-color: #ffffff;"></div>
+                <div class="tox-swatch tox-swatch--remove">
+                    <svg width="30" height="30" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M25 5L5 25" stroke-width="1.5" fill="none" />
+                    </svg>
+                </div>
+                <button type="button" class="tox-swatches__picker-btn">
+                    <svg data-name="color-picker"></svg>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+                </article>
+
+                <article class="component">
+                    <div class="tox tox-sseeditor-aux">
+    <div class="tox-menu tox-collection tox-collection--list">
+        <div class="tox-collection__group">
+            <div class="tox-insert-table-picker">
+                <div class="tox-insert-table-picker__selected"></div>
+                <div class="tox-insert-table-picker__selected"></div>
+                <div class="tox-insert-table-picker__selected"></div>
+                <div class="tox-insert-table-picker__selected"></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div class="tox-insert-table-picker__selected"></div>
+                <div class="tox-insert-table-picker__selected"></div>
+                <div class="tox-insert-table-picker__selected"></div>
+                <div class="tox-insert-table-picker__selected"></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div class="tox-insert-table-picker__selected"></div>
+                <div class="tox-insert-table-picker__selected"></div>
+                <div class="tox-insert-table-picker__selected"></div>
+                <div class="tox-insert-table-picker__selected"></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div class="tox-insert-table-picker__selected"></div>
+                <div class="tox-insert-table-picker__selected"></div>
+                <div class="tox-insert-table-picker__selected"></div>
+                <div class="tox-insert-table-picker__selected"></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div class="tox-insert-table-picker__selected"></div>
+                <div class="tox-insert-table-picker__selected"></div>
+                <div class="tox-insert-table-picker__selected"></div>
+                <div class="tox-insert-table-picker__selected"></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <span class="tox-insert-table-picker__label">4x5</span>
+            </div>
+        </div>
+    </div>
+</div>
+
+                </article>
+
+                <article class="component">
+                    <div class="tox tox-sseeditor-aux">
+    <label class="tox-checkbox">
+        <input type="checkbox" class="tox-checkbox__input">
+
+        <div class="tox-checkbox__icons">
+            <span class="tox-icon tox-checkbox-icon__unchecked">
+                <svg data-name="unselected"></svg>
+            </span>
+
+            <span class="tox-icon tox-checkbox-icon__checked">
+                <svg data-name="selected"></svg>
+            </span>
+
+            <span class="tox-icon tox-checkbox-icon__indeterminate">
+                <svg data-name="indeterminate"></svg>
+            </span>
+        </div>
+
+        <span class="tox-checkbox__label">Checkbox with label</span>
+    </label>
+
+    <label class="tox-checkbox">
+        <input type="checkbox" class="tox-checkbox__input" id="makeCheckboxIndeterminate">
+
+        <div class="tox-checkbox__icons">
+            <span class="tox-icon tox-checkbox-icon__unchecked">
+                <svg data-name="unselected"></svg>
+            </span>
+
+            <span class="tox-icon tox-checkbox-icon__checked">
+                <svg data-name="selected"></svg>
+            </span>
+
+            <span class="tox-icon tox-checkbox-icon__indeterminate">
+                <svg data-name="indeterminate"></svg>
+            </span>
+        </div>
+
+        <span class="tox-checkbox__label">Inteterminate checkbox</span>
+    </label>
+</div>
+
+<script>
+    var checkbox = document.getElementById('makeCheckboxIndeterminate');
+    checkbox.indeterminate = true;
+</script>
+
+                </article>
+
+                <article class="component">
+                    <div class="tox tox-sseeditor-aux">
+    <div class="tox-slider">
+        <div class="tox-slider__rail"></div>
+        <div class="tox-slider__handle"></div>
+    </div>
+</div>
+
+                </article>
+
+                <article class="component">
+                    <div class="tox tox-sseeditor-aux">
+    <div class="tox-spinner">
+        <div></div>
+        <div></div>
+        <div></div>
+    </div>
+</div>
+
+                </article>
+
+                <article class="component">
+                    <div class="tox tox-sseeditor-aux">
+    <div class="tox-form">
+        <div class="tox-form__group">
+            <button type="button" class="tox-button">Primary button</button>
+        </div>
+        <div class="tox-form__group">
+            <button type="button" class="tox-button" disabled>Disabled button</button>
+        </div>
+    </div>
+</div>
+
+                </article>
+
+                <article class="component">
+                    <div class="tox tox-sseeditor-aux">
+    <div class="tox-form">
+        <div class="tox-form__group">
+            <button type="button" class="tox-button tox-button--secondary">Secondary button</button>
+        </div>
+        <div class="tox-form__group">
+            <button type="button" class="tox-button tox-button--secondary" disabled>Disabled button</button>
+        </div>
+    </div>
+</div>
+
+                </article>
+
+                <article class="component">
+                    <div class="tox tox-sseeditor-aux">
+    <div class="tox-form">
+        <div class="tox-form__group">
+            <div class="tox-form__controls-h-stack">
+                <button type="button" class="tox-button tox-button--icon">
+                    <div class="tox-icon">
+                        <svg data-name="temporary-placeholder"></svg>
+                    </div>
+                </button>
+
+                <button type="button" class="tox-button tox-button--icon" disabled>
+                    <div class="tox-icon">
+                        <svg data-name="temporary-placeholder"></svg>
+                    </div>
+                </button>
+
+                <button type="button" class="tox-button tox-button--secondary tox-button--icon">
+                    <div class="tox-icon">
+                        <svg data-name="temporary-placeholder"></svg>
+                    </div>
+                </button>
+
+                <button type="button" class="tox-button tox-button--secondary tox-button--icon" disabled>
+                    <div class="tox-icon">
+                        <svg data-name="temporary-placeholder"></svg>
+                    </div>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+                </article>
+
+                <article class="component">
+                    <div class="tox tox-sseeditor-aux">
+    <div class="tox-form">
+        <div class="tox-form__group">
+            <div class="tox-form__controls-h-stack">
+                <button type="button" class="tox-button tox-button--icon tox-button--naked">
+                    <div class="tox-icon">
+                        <svg data-name="temporary-placeholder"></svg>
+                    </div>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+                </article>
+
+                <article class="component" style="flex-basis: 100%;">
+                    <div class="tox tox-sseeditor-aux">
+    <div class="tox-dropzone-container">
+        <div class="tox-dropzone">
+            <p>Drop something here</p>
+        </div>
+    </div>
+</div>
+
+                </article>
+
+                <article class="component">
+                    <div class="tox tox-sseeditor-aux">
+    <div class="tox-tooltip tox-tooltip--down">
+        <div class="tox-tooltip__body">Are you hanging on the edge of your seat? </div>
+        <i class="tox-tooltip__arrow"></i>
+    </div>
+
+    <div class="tox-tooltip tox-tooltip--up">
+        <div class="tox-tooltip__body">Out of the doorway the bullets rip</div>
+        <i class="tox-tooltip__arrow"></i>
+    </div>
+
+    <div class="tox-tooltip tox-tooltip--left">
+        <div class="tox-tooltip__body">To the sound of the beat</div>
+        <i class="tox-tooltip__arrow"></i>
+    </div>
+
+    <div class="tox-tooltip tox-tooltip--right">
+        <div class="tox-tooltip__body">Another one bites the dust</div>
+        <i class="tox-tooltip__arrow"></i>
+    </div>
+</div>
+
+                </article>
+
+                <article class="component">
+                    <div class="tox tox-sseeditor-aux">
+                        <div class="tox-dialog">
+    <div class="tox-dialog__header" role="presentation">
+        <div class="tox-dialog__title">Insert/Edit Image</div>
+        <div class="tox-dialog__draghandle"></div>
+        <button type="button" class="tox-button tox-button--icon tox-button--naked">
+            <div class="tox-icon">
+                <svg data-name="close"></svg>
+            </div>
+        </button>
+    </div>
+
+    <div class="tox-dialog__body">
+        <nav class="tox-dialog__body-nav">
+            <a href="#" class="tox-dialog__body-nav-item tox-dialog__body-nav-item--active">General</a>
+            <a href="#" class="tox-dialog__body-nav-item">Advanced</a>
+        </nav>
+
+        <div class="tox-dialog__body-content">
+            <div class="tox-form">
+                <div class="tox-form__group">
+                    <label class="tox-label">Source</label>
+                    <div class="tox-form__controls-h-stack">
+                        <input type="text" class="tox-textfield">
+                        <button type="button" class="tox-button tox-button--naked tox-button--icon">
+                            <div class="tox-icon">
+                                <svg data-name="browse"></svg>
+                            </div>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="tox-form__group">
+                    <label class="tox-label">Image description</label>
+                    <input type="text" class="tox-textfield">
+                </div>
+
+                <div class="tox-form__group">
+                    <label class="tox-label">Image title</label>
+                    <input type="text" class="tox-textfield">
+                </div>
+
+                <div class="tox-form__controls-h-stack">
+    <div class="tox-form__group">
+        <label class="tox-label">Width</label>
+        <input class="tox-textfield" type="text">
+    </div>
+    <div class="tox-form__group">
+        <label class="tox-label">Height</label>
+        <div class="tox-form__controls-h-stack">
+            <input class="tox-textfield" type="text">
+            <button type="button" class="tox-button tox-button--naked tox-button--icon">
+                <div class="tox-icon">
+                    <svg data-name="lock"></svg>
+                </div>
+            </button>
+        </div>
+    </div>
+</div>
+
+
+                <div class="tox-form__group">
+                    <label class="tox-label">Class</label>
+                    <div class="tox-selectfield">
+                        <select>
+                            <option>None</option>
+                            <option>...</option>
+                            <option>...</option>
+                        </select>
+                        <svg data-name="chevron-down"></svg>
+                    </div>
+                </div>
+
+                <div class="tox-form__group">
+                    <label class="tox-label">Caption</label>
+                    <label class="tox-checkbox">
+                        <input type="checkbox" class="tox-checkbox__input">
+
+                        <div class="tox-checkbox__icons">
+                            <span class="tox-icon tox-checkbox-icon__unchecked">
+                                <svg data-name="unselected"></svg>
+                            </span>
+
+                            <span class="tox-icon tox-checkbox-icon__checked">
+                                <svg data-name="selected"></svg>
+                            </span>
+
+                            <span class="tox-icon tox-checkbox-icon__indeterminate">
+                                <svg data-name="indeterminate"></svg>
+                            </span>
+                        </div>
+
+                        <span class="tox-checkbox__label">Show caption</span>
+                    </label>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="tox-dialog__footer">
+        <div class="tox-dialog__footer-start"></div>
+        <div class="tox-dialog__footer-end">
+            <button class="tox-button tox-button--secondary" type="button">Cancel</button>
+            <button class="tox-button" type="button">Save</button>
+        </div>
+    </div>
+</div>
+
+                    </div>
+                </article>
+
+                <article class="component">
+                    <div class="tox tox-sseeditor-aux">
+                        <div class="tox-dialog">
+    <div class="tox-dialog__header" role="presentation">
+        <div class="tox-dialog__title">Insert/Edit Image</div>
+        <div class="tox-dialog__draghandle"></div>
+        <button type="button" class="tox-button tox-button--icon tox-button--naked">
+            <div class="tox-icon">
+                <svg data-name="close"></svg>
+            </div>
+        </button>
+    </div>
+
+    <div class="tox-dialog__body">
+        <nav class="tox-dialog__body-nav">
+            <a href="#" class="tox-dialog__body-nav-item">General</a>
+            <a href="#" class="tox-dialog__body-nav-item tox-dialog__body-nav-item--active">Advanced</a>
+        </nav>
+
+        <div class="tox-dialog__body-content">
+            <div class="tox-form">
+                <div class="tox-form__group">
+                    <label class="tox-label">Style</label>
+                    <input type="text" class="tox-textfield">
+                </div>
+
+                <div class="tox-form__grid tox-form__grid--2col">
+                    <div class="tox-form__group">
+                        <label class="tox-label">Vertical space</label>
+                        <input type="text" class="tox-textfield">
+                    </div>
+
+                    <div class="tox-form__group">
+                        <label class="tox-label">Horizontal space</label>
+                        <input type="text" class="tox-textfield">
+                    </div>
+
+                    <div class="tox-form__group">
+                        <label class="tox-label">Border width</label>
+                        <input type="text" class="tox-textfield">
+                    </div>
+
+                    <div class="tox-form__group">
+                        <label class="tox-label">Border style</label>
+                        <div class="tox-selectfield">
+                            <select>
+                                <option>Select...</option>
+                                <option>...</option>
+                                <option>...</option>
+                            </select>
+                            <svg data-name="chevron-down"></svg>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="tox-dialog__footer">
+        <div class="tox-dialog__footer-start"></div>
+        <div class="tox-dialog__footer-end">
+            <button class="tox-button tox-button--secondary" type="button">Cancel</button>
+            <button class="tox-button" type="button">Save</button>
+        </div>
+    </div>
+</div>
+
+                    </div>
+                </article>
+
+                <article class="component">
+                    <div class="tox tox-sseeditor-aux">
+                        <div class="tox-dialog">
+    <div class="tox-dialog__header">
+        <div class="tox-dialog__title">Emoticons</div>
+        <div class="tox-dialog__draghandle"></div>
+        <button type="button" class="tox-button tox-button--icon tox-button--naked">
+            <div class="tox-icon">
+                <svg data-name="close"></svg>
+            </div>
+        </button>
+    </div>
+
+    <div class="tox-dialog__body">
+        <div class="tox-dialog__body-nav">
+            <div class="tox-dialog__body-nav-item tox-dialog__body-nav-item--active">All</div>
+            <div class="tox-dialog__body-nav-item">Smileys & People</div>
+            <div class="tox-dialog__body-nav-item">Animals & Nature</div>
+            <div class="tox-dialog__body-nav-item">Food & Drink</div>
+            <div class="tox-dialog__body-nav-item">Activity</div>
+            <div class="tox-dialog__body-nav-item">Travel & Places</div>
+            <div class="tox-dialog__body-nav-item">Objects</div>
+            <div class="tox-dialog__body-nav-item">Symbols</div>
+            <div class="tox-dialog__body-nav-item">Flags</div>
+        </div>
+
+        <div class="tox-dialog__body-content">
+            <div class="tox-form">
+                <div class="tox-form__group">
+                    <label class="tox-label">Search</label>
+                    <input type="input" placeholder="Search" class="tox-textfield">
+                </div>
+
+                <div class="tox-form__group">
+                    <div class="tox-collection tox-collection--grid">
+                        <div class="tox-collection__group">
+                            <div class="tox-collection__item"><div class="tox-collection__item-icon">😀</div></div>
+                            <div class="tox-collection__item"><div class="tox-collection__item-icon">😃</div></div>
+                            <div class="tox-collection__item"><div class="tox-collection__item-icon">😄</div></div>
+                            <div class="tox-collection__item"><div class="tox-collection__item-icon">😁</div></div>
+                            <div class="tox-collection__item"><div class="tox-collection__item-icon">😆</div></div>
+                            <div class="tox-collection__item"><div class="tox-collection__item-icon">😅</div></div>
+                            <div class="tox-collection__item"><div class="tox-collection__item-icon">😂</div></div>
+                            <div class="tox-collection__item"><div class="tox-collection__item-icon">🤣</div></div>
+                            <div class="tox-collection__item"><div class="tox-collection__item-icon">☺️</div></div>
+                            <div class="tox-collection__item"><div class="tox-collection__item-icon">😊</div></div>
+                            <div class="tox-collection__item"><div class="tox-collection__item-icon">😇</div></div>
+                            <div class="tox-collection__item"><div class="tox-collection__item-icon">🙂</div></div>
+                            <div class="tox-collection__item"><div class="tox-collection__item-icon">🙃</div></div>
+                            <div class="tox-collection__item"><div class="tox-collection__item-icon">😉</div></div>
+                            <div class="tox-collection__item"><div class="tox-collection__item-icon">😌</div></div>
+                            <div class="tox-collection__item"><div class="tox-collection__item-icon">😍</div></div>
+                            <div class="tox-collection__item"><div class="tox-collection__item-icon">😘</div></div>
+                            <div class="tox-collection__item"><div class="tox-collection__item-icon">😗</div></div>
+                            <div class="tox-collection__item"><div class="tox-collection__item-icon">😙</div></div>
+                            <div class="tox-collection__item"><div class="tox-collection__item-icon">😚</div></div>
+                            <div class="tox-collection__item"><div class="tox-collection__item-icon">😋</div></div>
+                            <div class="tox-collection__item"><div class="tox-collection__item-icon">😛</div></div>
+                            <div class="tox-collection__item"><div class="tox-collection__item-icon">😝</div></div>
+                            <div class="tox-collection__item"><div class="tox-collection__item-icon">😜</div></div>
+                            <div class="tox-collection__item"><div class="tox-collection__item-icon">🤪</div></div>
+                            <div class="tox-collection__item"><div class="tox-collection__item-icon">🤨</div></div>
+                            <div class="tox-collection__item"><div class="tox-collection__item-icon">🧐</div></div>
+                            <div class="tox-collection__item"><div class="tox-collection__item-icon">🤓</div></div>
+                            <div class="tox-collection__item"><div class="tox-collection__item-icon">😎</div></div>
+                            <div class="tox-collection__item"><div class="tox-collection__item-icon">🤩</div></div>
+                            <div class="tox-collection__item"><div class="tox-collection__item-icon">😏</div></div>
+                            <div class="tox-collection__item"><div class="tox-collection__item-icon">😒</div></div>
+                            <div class="tox-collection__item"><div class="tox-collection__item-icon">😞</div></div>
+                            <div class="tox-collection__item"><div class="tox-collection__item-icon">😔</div></div>
+                            <div class="tox-collection__item"><div class="tox-collection__item-icon">😟</div></div>
+                            <div class="tox-collection__item"><div class="tox-collection__item-icon">😕</div></div>
+                            <div class="tox-collection__item"><div class="tox-collection__item-icon">🙁</div></div>
+                            <div class="tox-collection__item"><div class="tox-collection__item-icon">☹️</div></div>
+                            <div class="tox-collection__item"><div class="tox-collection__item-icon">😣</div></div>
+                            <div class="tox-collection__item"><div class="tox-collection__item-icon">😖</div></div>
+                            <div class="tox-collection__item"><div class="tox-collection__item-icon">😫</div></div>
+                            <div class="tox-collection__item"><div class="tox-collection__item-icon">😩</div></div>
+                            <div class="tox-collection__item"><div class="tox-collection__item-icon">😢</div></div>
+                            <div class="tox-collection__item"><div class="tox-collection__item-icon">😭</div></div>
+                            <div class="tox-collection__item"><div class="tox-collection__item-icon">😤</div></div>
+                            <div class="tox-collection__item"><div class="tox-collection__item-icon">😠</div></div>
+                            <div class="tox-collection__item"><div class="tox-collection__item-icon">😡</div></div>
+                            <div class="tox-collection__item"><div class="tox-collection__item-icon">🤬</div></div>
+                            <div class="tox-collection__item"><div class="tox-collection__item-icon">🤯</div></div>
+                            <div class="tox-collection__item"><div class="tox-collection__item-icon">😳</div></div>
+                            <div class="tox-collection__item"><div class="tox-collection__item-icon">😱</div></div>
+                            <div class="tox-collection__item"><div class="tox-collection__item-icon">😨</div></div>
+                            <div class="tox-collection__item"><div class="tox-collection__item-icon">😰</div></div>
+                            <div class="tox-collection__item"><div class="tox-collection__item-icon">😥</div></div>
+                            <div class="tox-collection__item"><div class="tox-collection__item-icon">😓</div></div>
+                            <div class="tox-collection__item"><div class="tox-collection__item-icon">🤗</div></div>
+                            <div class="tox-collection__item"><div class="tox-collection__item-icon">🤔</div></div>
+                            <div class="tox-collection__item"><div class="tox-collection__item-icon">🤭</div></div>
+                            <div class="tox-collection__item"><div class="tox-collection__item-icon">🤫</div></div>
+                            <div class="tox-collection__item"><div class="tox-collection__item-icon">🤥</div></div>
+                            <div class="tox-collection__item"><div class="tox-collection__item-icon">😶</div></div>
+                            <div class="tox-collection__item"><div class="tox-collection__item-icon">😐</div></div>
+                            <div class="tox-collection__item"><div class="tox-collection__item-icon">😑</div></div>
+                            <div class="tox-collection__item"><div class="tox-collection__item-icon">🐶</div></div>
+                            <div class="tox-collection__item"><div class="tox-collection__item-icon">🐱</div></div>
+                            <div class="tox-collection__item"><div class="tox-collection__item-icon">🐭</div></div>
+                            <div class="tox-collection__item"><div class="tox-collection__item-icon">🐹</div></div>
+                            <div class="tox-collection__item"><div class="tox-collection__item-icon">🐰</div></div>
+                            <div class="tox-collection__item"><div class="tox-collection__item-icon">🦊</div></div>
+                            <div class="tox-collection__item"><div class="tox-collection__item-icon">🐻</div></div>
+                            <div class="tox-collection__item"><div class="tox-collection__item-icon">🐼</div></div>
+                            <div class="tox-collection__item"><div class="tox-collection__item-icon">🐨</div></div>
+                            <div class="tox-collection__item"><div class="tox-collection__item-icon">🐯</div></div>
+                            <div class="tox-collection__item"><div class="tox-collection__item-icon">🦁</div></div>
+                            <div class="tox-collection__item"><div class="tox-collection__item-icon">🐮</div></div>
+                            <div class="tox-collection__item"><div class="tox-collection__item-icon">🐷</div></div>
+                            <div class="tox-collection__item"><div class="tox-collection__item-icon">🐽</div></div>
+                            <div class="tox-collection__item"><div class="tox-collection__item-icon">🐸</div></div>
+                            <div class="tox-collection__item"><div class="tox-collection__item-icon">🐵</div></div>
+                            <div class="tox-collection__item"><div class="tox-collection__item-icon">🙈</div></div>
+                            <div class="tox-collection__item"><div class="tox-collection__item-icon">🙉</div></div>
+                            <div class="tox-collection__item"><div class="tox-collection__item-icon">🙊</div></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="tox-dialog__footer">
+        <div class="tox-dialog__footer-start"></div>
+        <div class="tox-dialog__footer-end">
+            <button type="button" class="tox-button tox-button--secondary">Close</button>
+        </div>
+    </div>
+</div>
+
+                    </div>
+                </article>
+
+                <article class="component">
+                    <div class="tox tox-sseeditor-aux">
+                        <div class="tox-dialog">
+    <div class="tox-dialog__header">
+        <span class="tox-dialog__title">Insert special character</span>
+        <div class="tox-dialog__draghandle"></div>
+        <button type="button" class="tox-button tox-button--icon tox-button--naked">
+            <div class="tox-icon">
+                <svg data-name="close"></svg>
+            </div>
+        </button>
+    </div>
+
+    <div class="tox-dialog__body">
+        <nav class="tox-dialog__body-nav">
+            <a href="#" class="tox-dialog__body-nav-item tox-dialog__body-nav-item--active">Latin</a>
+            <a href="#" class="tox-dialog__body-nav-item">Punctuation</a>
+            <a href="#" class="tox-dialog__body-nav-item">Currencies</a>
+            <a href="#" class="tox-dialog__body-nav-item">Arrows</a>
+            <a href="#" class="tox-dialog__body-nav-item">Mathematical</a>
+            <a href="#" class="tox-dialog__body-nav-item">Micellaneous</a>
+        </nav>
+
+        <div class="tox-dialog__body-content">
+            <div class="tox-form">
+                <div class="tox-form__group">
+                    <label class="tox-label">Search</label>
+                    <input type="input" placeholder="Search" class="tox-textfield">
+                </div>
+
+                <div class="tox-form__group">
+                    <div class="tox-collection tox-collection--grid">
+                        <div class="tox-collection__group">
+                            <div class="tox-collection__item"><div class="tox-collection__item-icon">A</div></div>
+                            <div class="tox-collection__item"><div class="tox-collection__item-icon">B</div></div>
+                            <div class="tox-collection__item"><div class="tox-collection__item-icon">C</div></div>
+                            <div class="tox-collection__item"><div class="tox-collection__item-icon">D</div></div>
+                            <div class="tox-collection__item"><div class="tox-collection__item-icon">E</div></div>
+                            <div class="tox-collection__item"><div class="tox-collection__item-icon">F</div></div>
+                            <div class="tox-collection__item"><div class="tox-collection__item-icon">G</div></div>
+                            <div class="tox-collection__item"><div class="tox-collection__item-icon">H</div></div>
+                            <div class="tox-collection__item"><div class="tox-collection__item-icon">I</div></div>
+                            <div class="tox-collection__item"><div class="tox-collection__item-icon">J</div></div>
+                            <div class="tox-collection__item"><div class="tox-collection__item-icon">K</div></div>
+                            <div class="tox-collection__item"><div class="tox-collection__item-icon">L</div></div>
+                            <div class="tox-collection__item"><div class="tox-collection__item-icon">M</div></div>
+                            <div class="tox-collection__item"><div class="tox-collection__item-icon">N</div></div>
+                            <div class="tox-collection__item"><div class="tox-collection__item-icon">O</div></div>
+                            <div class="tox-collection__item"><div class="tox-collection__item-icon">P</div></div>
+                            <div class="tox-collection__item"><div class="tox-collection__item-icon">Q</div></div>
+                            <div class="tox-collection__item"><div class="tox-collection__item-icon">R</div></div>
+                            <div class="tox-collection__item"><div class="tox-collection__item-icon">S</div></div>
+                            <div class="tox-collection__item"><div class="tox-collection__item-icon">T</div></div>
+                            <div class="tox-collection__item"><div class="tox-collection__item-icon">U</div></div>
+                            <div class="tox-collection__item"><div class="tox-collection__item-icon">V</div></div>
+                            <div class="tox-collection__item"><div class="tox-collection__item-icon">W</div></div>
+                            <div class="tox-collection__item"><div class="tox-collection__item-icon">X</div></div>
+                            <div class="tox-collection__item"><div class="tox-collection__item-icon">Y</div></div>
+                            <div class="tox-collection__item"><div class="tox-collection__item-icon">Z</div></div>
+                            <div class="tox-collection__item"><div class="tox-collection__item-icon">a</div></div>
+                            <div class="tox-collection__item"><div class="tox-collection__item-icon">b</div></div>
+                            <div class="tox-collection__item"><div class="tox-collection__item-icon">c</div></div>
+                            <div class="tox-collection__item"><div class="tox-collection__item-icon">d</div></div>
+                            <div class="tox-collection__item"><div class="tox-collection__item-icon">e</div></div>
+                            <div class="tox-collection__item"><div class="tox-collection__item-icon">f</div></div>
+                            <div class="tox-collection__item"><div class="tox-collection__item-icon">g</div></div>
+                            <div class="tox-collection__item"><div class="tox-collection__item-icon">h</div></div>
+                            <div class="tox-collection__item"><div class="tox-collection__item-icon">i</div></div>
+                            <div class="tox-collection__item"><div class="tox-collection__item-icon">j</div></div>
+                            <div class="tox-collection__item"><div class="tox-collection__item-icon">k</div></div>
+                            <div class="tox-collection__item"><div class="tox-collection__item-icon">l</div></div>
+                            <div class="tox-collection__item"><div class="tox-collection__item-icon">m</div></div>
+                            <div class="tox-collection__item"><div class="tox-collection__item-icon">n</div></div>
+                            <div class="tox-collection__item"><div class="tox-collection__item-icon">o</div></div>
+                            <div class="tox-collection__item"><div class="tox-collection__item-icon">p</div></div>
+                            <div class="tox-collection__item"><div class="tox-collection__item-icon">q</div></div>
+                            <div class="tox-collection__item"><div class="tox-collection__item-icon">r</div></div>
+                            <div class="tox-collection__item"><div class="tox-collection__item-icon">s</div></div>
+                            <div class="tox-collection__item"><div class="tox-collection__item-icon">t</div></div>
+                            <div class="tox-collection__item"><div class="tox-collection__item-icon">u</div></div>
+                            <div class="tox-collection__item"><div class="tox-collection__item-icon">v</div></div>
+                            <div class="tox-collection__item"><div class="tox-collection__item-icon">w</div></div>
+                            <div class="tox-collection__item"><div class="tox-collection__item-icon">x</div></div>
+                            <div class="tox-collection__item"><div class="tox-collection__item-icon">y</div></div>
+                            <div class="tox-collection__item"><div class="tox-collection__item-icon">z</div></div>
+                            <div class="tox-collection__item"><div class="tox-collection__item-icon">À</div></div>
+                            <div class="tox-collection__item"><div class="tox-collection__item-icon">Á</div></div>
+                            <div class="tox-collection__item"><div class="tox-collection__item-icon">Â</div></div>
+                            <div class="tox-collection__item"><div class="tox-collection__item-icon">Ã</div></div>
+                            <div class="tox-collection__item"><div class="tox-collection__item-icon">Ä</div></div>
+                            <div class="tox-collection__item"><div class="tox-collection__item-icon">Å</div></div>
+                            <div class="tox-collection__item"><div class="tox-collection__item-icon">Æ</div></div>
+                            <div class="tox-collection__item"><div class="tox-collection__item-icon">Ç</div></div>
+                            <div class="tox-collection__item"><div class="tox-collection__item-icon">È</div></div>
+                            <div class="tox-collection__item"><div class="tox-collection__item-icon">É</div></div>
+                            <div class="tox-collection__item"><div class="tox-collection__item-icon">Ê</div></div>
+                            <div class="tox-collection__item"><div class="tox-collection__item-icon">Ë</div></div>
+                            <div class="tox-collection__item"><div class="tox-collection__item-icon">Ì</div></div>
+                            <div class="tox-collection__item"><div class="tox-collection__item-icon">Í</div></div>
+                            <div class="tox-collection__item"><div class="tox-collection__item-icon">Î</div></div>
+                            <div class="tox-collection__item"><div class="tox-collection__item-icon">Ï</div></div>
+                            <div class="tox-collection__item"><div class="tox-collection__item-icon">Ð</div></div>
+                            <div class="tox-collection__item"><div class="tox-collection__item-icon">Ñ</div></div>
+                            <div class="tox-collection__item"><div class="tox-collection__item-icon">Ò</div></div>
+                            <div class="tox-collection__item"><div class="tox-collection__item-icon">Ó</div></div>
+                            <div class="tox-collection__item"><div class="tox-collection__item-icon">Ô</div></div>
+                            <div class="tox-collection__item"><div class="tox-collection__item-icon">Õ</div></div>
+                            <div class="tox-collection__item"><div class="tox-collection__item-icon">Ö</div></div>
+                            <div class="tox-collection__item"><div class="tox-collection__item-icon">×</div></div>
+                            <div class="tox-collection__item"><div class="tox-collection__item-icon">Ø</div></div>
+                            <div class="tox-collection__item"><div class="tox-collection__item-icon">Ù</div></div>
+                            <div class="tox-collection__item"><div class="tox-collection__item-icon">Ú</div></div>
+                            <div class="tox-collection__item"><div class="tox-collection__item-icon">Û</div></div>
+                            <div class="tox-collection__item"><div class="tox-collection__item-icon">Ü</div></div>
+                            <div class="tox-collection__item"><div class="tox-collection__item-icon">Ý</div></div>
+                            <div class="tox-collection__item"><div class="tox-collection__item-icon">Þ</div></div>
+                            <div class="tox-collection__item"><div class="tox-collection__item-icon">ß</div></div>
+                            <div class="tox-collection__item"><div class="tox-collection__item-icon">à</div></div>
+                            <div class="tox-collection__item"><div class="tox-collection__item-icon">á</div></div>
+                            <div class="tox-collection__item"><div class="tox-collection__item-icon">â</div></div>
+                            <div class="tox-collection__item"><div class="tox-collection__item-icon">ã</div></div>
+                            <div class="tox-collection__item"><div class="tox-collection__item-icon">ä</div></div>
+                            <div class="tox-collection__item"><div class="tox-collection__item-icon">å</div></div>
+                            <div class="tox-collection__item"><div class="tox-collection__item-icon">æ</div></div>
+                            <div class="tox-collection__item"><div class="tox-collection__item-icon">ç</div></div>
+                            <div class="tox-collection__item"><div class="tox-collection__item-icon">è</div></div>
+                            <div class="tox-collection__item"><div class="tox-collection__item-icon">é</div></div>
+                            <div class="tox-collection__item"><div class="tox-collection__item-icon">ê</div></div>
+                            <div class="tox-collection__item"><div class="tox-collection__item-icon">ë</div></div>
+                            <div class="tox-collection__item"><div class="tox-collection__item-icon">ì</div></div>
+                            <div class="tox-collection__item"><div class="tox-collection__item-icon">í</div></div>
+                            <div class="tox-collection__item"><div class="tox-collection__item-icon">î</div></div>
+                            <div class="tox-collection__item"><div class="tox-collection__item-icon">ï</div></div>
+                            <div class="tox-collection__item"><div class="tox-collection__item-icon">ð</div></div>
+                            <div class="tox-collection__item"><div class="tox-collection__item-icon">ñ</div></div>
+                            <div class="tox-collection__item"><div class="tox-collection__item-icon">ò</div></div>
+                            <div class="tox-collection__item"><div class="tox-collection__item-icon">ó</div></div>
+                            <div class="tox-collection__item"><div class="tox-collection__item-icon">ô</div></div>
+                            <div class="tox-collection__item"><div class="tox-collection__item-icon">õ</div></div>
+                            <div class="tox-collection__item"><div class="tox-collection__item-icon">ö</div></div>
+                            <div class="tox-collection__item"><div class="tox-collection__item-icon">÷</div></div>
+                            <div class="tox-collection__item"><div class="tox-collection__item-icon">ø</div></div>
+                            <div class="tox-collection__item"><div class="tox-collection__item-icon">ù</div></div>
+                            <div class="tox-collection__item"><div class="tox-collection__item-icon">ú</div></div>
+                            <div class="tox-collection__item"><div class="tox-collection__item-icon">û</div></div>
+                            <div class="tox-collection__item"><div class="tox-collection__item-icon">ü</div></div>
+                            <div class="tox-collection__item"><div class="tox-collection__item-icon">ý</div></div>
+                            <div class="tox-collection__item"><div class="tox-collection__item-icon">þ</div></div>
+                            <div class="tox-collection__item"><div class="tox-collection__item-icon">ÿ</div></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="tox-dialog__footer">
+        <div class="tox-dialog__footer-start"></div>
+        <div class="tox-dialog__footer-end">
+            <button type="button" class="tox-button tox-button--secondary">Close</button>
+        </div>
+    </div>
+</div>
+
+                    </div>
+                </article>
+
+                <article class="component">
+                    <div class="tox tox-sseeditor-aux">
+                        <div class="tox-dialog">
+    <div class="tox-dialog__header">
+        <div class="tox-dialog__title">Heading</div>
+        <div class="tox-dialog__draghandle"></div>
+        <button type="button" class="tox-button tox-button--icon tox-button--naked">
+            <div class="tox-icon">
+                <svg data-name="close"></svg>
+            </div>
+        </button>
+    </div>
+
+    <div class="tox-dialog__body">
+        <div class="tox-dialog__body-content">
+            <p>Just some text</p>
+        </div>
+    </div>
+
+    <div class="tox-dialog__footer">
+        <div class="tox-dialog__footer-start"></div>
+        <div class="tox-dialog__footer-end">
+            <button type="button" class="tox-button tox-button--secondary">Cancel</button>
+            <button type="button" class="tox-button">Do something</button>
+        </div>
+    </div>
+</div>
+
+                    </div>
+                </article>
+
+                <article class="component">
+                    <div class="tox tox-sseeditor-aux">
+                        <div class="tox-dialog">
+    <div class="tox-dialog__header">
+        <span class="tox-dialog__title">Blocked Dialog </span>
+        <div class="tox-dialog__draghandle"></div>
+        <button type="button" class="tox-button tox-button--icon tox-button--naked">
+            <div class="tox-icon">
+                <svg data-name="close"></svg>
+            </div>
+        </button>
+    </div>
+
+    <div class="tox-dialog__body">
+        <div class="tox-dialog__body-content">
+            <p>I'm busy and blocked!</p>
+        </div>
+    </div>
+
+    <div class="tox-dialog__footer">
+        <div class="tox-dialog__footer-start"></div>
+        <div class="tox-dialog__footer-end">
+            <button type="button" class="tox-button tox-button--secondary">Cancel</button>
+            <button type="button" class="tox-button">Do something</button>
+        </div>
+    </div>
+
+    <div class="tox-dialog__busy-spinner">
+        <div class="tox-spinner">
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
+    </div>
+</div>
+
+                    </div>
+                </article>
+            </section>
+        </div>
+
+        <script src="../iconManager.js"></script>
+        <script src="split.min.js"></script>
+        <script src="scripts.js"></script>
+    </body>

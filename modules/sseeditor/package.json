@@ -5,6 +5,14 @@
   "main": "index.js",
   "author": "SSE World",
   "license": "MIT",
+  "scripts": {
+    "build": "grunt buildOnly",
+    "test": "grunt test",
+    "test-manual": "grunt test-manual",
+    "lint": "eslint --max-warnings=0 src/**/*.ts",
+    "silver-test": "grunt bedrock-auto:silver",
+    "silver-test-manual": "grunt bedrock-manual:silver"
+  },
   "dependencies": {
     "@ephox/acid": "^7.0.0",
     "@ephox/agar": "^9.0.0",

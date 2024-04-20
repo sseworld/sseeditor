@@ -1,0 +1,71 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title></title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="../styles.css">
+    <link rel="stylesheet" href="../skins/ui/default/skin.css">
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+</head>
+<body>
+    <section class="demo-section">
+        <header>
+            <h2>Test Toolbar/Menubar button states</h2>
+        </header>
+
+        <article>
+            <div class="tox tox-sseeditor" style="min-height: 40px">
+    <div class="tox-editor-container">
+        <div class="tox-toolbar">
+            <div class="tox-toolbar__group">
+                <button type="button" class="tox-tbtn" disabled>
+                    <svg data-name="undo"></svg>
+                </button>
+
+                <button type="button" class="tox-tbtn tox-tbtn--disabled">
+                    <svg data-name="undo"></svg>
+                </button>
+
+                <button type="button" class="tox-tbtn">
+                    <svg data-name="redo"></svg>
+                </button>
+
+                <button type="button" class="tox-tbtn tox-tbtn--enabled">
+                    <svg data-name="redo"></svg>
+                </button>
+
+                <div class="tox-split-button">
+                    <button type="button" class="tox-tbtn" disabled>
+                        <svg data-name="ordered-list"></svg>
+                    </button>
+                    <button type="button" class="tox-tbtn tox-split-button__chevron">
+                        <svg data-name="chevron-down"></svg>
+                    </button>
+                </div>
+
+                <div class="tox-split-button">
+                    <button type="button" class="tox-tbtn tox-tbtn--disabled">
+                        <svg data-name="ordered-list"></svg>
+                    </button>
+                    <button type="button" class="tox-tbtn tox-split-button__chevron">
+                        <svg data-name="chevron-down"></svg>
+                    </button>
+                </div>
+
+                <button type="button" class="tox-mbtn" disabled>
+                    <span class="tox-mbtn__select-label">File</span>
+                    <div class="tox-mbtn__select-chevron">
+                        <svg data-name="chevron-down"></svg>
+                    </div>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+        </article>
+
+    <script src="../iconManager.js"></script>
+</body>
+</html>

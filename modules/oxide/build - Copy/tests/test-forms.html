@@ -1,0 +1,225 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title></title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="../styles.css">
+    <link rel="stylesheet" href="../skins/ui/default/skin.css">
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+</head>
+<body>
+    <section class="demo-section">
+        <header>
+            <h2>Forms</h2>
+        </header>
+
+        <article>
+            <p>Primary button</p>
+            <div class="tox tox-sseeditor-aux">
+    <div class="tox-form">
+        <div class="tox-form__group">
+            <button type="button" class="tox-button">Primary button</button>
+        </div>
+        <div class="tox-form__group">
+            <button type="button" class="tox-button" disabled>Disabled button</button>
+        </div>
+    </div>
+</div>
+
+        </article>
+
+        <article>
+            <p>Secondary button</p>
+            <div class="tox tox-sseeditor-aux">
+    <div class="tox-form">
+        <div class="tox-form__group">
+            <button type="button" class="tox-button tox-button--secondary">Secondary button</button>
+        </div>
+        <div class="tox-form__group">
+            <button type="button" class="tox-button tox-button--secondary" disabled>Disabled button</button>
+        </div>
+    </div>
+</div>
+
+        </article>
+
+        <article>
+            <p>Icon button</p>
+            <div class="tox tox-sseeditor-aux">
+    <div class="tox-form">
+        <div class="tox-form__group">
+            <div class="tox-form__controls-h-stack">
+                <button type="button" class="tox-button tox-button--icon">
+                    <div class="tox-icon">
+                        <svg data-name="temporary-placeholder"></svg>
+                    </div>
+                </button>
+
+                <button type="button" class="tox-button tox-button--icon" disabled>
+                    <div class="tox-icon">
+                        <svg data-name="temporary-placeholder"></svg>
+                    </div>
+                </button>
+
+                <button type="button" class="tox-button tox-button--secondary tox-button--icon">
+                    <div class="tox-icon">
+                        <svg data-name="temporary-placeholder"></svg>
+                    </div>
+                </button>
+
+                <button type="button" class="tox-button tox-button--secondary tox-button--icon" disabled>
+                    <div class="tox-icon">
+                        <svg data-name="temporary-placeholder"></svg>
+                    </div>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+        </article>
+
+        <article>
+            <p>Naked button</p>
+            <div class="tox tox-sseeditor-aux">
+    <div class="tox-form">
+        <div class="tox-form__group">
+            <div class="tox-form__controls-h-stack">
+                <button type="button" class="tox-button tox-button--icon tox-button--naked">
+                    <div class="tox-icon">
+                        <svg data-name="temporary-placeholder"></svg>
+                    </div>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+        </article>
+
+        <article>
+            <p>Control wrap</p>
+            <div class="tox tox-sseeditor-aux">
+    <div class="tox-form">
+        <div class="tox-form__group">
+            <div class="tox-control-wrap tox-control-wrap--status-invalid">
+                <input type="text" class="tox-textfield" value="not a valid link">
+                <div class="tox-control-wrap__status-icon-wrap" title="Status message">
+                    <div class="tox-icon tox-control-wrap__status-icon-invalid">
+                        <svg data-name="warning"></svg>
+                    </div>
+                    <div class="tox-icon tox-control-wrap__status-icon-unknown">
+                        <svg data-name="warning"></svg>
+                    </div>
+                    <div class="tox-icon tox-control-wrap__status-icon-valid">
+                        <svg data-name="checkmark"></svg>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="tox-form__group">
+            <div class="tox-control-wrap tox-control-wrap--status-unknown">
+                <input type="text" class="tox-textfield" value="http://unknown-link">
+                <div class="tox-control-wrap__status-icon-wrap" title="Status message">
+                    <div class="tox-icon tox-control-wrap__status-icon-invalid">
+                        <svg data-name="warning"></svg>
+                    </div>
+                    <div class="tox-icon tox-control-wrap__status-icon-unknown">
+                        <svg data-name="warning"></svg>
+                    </div>
+                    <div class="tox-icon tox-control-wrap__status-icon-valid">
+                        <svg data-name="checkmark"></svg>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="tox-form__group">
+            <div class="tox-control-wrap tox-control-wrap--status-valid">
+                <input type="text" class="tox-textfield" value="http://valid-link.tiny.cloud">
+                <div class="tox-control-wrap__status-icon-wrap" title="Status message">
+                    <div class="tox-icon tox-control-wrap__status-icon-invalid">
+                        <svg data-name="warning"></svg>
+                    </div>
+                    <div class="tox-icon tox-control-wrap__status-icon-unknown">
+                        <svg data-name="warning"></svg>
+                    </div>
+                    <div class="tox-icon tox-control-wrap__status-icon-valid">
+                        <svg data-name="checkmark"></svg>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+        </article>
+
+        <article>
+            <p>Horizontal stack</p>
+            <div class="tox tox-sseeditor-aux">
+    <div class="tox-form__controls-h-stack">
+        <input type="text" class="tox-textfield" value="http://tiny.cloud/logo.png">
+        <button type="button" class="tox-button tox-button--naked tox-button--icon">
+            <div class="tox-icon">
+                <svg data-name="browse"></svg>
+            </div>
+        </button>
+    </div>
+</div>
+
+        </article>
+
+        <article>
+            <p>Horizontal stack alternative</p>
+            <div class="tox tox-sseeditor-aux">
+    <div class="tox-form__controls-h-stack">
+        <input type="text" class="tox-textfield" value="Input field">
+        <button type="button" class="tox-button">Button</button>
+    </div>
+</div>
+
+        </article>
+
+        <article>
+            <p>Color field</p>
+            <div class="tox tox-sseeditor-aux">
+    <div class="tox-color-input">
+        <input class="tox-textfield" placeholder="#ffffff" type="input" tabindex="-1" data-alloy-tabstop="true" id="form-field_3077591634691538101567353">
+        <span role="button" aria-haspopup="true" tabindex="-1" unselectable="on" data-alloy-tabstop="true" aria-pressed="false" aria-expanded="false" style="background-color: rgb(132, 5, 5);"></span>
+    </div>
+</div>
+
+        </article>
+
+        <article>
+            <p>Size input</p>
+            <!-- This is a reused component so `.tox` wrapper class is located outside of the component -->
+            <div class="tox tox-sseeditor-aux">
+                <div class="tox-form__controls-h-stack">
+    <div class="tox-form__group">
+        <label class="tox-label">Width</label>
+        <input class="tox-textfield" type="text">
+    </div>
+    <div class="tox-form__group">
+        <label class="tox-label">Height</label>
+        <div class="tox-form__controls-h-stack">
+            <input class="tox-textfield" type="text">
+            <button type="button" class="tox-button tox-button--naked tox-button--icon">
+                <div class="tox-icon">
+                    <svg data-name="lock"></svg>
+                </div>
+            </button>
+        </div>
+    </div>
+</div>
+
+            </div>
+        </article>
+    </section>
+
+    <script src="../iconManager.js"></script>
+</body>
+</html>

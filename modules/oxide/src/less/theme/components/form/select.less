@@ -1,0 +1,38 @@
+//
+// Copyright (c) Tiny Technologies, Inc. All rights reserved.
+// Licensed under the LGPL or a commercial license.
+// For LGPL see License.txt in the project root for license information.
+// For commercial licenses see https://www.tiny.cloud/
+//
+
+//
+// Select
+//
+
+.tox {
+  .tox-selectfield {
+    cursor: pointer;
+    position: relative;
+  }
+
+  .tox-selectfield select:extend(.tox .tox-textfield) {
+    padding-right: @pad-lg;
+  }
+
+  // Hide OS rendered chevrons
+  .tox-selectfield select::-ms-expand {
+    display: none;
+  }
+
+  .tox-selectfield select:focus {
+    &:extend(.tox .tox-textfield:focus);
+  }
+
+  .tox-selectfield svg {
+    pointer-events: none;
+    position: absolute;
+    right: @pad-sm;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+}

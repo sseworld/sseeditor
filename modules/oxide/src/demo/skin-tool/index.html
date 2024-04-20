@@ -1,0 +1,183 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title></title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="styles.css" />
+    <link rel="stylesheet/less" type="text/css" href="theme/theme.less" />
+    <script src="../files/js/jquery-3.3.1.min.js"></script>
+    <script src="less.min.js" ></script>
+    <link rel="stylesheet" href="codemirror-material.css">
+    <link href="../files/css/codemirror.min.css" rel="stylesheet">
+    <script src="../files/js/codemirror.min.js"></script>
+    <script src="../files/js/jsonlint.js"></script>
+    <script src="../files/js/javascript.min.js"></script>
+    <script src="../files/js/css.min.js"></script>
+    <script src="../files/js/active-line.min.js"></script>
+    <script src="../files/js/lint.min.js"></script>
+    <script src="../files/js/show-hint.min.js"></script>
+    <script src="../files/js/json-lint.min.js"></script>
+    <script src="../files/js/sseeditor.min.js"></script>
+    <script>
+        sseeditor.init({
+            selector:'#testeditor',
+            height: 400,
+            skin: false,
+
+            plugins: [
+                "advlist autolink link image lists charmap print preview hr anchor pagebreak spellchecker",
+                "searchreplace wordcount visualblocks visualchars code fullscreen insertdatetime media nonbreaking",
+                "save table contextmenu directionality template paste textcolor colorpicker imagetools"
+            ],
+            toolbar: "insertfile undo redo | styleselect | bold italic forecolor backcolor | link image table media | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | fullpage ",
+
+            image_advtab: true,
+
+            spellchecker_callback: function(method, words, callback) {
+                if (method == "spellcheck") {
+                    var suggestions = {};
+
+                    for (var i = 0; i < words.length; i++) {
+                        suggestions[words[i]] = ["First", "second"];
+                    }
+
+                    callback(suggestions);
+                }
+            },
+
+            templates: [
+                {title: 'Some title 1', description: 'Some desc 1', content: '<strong class="red">My content: {$username}</strong>'},
+                {title: 'Some title 2', description: 'Some desc 2', url: 'development.html'}
+            ],
+        });
+    </script>
+</head>
+
+<body>
+    <div id="app">
+        <section class="config" id="left">
+            <textarea id="code" rows="10"></textarea>
+
+            <footer class="footer">
+                <div class="icon-packer"></div>
+                <p>Press <code>CTRL + .</code> to open an autocomplete dialog with all variables or inspect the theme less source files</p>
+                <p><button type="button" id="reset">Reset</button></p>
+            </section>
+
+            <section class="output" id="right">
+                <article class="component" style="flex-basis: 100%;">
+                    <textarea id="testeditor"></textarea>
+                </article>
+
+                <article class="component">
+                    @@include('../component-gallery/pop-editor/toolbar.html')
+                </article>
+
+                <article class="component">
+                    @@include('../component-gallery/pop-editor/toolbar-complex.html')
+                </article>
+
+                <article class="component">
+                    @@include('../component-gallery/pop-editor/input.html')
+                </article>
+
+                <article class="component">
+                    @@include('../component-gallery/menu/collection-list.html')
+                </article>
+
+                <article class="component">
+                    @@include('../component-gallery/menu/collection-toolbar.html')
+                </article>
+
+                <article class="component" style="max-width: 362px;">
+                    @@include('../component-gallery/menu/collection-grid.html')
+                </article>
+
+                <article class="component">
+                    @@include('../component-gallery/menu/swatch-picker.html')
+                </article>
+
+                <article class="component">
+                    @@include('../component-gallery/menu/insert-table.html')
+                </article>
+
+                <article class="component">
+                    @@include('../component-gallery/checkbox/checkbox.html')
+                </article>
+
+                <article class="component">
+                    @@include('../component-gallery/slider/slider.html')
+                </article>
+
+                <article class="component">
+                    @@include('../component-gallery/spinner/spinner.html')
+                </article>
+
+                <article class="component">
+                    @@include('../component-gallery/forms/primary-button.html')
+                </article>
+
+                <article class="component">
+                    @@include('../component-gallery/forms/secondary-button.html')
+                </article>
+
+                <article class="component">
+                    @@include('../component-gallery/forms/icon-button.html')
+                </article>
+
+                <article class="component">
+                    @@include('../component-gallery/forms/naked-button.html')
+                </article>
+
+                <article class="component" style="flex-basis: 100%;">
+                    @@include('../component-gallery/dropzone/dropzone.html')
+                </article>
+
+                <article class="component">
+                    @@include('../component-gallery/tooltip/tooltip.html')
+                </article>
+
+                <article class="component">
+                    <div class="tox tox-sseeditor-aux">
+                        @@include('../component-gallery/dialog/insert-image.html')
+                    </div>
+                </article>
+
+                <article class="component">
+                    <div class="tox tox-sseeditor-aux">
+                        @@include('../component-gallery/dialog/insert-image-advanced.html')
+                    </div>
+                </article>
+
+                <article class="component">
+                    <div class="tox tox-sseeditor-aux">
+                        @@include('../component-gallery/dialog/insert-emoticons.html')
+                    </div>
+                </article>
+
+                <article class="component">
+                    <div class="tox tox-sseeditor-aux">
+                        @@include('../component-gallery/dialog/insert-special-character.html')
+                    </div>
+                </article>
+
+                <article class="component">
+                    <div class="tox tox-sseeditor-aux">
+                        @@include('../component-gallery/dialog/text-only.html')
+                    </div>
+                </article>
+
+                <article class="component">
+                    <div class="tox tox-sseeditor-aux">
+                        @@include('../component-gallery/dialog/blocked.html')
+                    </div>
+                </article>
+            </section>
+        </div>
+
+        <script src="../iconManager.js"></script>
+        <script src="split.min.js"></script>
+        <script src="scripts.js"></script>
+    </body>

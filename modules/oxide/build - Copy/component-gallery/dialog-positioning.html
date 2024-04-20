@@ -1,0 +1,61 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title></title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="/styles.css">
+    <link rel="stylesheet" href="/skins/ui/default/skin.css">
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+    <script src="../scripts.js"></script>
+</head>
+
+<body style="height: 100vh; margin: 0; padding: 0">
+    <h1 style="margin: 0;">Dialog positioning</h1>
+
+    <div class="tox tox-sseeditor-aux">
+        <!-- A wrapper around all dialogs. -->
+        <div class="tox tox-dialog-wrap">
+            <!-- Backdrop element. -->
+            <div class="tox-dialog-wrap__backdrop"></div>
+
+            <!-- The dialog element. -->
+            <div class="tox-dialog">
+    <div class="tox-dialog__header">
+        <span class="tox-dialog__title">Blocked Dialog </span>
+        <div class="tox-dialog__draghandle"></div>
+        <button type="button" class="tox-button tox-button--icon tox-button--naked">
+            <div class="tox-icon">
+                <svg data-name="close"></svg>
+            </div>
+        </button>
+    </div>
+
+    <div class="tox-dialog__body">
+        <div class="tox-dialog__body-content">
+            <p>I'm busy and blocked!</p>
+        </div>
+    </div>
+
+    <div class="tox-dialog__footer">
+        <div class="tox-dialog__footer-start"></div>
+        <div class="tox-dialog__footer-end">
+            <button type="button" class="tox-button tox-button--secondary">Cancel</button>
+            <button type="button" class="tox-button">Do something</button>
+        </div>
+    </div>
+
+    <div class="tox-dialog__busy-spinner">
+        <div class="tox-spinner">
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
+    </div>
+</div>
+
+        </div>
+    </div>
+
+    <script src="../iconManager.js"></script>
+</body>
