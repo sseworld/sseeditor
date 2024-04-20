@@ -35,6 +35,7 @@
     "sizzle": "^2.3.4"
   },
   "devDependencies": {
+    "@ephox/bedrock": "^8.1.1",
     "@ssephox/katamari-assertions": "^1.0.4"
   },
   "files": [

@@ -1,0 +1,154 @@
+
+declare let require: any;
+declare let __tests: any;
+declare let console: any;
+let __lastTestIndex: number = -1;
+const addTest = (testFilePath: string) => {
+  if (__tests && __tests[__tests.length - 1]) {
+    const lastTest = __tests[__tests.length - 1];
+    if (!lastTest.filePath) {
+      const tests = __tests.slice(__lastTestIndex + 1);
+      tests.forEach((test: any) => {
+        test.filePath = testFilePath;
+      });
+    } else if (lastTest.filePath === testFilePath) {
+      // repeated test, duplicate the test entry
+      __tests.push(__tests.slice(__lastTestIndex + 1));
+    } else {
+      console.warn('file ' + testFilePath + ' did not add a new test to the list, ignoring');
+    }
+    
+    // Save the last test index
+    __lastTestIndex = __tests.length - 1;
+  } else {
+    console.error('no test list to add tests to');
+  }
+};
+
+require("..\\..\\src\\test\\ts\\atomic\\DimensionParseTest");
+addTest("src/test/ts/atomic/DimensionParseTest.ts");
+require("..\\..\\src\\test\\ts\\atomic\\RectTest");
+addTest("src/test/ts/atomic/RectTest.ts");
+require("..\\..\\src\\test\\ts\\browser\\AlignmentTest");
+addTest("src/test/ts/browser/AlignmentTest.ts");
+require("..\\..\\src\\test\\ts\\browser\\AttributePropertyTest");
+addTest("src/test/ts/browser/AttributePropertyTest.ts");
+require("..\\..\\src\\test\\ts\\browser\\AttributeTest");
+addTest("src/test/ts/browser/AttributeTest.ts");
+require("..\\..\\src\\test\\ts\\browser\\AttributeTransferTest");
+addTest("src/test/ts/browser/AttributeTransferTest.ts");
+require("..\\..\\src\\test\\ts\\browser\\BodyTest");
+addTest("src/test/ts/browser/BodyTest.ts");
+require("..\\..\\src\\test\\ts\\browser\\CheckedTest");
+addTest("src/test/ts/browser/CheckedTest.ts");
+require("..\\..\\src\\test\\ts\\browser\\ClassTest");
+addTest("src/test/ts/browser/ClassTest.ts");
+require("..\\..\\src\\test\\ts\\browser\\CommentsTest");
+addTest("src/test/ts/browser/CommentsTest.ts");
+require("..\\..\\src\\test\\ts\\browser\\CommentTest");
+addTest("src/test/ts/browser/CommentTest.ts");
+require("..\\..\\src\\test\\ts\\browser\\CompareTest");
+addTest("src/test/ts/browser/CompareTest.ts");
+require("..\\..\\src\\test\\ts\\browser\\ContentEditableTest");
+addTest("src/test/ts/browser/ContentEditableTest.ts");
+require("..\\..\\src\\test\\ts\\browser\\CssPropertyTest");
+addTest("src/test/ts/browser/CssPropertyTest.ts");
+require("..\\..\\src\\test\\ts\\browser\\CssReflowTest");
+addTest("src/test/ts/browser/CssReflowTest.ts");
+require("..\\..\\src\\test\\ts\\browser\\CssTest");
+addTest("src/test/ts/browser/CssTest.ts");
+require("..\\..\\src\\test\\ts\\browser\\CssTransferTest");
+addTest("src/test/ts/browser/CssTransferTest.ts");
+require("..\\..\\src\\test\\ts\\browser\\CursorPositionTest");
+addTest("src/test/ts/browser/CursorPositionTest.ts");
+require("..\\..\\src\\test\\ts\\browser\\DimensionTest");
+addTest("src/test/ts/browser/DimensionTest.ts");
+require("..\\..\\src\\test\\ts\\browser\\DirectionTest");
+addTest("src/test/ts/browser/DirectionTest.ts");
+require("..\\..\\src\\test\\ts\\browser\\DocumentPositionTest");
+addTest("src/test/ts/browser/DocumentPositionTest.ts");
+require("..\\..\\src\\test\\ts\\browser\\DomFutureTest");
+addTest("src/test/ts/browser/DomFutureTest.ts");
+require("..\\..\\src\\test\\ts\\browser\\ElementAddressTest");
+addTest("src/test/ts/browser/ElementAddressTest.ts");
+require("..\\..\\src\\test\\ts\\browser\\ElementFromPointTest");
+addTest("src/test/ts/browser/ElementFromPointTest.ts");
+require("..\\..\\src\\test\\ts\\browser\\ElementInstancesTest");
+addTest("src/test/ts/browser/ElementInstancesTest.ts");
+require("..\\..\\src\\test\\ts\\browser\\ElementTest");
+addTest("src/test/ts/browser/ElementTest.ts");
+require("..\\..\\src\\test\\ts\\browser\\FloatTest");
+addTest("src/test/ts/browser/FloatTest.ts");
+require("..\\..\\src\\test\\ts\\browser\\FocusTest");
+addTest("src/test/ts/browser/FocusTest.ts");
+require("..\\..\\src\\test\\ts\\browser\\FragmentTest");
+addTest("src/test/ts/browser/FragmentTest.ts");
+require("..\\..\\src\\test\\ts\\browser\\HeadTest");
+addTest("src/test/ts/browser/HeadTest.ts");
+require("..\\..\\src\\test\\ts\\browser\\HierarchyTest");
+addTest("src/test/ts/browser/HierarchyTest.ts");
+require("..\\..\\src\\test\\ts\\browser\\HtmlTest");
+addTest("src/test/ts/browser/HtmlTest.ts");
+require("..\\..\\src\\test\\ts\\browser\\impl\\RuntimeSizeTest");
+addTest("src/test/ts/browser/impl/RuntimeSizeTest.ts");
+require("..\\..\\src\\test\\ts\\browser\\InsertTest");
+addTest("src/test/ts/browser/InsertTest.ts");
+require("..\\..\\src\\test\\ts\\browser\\IsRootTest");
+addTest("src/test/ts/browser/IsRootTest.ts");
+require("..\\..\\src\\test\\ts\\browser\\LinkTest");
+addTest("src/test/ts/browser/LinkTest.ts");
+require("..\\..\\src\\test\\ts\\browser\\LocationTest");
+addTest("src/test/ts/browser/LocationTest.ts");
+require("..\\..\\src\\test\\ts\\browser\\NodeTest");
+addTest("src/test/ts/browser/NodeTest.ts");
+require("..\\..\\src\\test\\ts\\browser\\NodeValueTest");
+addTest("src/test/ts/browser/NodeValueTest.ts");
+require("..\\..\\src\\test\\ts\\browser\\OnNodeTest");
+addTest("src/test/ts/browser/OnNodeTest.ts");
+require("..\\..\\src\\test\\ts\\browser\\PredicateTest");
+addTest("src/test/ts/browser/PredicateTest.ts");
+require("..\\..\\src\\test\\ts\\browser\\PrefilterTest");
+addTest("src/test/ts/browser/PrefilterTest.ts");
+require("..\\..\\src\\test\\ts\\browser\\ReadyTest");
+addTest("src/test/ts/browser/ReadyTest.ts");
+require("..\\..\\src\\test\\ts\\browser\\RemoveTest");
+addTest("src/test/ts/browser/RemoveTest.ts");
+require("..\\..\\src\\test\\ts\\browser\\ReplicationTest");
+addTest("src/test/ts/browser/ReplicationTest.ts");
+require("..\\..\\src\\test\\ts\\browser\\ResizeRaceTest");
+addTest("src/test/ts/browser/ResizeRaceTest.ts");
+require("..\\..\\src\\test\\ts\\browser\\ScrollTest");
+addTest("src/test/ts/browser/ScrollTest.ts");
+require("..\\..\\src\\test\\ts\\browser\\SelectionRangeTest");
+addTest("src/test/ts/browser/SelectionRangeTest.ts");
+require("..\\..\\src\\test\\ts\\browser\\SelectionRectanglesTest");
+addTest("src/test/ts/browser/SelectionRectanglesTest.ts");
+require("..\\..\\src\\test\\ts\\browser\\SelectionTest");
+addTest("src/test/ts/browser/SelectionTest.ts");
+require("..\\..\\src\\test\\ts\\browser\\SelectionWithinTest");
+addTest("src/test/ts/browser/SelectionWithinTest.ts");
+require("..\\..\\src\\test\\ts\\browser\\SelectorTest");
+addTest("src/test/ts/browser/SelectorTest.ts");
+require("..\\..\\src\\test\\ts\\browser\\SelectTagTest");
+addTest("src/test/ts/browser/SelectTagTest.ts");
+require("..\\..\\src\\test\\ts\\browser\\ShadowDomTest");
+addTest("src/test/ts/browser/ShadowDomTest.ts");
+require("..\\..\\src\\test\\ts\\browser\\SizeTest");
+addTest("src/test/ts/browser/SizeTest.ts");
+require("..\\..\\src\\test\\ts\\browser\\StyleTest");
+addTest("src/test/ts/browser/StyleTest.ts");
+require("..\\..\\src\\test\\ts\\browser\\TextContentTest");
+addTest("src/test/ts/browser/TextContentTest.ts");
+require("..\\..\\src\\test\\ts\\browser\\TextTest");
+addTest("src/test/ts/browser/TextTest.ts");
+require("..\\..\\src\\test\\ts\\browser\\TogglerTest");
+addTest("src/test/ts/browser/TogglerTest.ts");
+require("..\\..\\src\\test\\ts\\browser\\TraverseTest");
+addTest("src/test/ts/browser/TraverseTest.ts");
+require("..\\..\\src\\test\\ts\\browser\\ValueTest");
+addTest("src/test/ts/browser/ValueTest.ts");
+require("..\\..\\src\\test\\ts\\browser\\VisibilityTest");
+addTest("src/test/ts/browser/VisibilityTest.ts");
+require("..\\..\\src\\test\\ts\\browser\\WindowVisualViewportTest");
+addTest("src/test/ts/browser/WindowVisualViewportTest.ts");
+export {};

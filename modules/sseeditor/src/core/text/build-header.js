@@ -1,0 +1,3 @@
+/**
+ * SSEEditor version @@version@@ (@@releaseDate@@)
+ */
